@@ -24,8 +24,12 @@ object IOUIssueFlow {
 
     @InitiatingFlow
     @StartableByRPC
+
+    //Rohan:-Class is defoned as  class <class name> (<Variable you want to declare>):<Type if you want any specific flow>
     class Initiator(val state: IOUState, val otherParty: Party) : FlowLogic<SignedTransaction>() {
 
+
+        //Rohan:-Object declaration inside a class i
         companion object {
             object BUILDING : ProgressTracker.Step("Building and verifying transaction.")
             object SIGNING : ProgressTracker.Step("signing transaction.")
@@ -57,6 +61,13 @@ object IOUIssueFlow {
 
             // Step 4. Add the iou as an output state, as well as a command to the transaction builder.
             builder.withItems(state, issueCommand)
+
+
+            ///////////////////////////
+
+
+
+
 
             // Step 5. Verify and sign it with our KeyPair.
             builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()

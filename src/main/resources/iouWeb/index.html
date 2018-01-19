@@ -96,16 +96,12 @@ document.getElementById("txnid").innerHTML=todayDate;
 
 <script type="text/ng-template" id="issueCashModal.html">
     <div class="modal-header">
-        <h4 class="modal-title">Self-issue cash</h4>
+        <h4 class="modal-title">Enter cash Amount</h4>
     </div>
     <form>
         <div class="modal-body">
             <div class="form-group">
-                <label for="issueCashCurrency" class="control-label">Currency (ISO code):</label>
-                <input type="text" ng-model="issueCashModal.form.currency" class="form-control" id="issueCashCurrency">
-            </div>
-            <div class="form-group">
-                <label for="issueCashAmount" class="control-label">Amount (Int):</label>
+                <label for="issueCashAmount" class="control-label">Amount</label>
                 <input type="text" ng-model="issueCashModal.form.amount" class="form-control" id="issueCashAmount">
             </div>
             <div ng-show="issueCashModal.formError" class="form-group">
@@ -118,7 +114,7 @@ document.getElementById("txnid").innerHTML=todayDate;
         </div>
         <div class="modal-footer">
             <button ng-click="issueCashModal.cancel()" type="button" class="btn btn-default">Close</button>
-            <button ng-click="issueCashModal.issue()" type="button" class="btn btn-primary">Issue cash</button>
+            <button ng-click="issueCashModal.issue()" type="button" class="btn btn-primary">Save Amount</button>
         </div>
     </form>
 </script>
@@ -136,13 +132,13 @@ document.getElementById("txnid").innerHTML=todayDate;
     <form>
         <div class="modal-body">
             <div class="form-group">
-                <label for="transferCounterparty" class="control-label">KYC Status:</label>
+                <label for="kycPref" class="control-label">KYC Status:</label>
                 <!--<select ng-model="transferModal.form.counterparty" class="form-control" id="transferCounterparty"
                         ng-options="peer as peer for peer in transferModal.peers">
                 </select>-->
-                <select id="createIOUCounterparty" ng-model="createIOUModal.form.fundId">
-                    <option value="HKIV01">Yes</option>      <!--creating a dummy attribute -->
-                    <option value="DBKS01">No</option>
+                <select id="kycPref" ng-model="transferModal.form.kycstatus">
+                    <option value="yes">Yes</option>      <!--creating a dummy attribute -->
+                    <option value="no">No</option>
                 </select>
             </div>
             <div ng-show="transferModal.formError" class="form-group">
@@ -165,19 +161,16 @@ document.getElementById("txnid").innerHTML=todayDate;
         {{ transferMsgModal.message }}
     </div>
 </script>
-
+<!-- nav -->
 <script type="text/ng-template" id="settleModal.html">
     <div class="modal-header">
-        <h4 class="modal-title">Settle IOU</h4>
+        <h4 class="modal-title">Enter NAV Amount</h4>
     </div>
     <form>
         <div class="modal-body">
+
             <div class="form-group">
-                <label for="settleCurrency" class="control-label">Currency (ISO code):</label>
-                <input type="text" ng-model="settleModal.form.currency" class="form-control" id="settleCurrency">
-            </div>
-            <div class="form-group">
-                <label for="settleAmount" class="control-label">Amount (Int):</label>
+                <label for="settleAmount" class="control-label">Amount:</label>
                 <input type="text" ng-model="settleModal.form.amount" class="form-control" id="settleAmount">
             </div>
             <div ng-show="settleModal.formError" class="form-group">
@@ -190,7 +183,7 @@ document.getElementById("txnid").innerHTML=todayDate;
         </div>
         <div class="modal-footer">
             <button ng-click="settleModal.cancel()" type="button" class="btn btn-default">Close</button>
-            <button ng-click="settleModal.settle()" type="button" class="btn btn-primary">Settle</button>
+            <button ng-click="settleModal.saveNav()" type="button" class="btn btn-primary">Save NAV</button>
         </div>
     </form>
 </script>
@@ -200,7 +193,7 @@ document.getElementById("txnid").innerHTML=todayDate;
         {{ settleMsgModal.message }}
     </div>
 </script>
-
+<!-- nav -->
 <!--<div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
@@ -225,7 +218,7 @@ document.getElementById("txnid").innerHTML=todayDate;
         </div>
         <div class="col-md-1"></div>
     </div>
-</div> -->
+</-->
 
 <div class="row">
     <div class="col-md-1"></div>
@@ -238,7 +231,232 @@ document.getElementById("txnid").innerHTML=todayDate;
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Transaction Summary:</h3>
+                <h3 class="panel-title">Pending Transaction Summary:</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                       <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Fund ID</th>
+                        <th>Investor ID</th>
+                      <!--  <th>NAV</th>    -->
+                        <th>Transcation Amount</th>
+                      <!--  <th>Units</th>  -->
+                       <!-- <th>KYC Validated</th>  -->
+                        <th>Transaction Status</th>
+                        <th>Currency</th>
+                     <!--   <th>Amount Paid</th>   -->
+                       <!-- <th>Amount</th>
+                        <th>Paid</th>-->
+                        <th>Actions</th>
+                      <!--  <th>Txn Date</th>
+                        <th>Txn Settle Date</th>  -->
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus=='PEND'" >
+                        <td class="vert-align">{{iou.lender}}</td>
+                        <td class="vert-align">{{iou.borrower}}</td>
+                        <td class="vert-align">{{iou.linearId.id}}</td>
+                        <td class="vert-align">{{iou.txType}}</td>
+                        <td class="vert-align">{{iou.fundId}}</td>
+                        <td class="vert-align">{{iou.investorId}}</td>
+                       <!--  <td class="vert-align">{{iou.nav}}</td>  -->
+                        <td class="vert-align">{{iou.transactionAmount}}</td>
+                      <!--  <td class="vert-align">{{iou.units}}</td>
+                        <td class="vert-align">{{iou.kycValidated}}</td>  -->
+                        <td class="vert-align">{{iou.txnStatus}}</td>
+                        <td class="vert-align">{{iou.ccy}}</td>
+                       <!-- <td class="vert-align">{{iou.amountPaid}}</td>  -->
+
+                        <td class="vert-align">{{iou.transactiondate}}</td>
+                        <td class="vert-align"></td>
+                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
+                         <td>
+                             <div class="btn-group" role="group">
+                                 <button ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
+                                 </button>
+                                 <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                 </button>-->
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="width:100%">
+        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded Trades</h3>
+            </div>
+            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+        </div>
+        <div ng-show="demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Approved Transaction Summary:</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Fund ID</th>
+                        <th>Investor ID</th>
+                       <!-- <th>NAV</th>  -->
+                        <th>Transcation Amount</th>
+                       <!-- <th>Units</th>  -->
+                        <th>KYC Validated</th>
+                        <th>Transaction Status</th>
+                        <th>Currency</th>
+                    <!--    <th>Amount Paid</th>  -->
+                        <!-- <th>Amount</th>
+                         <th>Paid</th>-->
+                        <th>Actions</th>
+                      <!--  <th>Txn Date</th>
+                        <th>Actions</th>  -->
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="iou in demoApp.ious" ng-if="iou.txnStatus=='APPROVED'" >
+                        <td class="vert-align">{{iou.lender}}</td>
+                        <td class="vert-align">{{iou.borrower}}</td>
+                        <td class="vert-align">{{iou.linearId.id}}</td>
+                        <td class="vert-align">{{iou.txType}}</td>
+                        <td class="vert-align">{{iou.fundId}}</td>
+                        <td class="vert-align">{{iou.investorId}}</td>
+                     <!--   <td class="vert-align">{{iou.nav}}</td>  -->
+                        <td class="vert-align">{{iou.transactionAmount}}</td>
+                    <!--    <td class="vert-align">{{iou.units}}</td>  -->
+                        <td class="vert-align">{{iou.kycValidated}}</td>
+                        <td class="vert-align">{{iou.txnStatus}}</td>
+                        <td class="vert-align">{{iou.ccy}}</td>
+                     <!--   <td class="vert-align">{{iou.amountPaid}}</td>  -->
+
+                        <td class="vert-align">{{iou.transactiondate}}</td>
+                        <td class="vert-align"></td>
+                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Update NAV
+                                </button>
+                                <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                </button>-->
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="width:100%">
+        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded Trades</h3>
+            </div>
+            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+        </div>
+        <div ng-show="demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Alloted Transaction Summary:</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Fund ID</th>
+                        <th>Investor ID</th>
+                        <th>NAV</th>
+                        <th>Transcation Amount</th>
+                        <th>Units</th>
+                        <th>KYC Validated</th>
+                        <th>Transaction Status</th>
+                        <th>Currency</th>
+                      <!--  <th>Amount Paid</th>
+                        <!-- <th>Amount</th>
+                         <th>Paid</th>-->
+                       <th>Actions</th>
+                       <!-- <th>Txn Date</th><th>Actions</th>  -->
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="iou in demoApp.ious" ng-if="iou.txnStatus=='ALLOTED'" >
+                        <td class="vert-align">{{iou.lender}}</td>
+                        <td class="vert-align">{{iou.borrower}}</td>
+                        <td class="vert-align">{{iou.linearId.id}}</td>
+                        <td class="vert-align">{{iou.txType}}</td>
+                        <td class="vert-align">{{iou.fundId}}</td>
+                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.nav}}</td>
+                        <td class="vert-align">{{iou.transactionAmount}}</td>
+                        <td class="vert-align">{{iou.units}}</td>
+                        <td class="vert-align">{{iou.kycValidated}}</td>
+                        <td class="vert-align">{{iou.txnStatus}}</td>
+                        <td class="vert-align">{{iou.ccy}}</td>
+                     <!--   <td class="vert-align">{{iou.amountPaid}}</td>  -->
+
+                        <td class="vert-align">{{iou.transactiondate}}</td>
+                        <td class="vert-align"></td>
+                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Amount
+                                </button>
+                                <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                </button>-->
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="width:100%">
+        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded Trades</h3>
+            </div>
+            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+        </div>
+        <div ng-show="demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Partial Settled Transaction Summary:</h3>
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -257,20 +475,18 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <th>Transaction Status</th>
                         <th>Currency</th>
                         <th>Amount Paid</th>
-                       <!-- <th>Amount</th>
-                        <th>Paid</th>-->
+                        <!-- <th>Amount</th>
+                         <th>Paid</th>-->
                         <th>Actions</th>
-                        <th>Txn Date</th>
-                        <th>Txn Settle Date</th>
 
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="iou in demoApp.ious">
+                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus=='PartialSettled'" >
                         <td class="vert-align">{{iou.lender}}</td>
                         <td class="vert-align">{{iou.borrower}}</td>
-                        <td class="vert-align">1234</td>
+                        <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
                         <td class="vert-align">{{iou.investorId}}</td>
@@ -282,15 +498,15 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.ccy}}</td>
                         <td class="vert-align">{{iou.amountPaid}}</td>
 
-                        <td id="txndate" class="vert-align">2017-10-07</td>
+                        <td class="vert-align">{{iou.transactiondate}}</td>
                         <td class="vert-align"></td>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
-                         <td>
-                             <div class="btn-group" role="group">
-                                 <button ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Confirm
-                                 </button>
-                                 <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
-                                 </button>-->
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Amount
+                                </button>
+                                <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                </button>-->
                             </div>
                         </td>
                     </tr>
@@ -302,5 +518,72 @@ document.getElementById("txnid").innerHTML=todayDate;
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="width:100%">
+        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded Trades</h3>
+            </div>
+            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+        </div>
+        <div ng-show="demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Settled Transaction Summary:</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Fund ID</th>
+                        <th>Investor ID</th>
+                        <th>NAV</th>
+                        <th>Transcation Amount</th>
+                        <th>Units</th>
+                        <th>KYC Validated</th>
+                        <th>Transaction Status</th>
+                        <th>Currency</th>
+                        <th>Amount Paid</th>
+                        <!-- <th>Amount</th>
+                         <th>Paid</th>-->
+                        <th>Actions</th>
+                 <!--       <th>Txn Date</th>
+                        <th>Txn Settle Date</th>    -->
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus=='Settled'" >
+                        <td class="vert-align">{{iou.lender}}</td>
+                        <td class="vert-align">{{iou.borrower}}</td>
+                        <td class="vert-align">{{iou.linearId.id}}</td>
+                        <td class="vert-align">{{iou.txType}}</td>
+                        <td class="vert-align">{{iou.fundId}}</td>
+                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.nav}}</td>
+                        <td class="vert-align">{{iou.transactionAmount}}</td>
+                        <td class="vert-align">{{iou.units}}</td>
+                        <td class="vert-align">{{iou.kycValidated}}</td>
+                        <td class="vert-align">{{iou.txnStatus}}</td>
+                        <td class="vert-align">{{iou.ccy}}</td>
+                        <td class="vert-align">{{iou.amountPaid}}</td>
+
+                        <td class="vert-align">{{iou.transactiondate}}</td>
+                        <td class="vert-align"></td>
+                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
 </body>
 </html>

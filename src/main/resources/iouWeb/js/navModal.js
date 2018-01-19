@@ -1,28 +1,28 @@
 "use strict";
 
 // Similar to the IOU creation modal - see createIOUModal.js for comments.
-angular.module('demoAppModule').controller('TransferModalCtrl', function ($http, $uibModalInstance, $uibModal, apiBaseURL, peers, id) {
-    const transferModal = this;
+angular.module('demoAppModule').controller('navModalCtrl', function ($http, $uibModalInstance, $uibModal, apiBaseURL, peers, id) {
+    const navModal = this;
 
-    transferModal.peers = peers;
-    transferModal.id = id;
-    transferModal.form = {};
-    transferModal.formError = false;
+    navModal.peers = peers;
+    navModal.id = id;
+    navModal.form = {};
+    navModal.formError = false;
 
-    transferModal.transfer = () => {
+    navModal.saveNav = () => {
         if (invalidFormInput()) {
-            transferModal.formError = true;
+            navModal.formError = true;
         } else {
-            transferModal.formError = false;
+            navModal.formError = false;
 
-            const id = transferModal.id;
-            const kycstatus = transferModal.form.kycstatus;
+            const id = navModal.id;
+            const navValue = navModal.form.navValue;
 
             $uibModalInstance.close();
 
             const issueIOUEndpoint =
                 apiBaseURL +
-                `kyc?id=${id}&kycstatus=${kycstatus}&`;
+                `saveNav?id=${id}&value=${navValue}&`;
 
             $http.get(issueIOUEndpoint).then(
                 (result) => transferModal.displayMessage(result),

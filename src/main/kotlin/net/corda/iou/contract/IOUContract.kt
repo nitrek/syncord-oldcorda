@@ -47,16 +47,16 @@ class IOUContract : Contract {
                         (command.signers.toSet() == iou.participants.map { it.owningKey }.toSet())
                 "Transaction Amount should be graeter than 500." using (iou.transactionAmount >= 500)
             }
-            is Commands.Transfer -> requireThat {
-                "An IOU transfer transaction should only consume one input state." using (tx.inputs.size == 1)
-                "An IOU transfer transaction should only create one output state." using (tx.outputs.size == 1)
-                val input = tx.inputs.single() as IOUState
-                val output = tx.outputs.single() as IOUState
-                "Only the lender property may change." using (input == output.withNewLender(input.lender))
-                "The lender property must change in a transfer." using (input.lender != output.lender)
-                "The borrower, old lender and new lender only must sign an IOU transfer transaction" using
-                        (command.signers.toSet() == (input.participants.map { it.owningKey }.toSet() `union`
-                                output.participants.map { it.owningKey }.toSet()))
+            is Commands.Transfer ->  {
+//                "An IOU transfer transaction should only consume one input state." using (tx.inputs.size == 1)
+//                "An IOU transfer transaction should only create one output state." using (tx.outputs.size == 1)
+//                val input = tx.inputs.single() as IOUState
+//                val output = tx.outputs.single() as IOUState
+//                "Only the lender property may change." using (input == output.withNewLender(input.lender))
+//                "The lender property must change in a transfer." using (input.lender != output.lender)
+//                "The borrower, old lender and new lender only must sign an IOU transfer transaction" using
+//                        (command.signers.toSet() == (input.participants.map { it.owningKey }.toSet() `union`
+//                                output.participants.map { it.owningKey }.toSet()))
             }
             is Commands.Settle -> {
                 // Check there is only one group of IOUs and that there is always an input IOU.

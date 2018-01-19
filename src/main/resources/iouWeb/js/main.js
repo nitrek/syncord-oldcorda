@@ -4,13 +4,15 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10010/api/iou/";
+    //const apiBaseURL = "http://localhost:10016/api/iou/";
     const apiBaseURL = "/api/iou/";
+
 
     // Retrieves the identity of this and other nodes.
     let peers = [];
     $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
+    //$http.get(apiBaseURL + "peers").then((response) => demoApp.thisNode = response.data.peers);
 
     /** Displays the IOU creation modal. */
     demoApp.openCreateIOUModal = () => {
@@ -29,13 +31,14 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     };
 
     /** Displays the cash issuance modal. */
-    demoApp.openIssueCashModal = () => {
+    demoApp.openIssueCashModal = (id) => {
         const issueCashModal = $uibModal.open({
             templateUrl: 'issueCashModal.html',
             controller: 'IssueCashModalCtrl',
             controllerAs: 'issueCashModal',
             resolve: {
-                apiBaseURL: () => apiBaseURL
+                apiBaseURL: () => apiBaseURL,
+                id: () => id
             }
         });
 
@@ -58,6 +61,21 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         transferModal.result.then(() => {}, () => {});
     };
 
+   /** Displays the IOU transfer modal. */
+    demoApp.openNavModal = (id) => {
+        const navModal = $uibModal.open({
+            templateUrl: 'navModal.html',
+            controller: 'navModalCtrl',
+            controllerAs: 'navModal',
+            resolve: {
+                apiBaseURL: () => apiBaseURL,
+                peers: () => peers,
+                id: () => id
+            }
+        });
+
+        navModal.result.then(() => {}, () => {});
+    };
     /** Displays the IOU settlement modal. */
     demoApp.openSettleModal = (id) => {
         const settleModal = $uibModal.open({

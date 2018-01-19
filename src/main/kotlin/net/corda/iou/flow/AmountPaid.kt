@@ -27,10 +27,10 @@ import java.time.format.DateTimeFormatter
  * Notarisation (if required) and commitment to the ledger is handled vy the [FinalityFlow].
  * The flow returns the [SignedTransaction] that was committed to the ledger.
  */
-object IOUTransferFlow {
+object AmountPaid {
     @StartableByRPC
     @InitiatingFlow
-    class Initiator(val linearId: UniqueIdentifier,val kycStatus:String) : FlowLogic<SignedTransaction>() {
+    class Initiator(val linearId: UniqueIdentifier,val Amonut:Float) : FlowLogic<SignedTransaction>() {
 
         override val progressTracker: ProgressTracker = Initiator.tracker()
 
@@ -48,15 +48,12 @@ object IOUTransferFlow {
 
             fun tracker() = ProgressTracker(PREPARATION, BUILDING, SIGNING, COLLECTING, FINALISING)
         }
+
         @Suspendable
         override fun call(): SignedTransaction {
 
             // TO get the date
-            val CBD =LocalDate.now();
-
-
-
-
+            // val CBD =LocalDate.now();
 
 
             ///////////
@@ -94,36 +91,35 @@ object IOUTransferFlow {
 
             //
             //val a :IOUState = iouToSettle.state.data.updateTxansactionDate(transactiondate)
-            ///
-            val votedIOU: IOUState = iouToSettle.state.data.updateKYC(kycStatus)
-            val finalState:IOUState ;
+            //////Retrive the earlier amount and add the newly amount
+            val BeforeAmount= iouToSettle.state.data.amountPaid
+            val NewAmount =BeforeAmount +Amonut
+            val votedIOU: IOUState = iouToSettle.state.data.updateAmount(NewAmount)
+            val TransactionAmount = votedIOU.transactionAmount
+            val finalState: IOUState;
+            val RemainingTransactionAmount = TransactionAmount - NewAmount
+            if (RemainingTransactionAmount <= 0.0f) {
 
-            //Variable for updating the Transaction date
-            //val a :IOUState = iouToSettle.state.data.updateTxansactionDate(CBD)
-            //val finala:IOUState;
+                finalState = votedIOU.updateTransactionStatus("Settled")
+            } else {
 
-            if(kycStatus.equals("yes"))
-                finalState = votedIOU.updateTransactionStatus("APPROVED")
+                finalState = votedIOU.updateTransactionStatus("PartialSettled")
+            }
 
-            else
-                finalState = votedIOU
-            //System.out.print(kycStatus.toString()+" hjjkh");
-             builder.addOutputState(finalState)
-//            val amountRemaining = amountLeftToSettle - amount
-//            if (amountRemaining > Amount(0, amount.token)) {
-//                val settledIOU: IOUState = iouToSettle.state.data.pay(amount)
-//                builder.addOutputState(settledIOU)
-//            }
+            //  System.out.print(kycStatus.toString()+" hjjkh");
+            builder.addOutputState(finalState)
+            //  val amountRemaining = amountLeftToSettle - amount
+            // if (amountRemaining > Amount(0, amount.token)) {
+            //val settledIOU: IOUState = iouToSettle.state.data.pay(amount)
+            // builder.addOutputState(finalState)
+
+
 
 
             /////////////
-            //Variable to generate the transaction ID
-
-           // val TransactionID = Math.random()
-           // val TXNID:IOUState= iouToSettle.state.data.up
 
 
-                    //val Transactiondate:IOUState ;
+            //val Transactiondate:IOUState ;
             //var current = LocalDateTime.now()
             //a = transactiondate.updateTransactionStatus(:current)
 
@@ -144,7 +140,7 @@ object IOUTransferFlow {
         }
     }
 
-    @InitiatedBy(IOUTransferFlow.Initiator::class)
+    @InitiatedBy(AmountPaid.Initiator::class)
     class Responder(val otherParty: Party) : FlowLogic<SignedTransaction>() {
         @Suspendable
         override fun call(): SignedTransaction {

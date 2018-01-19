@@ -1,9 +1,9 @@
 "use strict";
 
 // Similar to the IOU creation modal - see createIOUModal.js for comments.
-angular.module('demoAppModule').controller('IssueCashModalCtrl', function($http, $uibModalInstance, $uibModal, apiBaseURL) {
+angular.module('demoAppModule').controller('IssueCashModalCtrl', function($http, $uibModalInstance, $uibModal, apiBaseURL,id) {
     const issueCashModal = this;
-
+     issueCashModal.id = id;
     issueCashModal.form = {};
     issueCashModal.formError = false;
 
@@ -13,14 +13,14 @@ angular.module('demoAppModule').controller('IssueCashModalCtrl', function($http,
         } else {
             issueCashModal.formError = false;
 
-            const amount = issueCashModal.form.amount;
-            const currency = issueCashModal.form.currency;
+            const Amount = issueCashModal.form.amount;
+            //const currency = issueCashModal.form.currency;
 
             $uibModalInstance.close();
 
             const issueCashEndpoint =
                 apiBaseURL +
-                `self-issue-cash?amount=${amount}&currency=${currency}`;
+                `amountpaid?id=${id}&amount=${Amount}`;
 
             $http.get(issueCashEndpoint).then(
                 (result) => {console.log(result.toString()); issueCashModal.displayMessage(result); },
@@ -45,7 +45,7 @@ angular.module('demoAppModule').controller('IssueCashModalCtrl', function($http,
     issueCashModal.cancel = () => $uibModalInstance.dismiss();
 
     function invalidFormInput() {
-        return isNaN(issueCashModal.form.amount) || (issueCashModal.form.currency.length != 3);
+        return false;
     }
 });
 

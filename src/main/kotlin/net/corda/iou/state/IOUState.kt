@@ -8,6 +8,8 @@ import net.corda.core.identity.AbstractParty
 import net.corda.core.identity.Party
 import net.corda.iou.contract.IOUContract
 import java.security.PublicKey
+import java.security.Timestamp
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -26,38 +28,24 @@ import java.util.*
     var day = tDate.getDate();*/
 
 data class IOUState(
-              /* val lender: Party, //Investor
-               val borrower: Party, //Transfer Agent
-               val fundManager: Party,
-               val fundId: String,
-               val txType: String,
-               val transactionID: Int,
-               val transactionDate: Date,
-               val transactionSettlementDate: Date,
-               val investorId: String,
-               val nav: Float,
-               val transactionAmount: Float,
-               val units: Float,
-               val kycValidated: Boolean,
-               val txnStatus: String,
-               val ccy: String,
-               val amountPaid: Float, */
                 val fundId: String,
                 val txType: String,
-                val transactionAmount: Float,
+                val transactionAmount: Int,
                 val borrower: Party,   //Transfer Agent
                 val fundManager: Party,
                 val transactionID: Int,
-             //   val transactionDate: Date,
+                //val transactionDate: Date,
                 //val transactionSettlementDate: Date,
                 val investorId: String,
                 val nav: Float,
                 val units: Float,
-                val kycValidated: Boolean,
+                val kycValidated: String,
                 val txnStatus: String,
                 val ccy: String,
                 val amountPaid: Float,
-                val lender: Party,  //Investor
+                val lender: Party,
+                val transactiondate:LocalDateTime,
+                //Investor
                //val paid: Amount<Currency> = Amount(0, amount.token),
                override val linearId: UniqueIdentifier = UniqueIdentifier()): LinearState {
     /**
@@ -95,6 +83,25 @@ data class IOUState(
      */
     fun withNewLender(newLender: Party) = copy(lender = newLender)
 
+    //function to get the current business day
+
+    fun updateAmount(Amonut: Float) = copy(amountPaid =Amonut)
+
+    //Function to generate the transaction Id
+
+    fun transactionId(TranID:Int) = copy (transactionID=TranID)
+
+
+    fun updateKYC(kycStatus: String) = copy(kycValidated = kycStatus)
+    fun updateTransactionStatus(txStatus: String) = copy(txnStatus = txStatus)
+
+
+
+    fun updateNav(navValue: Float) = copy(nav = navValue)
+
+    fun updateUnits(navUnits: Float) = copy(units = navUnits)
+
+    fun updateTxansactionDate (transactiondate:LocalDateTime)=copy(transactiondate =transactiondate )
     /**
      * Helper method which creates a copy of the current state with a dummy paid amount. Useful for checking that two
      * [IOUState]s

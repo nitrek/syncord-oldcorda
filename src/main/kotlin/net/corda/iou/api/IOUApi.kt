@@ -10,10 +10,8 @@ import net.corda.core.getOrThrow
 import net.corda.core.identity.Party
 import net.corda.core.messaging.CordaRPCOps
 import net.corda.core.random63BitValue
-import net.corda.iou.flow.IOUIssueFlow
-import net.corda.iou.flow.IOUSettleFlow
-import net.corda.iou.flow.IOUTransferFlow
-import net.corda.iou.flow.SelfIssueCashFlow
+import net.corda.core.serialization.makeNoWhitelistClassResolver
+import net.corda.iou.flow.*
 import net.corda.iou.state.IOUState
 import org.apache.commons.math.random.RandomData
 import org.bouncycastle.asn1.x500.X500Name
@@ -75,6 +73,21 @@ class IOUApi(val services: CordaRPCOps) {
         return services.vaultAndUpdates().justSnapshot.filter { it.state.data is IOUState }
     }
 
+    @GET
+    @Path("kyc")
+    fun updateKYC(@QueryParam(value = "id") id: String,
+                  @QueryParam(value = "kycstatus") kycstatus: String): Response {
+        val linearId = UniqueIdentifier.fromString(id)
+          val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(IOUTransferFlow.Initiator::class.java, linearId,kycstatus)
+            flowHandle.use { flowHandle.returnValue.getOrThrow() }
+            Response.Status.CREATED to "KYC updated for id $id."
+        } catch (e: Exception) {
+            Response.Status.BAD_REQUEST to e.message
+        }
+
+        return Response.status(status).entity(message).build()
+    }
     /**
      * Displays all cash states that exist in the node's vault.
      */
@@ -131,34 +144,42 @@ class IOUApi(val services: CordaRPCOps) {
                  @QueryParam(value = "fundId") fundId: String,
                  @QueryParam(value = "txType") txType: String,
                  @QueryParam(value = "txId") txId: Int,
-                 @QueryParam(value = "transactionAmount") transactionAmount: Float
+                 @QueryParam(value = "transactionAmount") transactionAmount: Int
+                // @QueryParam(value = "Inverstor") investor1: String,
+                // @QueryParam(value = "FundMgrA") fManager1: String,
+                 //@QueryParam(value = "HSSTA") tAgent1: String
                ): Response {
 
-        val tAgent1= "CN=HSSTA,O=NodeA";
-       val fManager1 = "CN=FundMgrA,O=NodeB";
+        val tAgent1= "CN=TA,O=NodeA";
+        val fManager1 = "CN=FM,O=NodeB";
         val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
         val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
         /*CN=InvestorPeter,O=NodeC
         CN=InvestorJohn,O=NodeD*/
 
-        val txnId = (Math.random()*20000).toInt();
+       // val txnId = (Math.random()*20000).toInt();
+
+        val txnId = 1009;
         //val tDate = Date();
         //val tsDate = Date();
         val investorId = "UH00001";
         val nav=  0.0f;
         val units= 0.0f;
-        val kycValid= false;
+        val kycValid= "no";
         val txStat= "PEND"
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
-        val investor1 = "CN=InvestorPeter,O=NodeC";
+      //  val investor1 =
+        val investor1 = "CN=Investor1,O=NodeC";
+        //val investor1 = {{demoApp.thisNode}};
         val investor = services.partyFromName(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+
         // Get party objects for myself and the counterparty.
         val me = services.nodeIdentity().legalIdentity
         //val trfAgent = services.partyFromName(tAgent) ?: throw IllegalArgumentException("Unknown party name.")
         //val fundMan = services.partyFromName(fManager) ?: throw IllegalArgumentException("Unknown party name.")
         // Create a new IOU state using the parameters given.
-        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor)
+        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,LocalDateTime.now())
                 //trfAgent, fundMan, txnId,tDate,tsDate,fundId,investorId,nav,txnAmt,units,kycValid, txStat,ccy,amtPaid)
 
         // Start the IOUIssueFlow. We block and wait for the flow to return.
@@ -166,7 +187,7 @@ class IOUApi(val services: CordaRPCOps) {
             val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
-            Response.Status.CREATED to "Transaction id ${result.id} committed to ledger.\n${result.tx.outputs.single()}"
+            Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
         } catch (e: Exception) {
             // For the purposes of this demo app, we do not differentiate by exception type.
             Response.Status.BAD_REQUEST to e.message
@@ -198,47 +219,45 @@ class IOUApi(val services: CordaRPCOps) {
     }
 */
     /**
-     * Settles an IOU. Requires cash in the right currency to be able to settle.
+     * Settles an IOU. Requires cash in the right currency to be able to settle.*/
 
     @GET
     @Path("settle-iou")
     fun settleIOU(@QueryParam(value = "id") id: String,
-                  @QueryParam(value = "amount") amount: Int,
-                  @QueryParam(value = "currency") currency: String): Response {
+                  @QueryParam(value = "amount") amount: Float): Response {
         val linearId = UniqueIdentifier.fromString(id)
-        val settleAmount = Amount(amount.toLong() * 100, Currency.getInstance(currency))
-
+        val settleAmount = amount
+        System.out.print(settleAmount)
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUSettleFlow.Initiator::class.java, linearId, settleAmount)
             flowHandle.use { flowHandle.returnValue.getOrThrow() }
-            Response.Status.CREATED to "$amount $currency paid off on IOU id $id."
+            Response.Status.CREATED to "$amount paid off on IOU id $id."
         } catch (e: Exception) {
             Response.Status.BAD_REQUEST to e.message
         }
 
         return Response.status(status).entity(message).build()
     }
-*/
+
     /**
      * Helper end-point to issue some cash to ourselves.
-
+*/
     @GET
-    @Path("self-issue-cash")
-    fun selfIssueCash(@QueryParam(value = "amount") amount: Int,
-                      @QueryParam(value = "currency") currency: String): Response {
-        val issueAmount = Amount(amount.toLong() * 100, Currency.getInstance(currency))
-
+    @Path("amountpaid")
+    fun amountpaid(@QueryParam(value = "id") id: String,
+            @QueryParam(value = "amount") amount: Float): Response {
+        val issueAmount = amount
+        val linearId = UniqueIdentifier.fromString(id)
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(SelfIssueCashFlow::class.java, issueAmount)
-            val cashState = flowHandle.use { it.returnValue.getOrThrow() }
-            Response.Status.CREATED to cashState.toString()
+            val flowHandle = services.startTrackedFlowDynamic(AmountPaid.Initiator::class.java, linearId, issueAmount)
+            flowHandle.use { flowHandle.returnValue.getOrThrow() }
+            Response.Status.CREATED to "$amount paid off on IOU id $id."
         } catch (e: Exception) {
             Response.Status.BAD_REQUEST to e.message
         }
 
         return Response.status(status).entity(message).build()
     }
-*/
     // Helper method to get just the snapshot portion of an RPC call which also returns an Observable of updates. It's
     // important to unsubscribe from this Observable if we're not going to use it as otherwise we leak resources on the server.
     private val <A> Pair<A, Observable<*>>.justSnapshot: A get() {

@@ -28,10 +28,10 @@ fun main(args: Array<String>) {
     driver(isDebug = true) {
         startNode(X500Name("CN=Controller,O=R3,OU=corda,L=London,C=UK"), setOf(ServiceInfo(SimpleNotaryService.type)))
         val (nodeA, nodeB, nodeC, nodeD) = Futures.allAsList(
-                startNode(X500Name("CN=HSSTA,O=NodeA"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=FundMgrA,O=NodeB"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=InvestorPeter,O=NodeC"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=InvestorJohn,O=NodeD"), rpcUsers = listOf(user))).getOrThrow()
+                startNode(X500Name("CN=TA,O=NodeA"), rpcUsers = listOf(user)),
+                startNode(X500Name("CN=FM,O=NodeB"), rpcUsers = listOf(user)),
+                startNode(X500Name("CN=Investor1,O=NodeC"), rpcUsers = listOf(user)),
+                startNode(X500Name("CN=Inverstor2,O=NodeD"), rpcUsers = listOf(user))).getOrThrow()
         startWebserver(nodeA)
         startWebserver(nodeB)
         startWebserver(nodeC)
