@@ -40,7 +40,8 @@ angular.module('demoAppModule').controller('SettleModalCtrl', function($http, $u
             }
         });
 
-        settleMsgModal.result.then(() => {}, () => {});
+        settleMsgModal.result.then(() => { location.reload();}, () => { location.reload();});
+        //settleMsgModal.result.then(() => { demoApp.refresh();}, () => { demoApp.refresh();});
     };
 
     settleModal.cancel = () => $uibModalInstance.dismiss();

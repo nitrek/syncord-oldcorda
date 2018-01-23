@@ -44,7 +44,7 @@ data class IOUState(
                 val ccy: String,
                 val amountPaid: Float,
                 val lender: Party,
-                val transactiondate:LocalDateTime,
+                val transactiondate:String,
                 //Investor
                //val paid: Amount<Currency> = Amount(0, amount.token),
                override val linearId: UniqueIdentifier = UniqueIdentifier()): LinearState {
@@ -101,7 +101,7 @@ data class IOUState(
 
     fun updateUnits(navUnits: Float) = copy(units = navUnits)
 
-    fun updateTxansactionDate (transactiondate:LocalDateTime)=copy(transactiondate =transactiondate )
+    //fun updateTxansactionDate (transactiondate:LocalDateTime)=copy(transactiondate =transactiondate )
     /**
      * Helper method which creates a copy of the current state with a dummy paid amount. Useful for checking that two
      * [IOUState]s

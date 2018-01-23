@@ -42,10 +42,9 @@ class IOUContract : Contract {
                 "Only one output state should be created when issuing an IOU." using (tx.outputs.size == 1)
                 val iou = tx.outputs.single() as IOUState
                 //"A newly issued IOU must have a positive amount." using (iou.amount > Amount(0, iou.amount.token))
-                "The lender and borrower cannot be the same identity." using (iou.borrower != iou.lender)
                 "Both lender and borrower together only may sign IOU issue transaction." using
                         (command.signers.toSet() == iou.participants.map { it.owningKey }.toSet())
-                "Transaction Amount should be graeter than 500." using (iou.transactionAmount >= 500)
+                "Transaction Amount should be greater than 500." using (iou.transactionAmount >= 500)
             }
             is Commands.Transfer ->  {
 //                "An IOU transfer transaction should only consume one input state." using (tx.inputs.size == 1)

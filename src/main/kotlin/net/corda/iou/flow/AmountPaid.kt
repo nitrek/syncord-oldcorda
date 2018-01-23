@@ -65,7 +65,7 @@ object AmountPaid {
             val iouToSettle = iouStates[linearId] ?: throw IllegalArgumentException("IOUState with linearId $linearId not found.")
             val counterparty = iouToSettle.state.data.lender
             //Step 2. Check the party running this flow is the borrower.
-            require(iouToSettle.state.data.borrower == me) { "KYC validation can be done only by Transfer Agent" }
+            require(iouToSettle.state.data.borrower == me) { "Allotment can be done only by Transfer Agent" }
             // Step 3. Create a transaction builder.
             progressTracker.currentStep = BUILDING
             val notary = iouToSettle.state.notary

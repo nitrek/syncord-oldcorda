@@ -39,7 +39,8 @@ angular.module('demoAppModule').controller('TransferModalCtrl', function ($http,
             resolve: { message: () => message }
         });
 
-        transferMsgModal.result.then(() => {}, () => {});
+        transferMsgModal.result.then(() => { location.reload();}, () => { location.reload();});
+        //transferMsgModal.result.then(() => { demoApp.refresh();}, () => { demoApp.refresh();});
     };
 
     transferModal.cancel = () => $uibModalInstance.dismiss();

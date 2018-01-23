@@ -4,7 +4,7 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10016/api/iou/";
+    //const apiBaseURL = "http://localhost:10013/api/iou/";
     const apiBaseURL = "/api/iou/";
 
 
@@ -27,7 +27,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         });
 
         // Ignores the modal result events.
-        createIOUModal.result.then(() => {}, () => {});
+        createIOUModal.result.then(() => { }, () => { });
     };
 
     /** Displays the cash issuance modal. */
@@ -42,7 +42,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
             }
         });
 
-        issueCashModal.result.then(() => {}, () => {});
+        issueCashModal.result.then(() => {}, () => { });
     };
 
     /** Displays the IOU transfer modal. */
@@ -58,7 +58,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
             }
         });
 
-        transferModal.result.then(() => {}, () => {});
+        transferModal.result.then(() => { }, () => { });
     };
 
    /** Displays the IOU transfer modal. */
@@ -74,7 +74,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
             }
         });
 
-        navModal.result.then(() => {}, () => {});
+        navModal.result.then(() => { }, () => { });
     };
     /** Displays the IOU settlement modal. */
     demoApp.openSettleModal = (id) => {

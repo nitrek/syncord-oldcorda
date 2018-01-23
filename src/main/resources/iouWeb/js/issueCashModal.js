@@ -39,7 +39,8 @@ angular.module('demoAppModule').controller('IssueCashModalCtrl', function($http,
             }
         });
 
-        issueCashMsgModal.result.then(() => {}, () => {});
+        issueCashMsgModal.result.then(() => {}, () => { location.reload();});
+        //issueCashMsgModal.result.then(() => { demoApp.refresh();}, () => { demoApp.refresh();});
     };
 
     issueCashModal.cancel = () => $uibModalInstance.dismiss();

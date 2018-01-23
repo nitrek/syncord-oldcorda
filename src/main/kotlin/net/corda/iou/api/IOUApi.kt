@@ -26,6 +26,7 @@ import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 val SERVICE_NODE_NAMES = listOf(
         X500Name("CN=Controller,O=R3,L=London,C=UK"),
@@ -158,28 +159,43 @@ class IOUApi(val services: CordaRPCOps) {
         CN=InvestorJohn,O=NodeD*/
 
        // val txnId = (Math.random()*20000).toInt();
+    ///////////////////To get the current date
 
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+
+
+
+
+
+        /////////////////////////////////////////////
         val txnId = 1009;
         //val tDate = Date();
         //val tsDate = Date();
         val investorId = "UH00001";
         val nav=  0.0f;
         val units= 0.0f;
-        val kycValid= "no";
+        val kycValid= "";
         val txStat= "PEND"
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
       //  val investor1 =
-        val investor1 = "CN=Investor1,O=NodeC";
+        //val investor1 = "CN=Investor1,O=NodeC";
+        val investor1 = myLegalName;
         //val investor1 = {{demoApp.thisNode}};
-        val investor = services.partyFromName(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+        val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+
+        //val investor1 = {{demoApp.thisNode}};
+        //val investor = services.partyFromName(investor1) ?: throw IllegalArgumentException("Unknown party name.")
 
         // Get party objects for myself and the counterparty.
         val me = services.nodeIdentity().legalIdentity
         //val trfAgent = services.partyFromName(tAgent) ?: throw IllegalArgumentException("Unknown party name.")
         //val fundMan = services.partyFromName(fManager) ?: throw IllegalArgumentException("Unknown party name.")
         // Create a new IOU state using the parameters given.
-        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,LocalDateTime.now())
+        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
                 //trfAgent, fundMan, txnId,tDate,tsDate,fundId,investorId,nav,txnAmt,units,kycValid, txStat,ccy,amtPaid)
 
         // Start the IOUIssueFlow. We block and wait for the flow to return.
@@ -190,7 +206,10 @@ class IOUApi(val services: CordaRPCOps) {
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
         } catch (e: Exception) {
             // For the purposes of this demo app, we do not differentiate by exception type.
-            Response.Status.BAD_REQUEST to e.message
+            var message ="some error"
+            if(e.message!=null)
+                message = e.message.toString()
+            Response.Status.CREATED to message.substring(56)
         }
 
         return Response.status(status).entity(message).build()

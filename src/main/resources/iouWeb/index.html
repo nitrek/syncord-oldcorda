@@ -23,13 +23,13 @@
     <script src="js/settleModal.js"></script>
 </head>
 <!--script>var todayDate= new Date().toISOString().slice(0,10);
-document.getElementById("txndate").innerHTML=todayDate;
+document.getElementById("txndate").innerHTML=todayDate;z
 var random=parseInt(Math.random()*20);
 document.getElementById("txnid").innerHTML=todayDate;
 
 </script> -->
 <body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp" style="background-image: url('hsbc-logo.jpg');width:100% ,height:100%">
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="position: fixed;z-index: 10;width: 1661px;">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
@@ -220,9 +220,12 @@ document.getElementById("txnid").innerHTML=todayDate;
     </div>
 </-->
 
-<div class="row">
+<!--<div class="row"/>-->
+
+<!-- This is where it was earlier -->
+<div class="row" >
     <div class="col-md-1"></div>
-    <div class="col-md-10" style="width:100%">
+    <div class="col-md-10" style="width:100%;margin-top:100px;">
         <div ng-show="!demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
@@ -246,13 +249,13 @@ document.getElementById("txnid").innerHTML=todayDate;
                       <!--  <th>NAV</th>    -->
                         <th>Transcation Amount</th>
                       <!--  <th>Units</th>  -->
-                       <!-- <th>KYC Validated</th>  -->
+                        <th>KYC Validated</th>
                         <th>Transaction Status</th>
                         <th>Currency</th>
                      <!--   <th>Amount Paid</th>   -->
                        <!-- <th>Amount</th>
                         <th>Paid</th>-->
-                        <th>Actions</th>
+                        <th>Transaction Date</th>
                       <!--  <th>Txn Date</th>
                         <th>Txn Settle Date</th>  -->
 
@@ -269,8 +272,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.investorId}}</td>
                        <!--  <td class="vert-align">{{iou.nav}}</td>  -->
                         <td class="vert-align">{{iou.transactionAmount}}</td>
-                      <!--  <td class="vert-align">{{iou.units}}</td>
-                        <td class="vert-align">{{iou.kycValidated}}</td>  -->
+                      <!--  <td class="vert-align">{{iou.units}}</td> -->
+                        <td class="vert-align">{{iou.kycValidated}}</td>
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
                        <!-- <td class="vert-align">{{iou.amountPaid}}</td>  -->
@@ -280,7 +283,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
                          <td>
                              <div class="btn-group" role="group">
-                                 <button ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
+                                 <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
                                  </button>
                                  <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
                                  </button>-->
@@ -326,8 +329,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                     <!--    <th>Amount Paid</th>  -->
                         <!-- <th>Amount</th>
                          <th>Paid</th>-->
-                        <th>Actions</th>
-                      <!--  <th>Txn Date</th>
+                        <th>Transaction Date</th>
+                        <!--  <th>Txn Date</th>
                         <th>Actions</th>  -->
 
 
@@ -402,8 +405,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                       <!--  <th>Amount Paid</th>
                         <!-- <th>Amount</th>
                          <th>Paid</th>-->
-                       <th>Actions</th>
-                       <!-- <th>Txn Date</th><th>Actions</th>  -->
+                        <th>Transaction Date</th>
+                        <!--  <th>Actions</th>
+                         <th>Txn Date</th><th>Actions</th>  -->
 
 
                     </tr>
@@ -423,7 +427,6 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
                      <!--   <td class="vert-align">{{iou.amountPaid}}</td>  -->
-
                         <td class="vert-align">{{iou.transactiondate}}</td>
                         <td class="vert-align"></td>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
@@ -475,9 +478,10 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <th>Transaction Status</th>
                         <th>Currency</th>
                         <th>Amount Paid</th>
+                        <th>Transaction Date</th>
                         <!-- <th>Amount</th>
                          <th>Paid</th>-->
-                        <th>Actions</th>
+
 
 
                     </tr>
@@ -497,7 +501,6 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
                         <td class="vert-align">{{iou.amountPaid}}</td>
-
                         <td class="vert-align">{{iou.transactiondate}}</td>
                         <td class="vert-align"></td>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
@@ -548,9 +551,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <th>Transaction Status</th>
                         <th>Currency</th>
                         <th>Amount Paid</th>
+                        <th>Transaction Date</th>
                         <!-- <th>Amount</th>
                          <th>Paid</th>-->
-                        <th>Actions</th>
                  <!--       <th>Txn Date</th>
                         <th>Txn Settle Date</th>    -->
 
@@ -572,7 +575,6 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
                         <td class="vert-align">{{iou.amountPaid}}</td>
-
                         <td class="vert-align">{{iou.transactiondate}}</td>
                         <td class="vert-align"></td>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->

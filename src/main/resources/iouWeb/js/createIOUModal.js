@@ -46,7 +46,8 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
         });
 
         // No behaviour on close / dismiss.
-        createIOUMsgModal.result.then(() => {}, () => {});
+        createIOUMsgModal.result.then(() => {}, () => { location.reload();}, () => { location.reload();});
+        // createIOUMsgModal.result.then(() => {}, () => { demoApp.refresh();}, () => { demoApp.refresh();});
     };
 
     /** Closes the IOU creation modal. */

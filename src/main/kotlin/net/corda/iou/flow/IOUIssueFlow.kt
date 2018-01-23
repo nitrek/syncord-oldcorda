@@ -70,17 +70,19 @@ object IOUIssueFlow {
 
 
             // Step 5. Verify and sign it with our KeyPair.
-            builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
-            progressTracker.currentStep = SIGNING
-            val ptx = serviceHub.signInitialTransaction(builder)
+          //  try {
+                builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
+                progressTracker.currentStep = SIGNING
+                val ptx = serviceHub.signInitialTransaction(builder)
 
-            // Step 6. Collect the other party's signature using the SignTransactionFlow.
-            progressTracker.currentStep = COLLECTING
-            val stx = subFlow(CollectSignaturesFlow(ptx, COLLECTING.childProgressTracker()))
+                // Step 6. Collect the other party's signature using the SignTransactionFlow.
+                progressTracker.currentStep = COLLECTING
+                val stx = subFlow(CollectSignaturesFlow(ptx, COLLECTING.childProgressTracker()))
 
-            // Step 7. Assuming no exceptions, we can now finalise the transaction.
-            progressTracker.currentStep = FINALISING
-            return subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
+                // Step 7. Assuming no exceptions, we can now finalise the transaction.
+                progressTracker.currentStep = FINALISING
+                return subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
+            //}
         }
     }
 
