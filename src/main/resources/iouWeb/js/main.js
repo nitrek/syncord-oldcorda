@@ -4,7 +4,7 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10013/api/iou/";
+    //const apiBaseURL = "http://localhost:10007/api/iou/";
     const apiBaseURL = "/api/iou/";
 
 
@@ -12,7 +12,9 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     let peers = [];
     $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
-    //$http.get(apiBaseURL + "peers").then((response) => demoApp.thisNode = response.data.peers);
+    $http.get(apiBaseURL + "total_holding").then(
+    (response) => demoApp.holding = response.data
+    );
 
     /** Displays the IOU creation modal. */
     demoApp.openCreateIOUModal = () => {
@@ -90,6 +92,21 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 
         settleModal.result.then(() => {}, () => {});
     };
+
+    //To intitate the sell javascript
+
+        demoApp.opensellModal = () => {
+            const sellModal = $uibModal.open({
+                templateUrl: 'sellModal.html',
+                controller: 'sellModalCtrl',
+                controllerAs: 'sellModal',
+                resolve: {
+                    apiBaseURL: () => apiBaseURL
+                }
+            });
+
+            sellModal.result.then(() => { }, () => { });
+        };
 
     /** Refreshes the front-end. */
     demoApp.refresh = () => {

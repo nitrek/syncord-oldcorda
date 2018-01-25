@@ -17,7 +17,7 @@ import org.jetbrains.exposed.sql.transactions.inTopLevelTransaction
 
 @StartableByRPC
 @InitiatingFlow
-class TotalPosition(val state: IOUState) : FlowLogic<Map<String,Int>>() {
+class TotalPosition() : FlowLogic<String>() {
 
     override val progressTracker: ProgressTracker = TotalPosition.tracker()
 
@@ -30,7 +30,7 @@ class TotalPosition(val state: IOUState) : FlowLogic<Map<String,Int>>() {
     }
 
     @Suspendable
-    override fun call(): Map<String, Int> {
+    override fun call(): String {
 
 
         // Stage 1. Retrieve all IOU's from the vault.
@@ -39,66 +39,55 @@ class TotalPosition(val state: IOUState) : FlowLogic<Map<String,Int>>() {
 
         //Get the total Holding for each Trade
 
-        val toalposition = mutableMapOf<String, Int>()
-        val numbers: IntArray = intArrayOf()
-        val arr = intArrayOf()
+        var sumHKIV01 = 0.0f
+        var sumDBKS01 = 0.0f
+        var sumDBKS02 = 0.0f
+        var sumLUKT01 = 0.0f
 
-        //To initialize the transactrion
-        val sumHKIV01: Int
-        val sumDBKS01: Int
-        val sumDBKS02: Int
-        val sumLUKT01: Int
+
+
         progressTracker.currentStep = TotalPosition.Companion.READ
+
+        //Start the for loop to get the total Units assigned to each Investor
         for (i in iouStates) {
             val iouststeref = iouStates[i.key] ?: throw IllegalArgumentException("Could not map IOU's")
             val fundid = iouststeref.state.data.fundId.trim()
-            val transactionamount = iouststeref.state.data.transactionAmount
-            val investorname = state.participants.map { it.owningKey }
+            val transactionamount = iouststeref.state.data.units
+            //val investorname = state.participants.map { it.owningKey }
 
             //To get the sum
             /// val numbers: IntArray = intArrayOf()
             if (fundid=="HKIV01"){
 
-                val HKIV01 = intArrayOf(transactionamount)
+               // sumHKIV01.add(transactionamount)
+                sumHKIV01 =sumHKIV01+transactionamount
 
             }
 
             if (fundid=="DBKS01"){
 
-                val DBKS01 = intArrayOf(transactionamount)
+               // sumDBKS01.add(transactionamount)
+                sumDBKS01 =sumDBKS01+transactionamount
             }
             if (fundid=="DBKS02"){
 
-                val DBKS02 = intArrayOf(transactionamount)
+               // sumDBKS02.add(transactionamount)
+                sumDBKS02 =sumDBKS02+transactionamount
 
             }
             if (fundid=="LUKT01"){
 
-                val LUKT01 = intArrayOf(transactionamount)
+               // sumLUKT01.add(transactionamount)
+                sumLUKT01 =sumLUKT01+transactionamount
 
             }
 
 
         }
+        //Crete an comma seperated string to be returned when this KT file is called by API
+        var output = sumHKIV01.toString()+","+sumDBKS01+","+sumDBKS02+","+sumLUKT01
 
-/*        //Question::Option, Count
-      val votes = mutableMapOf<String, Int>()
-        progressTracker.currentStep = CountFlow.Companion.READ
-        for (iouState in iouStates) {
-            val iouStateAndRef = iouStates[iouState.key] ?: throw IllegalArgumentException("Could not map IOU's")
-           val option = iouStateAndRef.state.data.options.trim()
-            val question = iouStateAndRef.state.data.question.trim()
-            if(!option.contains(',')) {
-                if (votes[question + "::" + option] == null) {
-                    votes.put(question + "::" + option, 1)  //Initialaize the map if the optionis coming for the first time
-                } else {
-                    val prevCount: Int = votes[question + "::" + option] ?: throw IllegalArgumentException("Illegal vote exception in CountFlow.kt Line:62")
-                    votes.put(question + "::" + option, prevCount + 1)
-                }
-                val notary = serviceHub.networkMapCache.notaryNodes.single().notaryIdentity
-            }
-        }
-        return votes*/
-        return  toalposition
+
+        return  output
     }
 }

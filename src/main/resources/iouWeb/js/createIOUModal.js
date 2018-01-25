@@ -15,7 +15,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             createIOUModal.formError = true
 
             const fundId = createIOUModal.form.fundId;
-            const txType = createIOUModal.form.transactionType;
+            const txType = "SUBSCRIPTION";
             const transactionAmount = createIOUModal.form.amount;
             var randomNumberBetween0and19 = Math.floor(Math.random() * 3000);
             $uibModalInstance.close();
