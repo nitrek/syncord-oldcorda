@@ -12,9 +12,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     let peers = [];
     $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
-    $http.get(apiBaseURL + "total_holding").then(
-    (response) => demoApp.holding = response.data
-    );
+
 
     /** Displays the IOU creation modal. */
     demoApp.openCreateIOUModal = () => {
@@ -113,7 +111,8 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         // Update the list of IOUs.
         $http.get(apiBaseURL + "ious").then((response) => demoApp.ious =
             Object.keys(response.data).map((key) => response.data[key].state.data));
-
+        $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data
+    );
 
     }
 

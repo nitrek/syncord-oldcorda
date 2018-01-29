@@ -6,7 +6,7 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
     sellModal.form = {};
     sellModal.formError = false;
 
-    sellModal.issue = () => {
+    sellModal.create = () => {
         if (invalidFormInput()) {
             sellModal.formError = true;
         } else {
@@ -16,16 +16,18 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
             const FundID = sellModal.form.fundId;
             const units = sellModal.form.units;
 
-
+    console.log("Hello123");
             $uibModalInstance.close();
 
-            const sellModalEndpoint =
-                apiBaseURL +
-                `total_holding`;
+             const sellModalEndpoint =
+                            apiBaseURL +
+                            `redumption-iou?fundId=${FundID}&Unit=${units}`;
+
+                            console.log("Hello");
 
             $http.get(sellModalEndpoint).then(
-               (result) => sellModal.displayMessage(result),
                (result) => sellModal.displayMessage(result)
+               //(result) => sellModal.displayMessage(result)
             );
         }
     };

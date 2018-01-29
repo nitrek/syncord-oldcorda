@@ -155,11 +155,7 @@ class IOUApi(val services: CordaRPCOps) {
         val fManager1 = "CN=FM,O=NodeB";
         val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
         val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
-        /*CN=InvestorPeter,O=NodeC
-        CN=InvestorJohn,O=NodeD*/
 
-       // val txnId = (Math.random()*20000).toInt();
-    ///////////////////To get the current date
 
         val current = LocalDateTime.now()
 
@@ -167,13 +163,7 @@ class IOUApi(val services: CordaRPCOps) {
         val formatted = current.format(formatter)
 
 
-
-
-
-        /////////////////////////////////////////////
         val txnId = 1009;
-        //val tDate = Date();
-        //val tsDate = Date();
         val investorId = "UH00001";
         val nav=  0.0f;
         val units= 0.0f;
@@ -181,16 +171,14 @@ class IOUApi(val services: CordaRPCOps) {
         val txStat= "PEND"
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
-      //  val investor1 =
-        //val investor1 = "CN=Investor1,O=NodeC";
+
         val investor1 = myLegalName;
-        //val investor1 = {{demoApp.thisNode}};
+
         val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
 
-        //val investor1 = {{demoApp.thisNode}};
-        //val investor = services.partyFromName(investor1) ?: throw IllegalArgumentException("Unknown party name.")
 
-        // Get party objects for myself and the counterparty.
+
+
         val me = services.nodeIdentity().legalIdentity
         //val trfAgent = services.partyFromName(tAgent) ?: throw IllegalArgumentException("Unknown party name.")
         //val fundMan = services.partyFromName(fManager) ?: throw IllegalArgumentException("Unknown party name.")
@@ -201,6 +189,73 @@ class IOUApi(val services: CordaRPCOps) {
         // Start the IOUIssueFlow. We block and wait for the flow to return.
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent)
+            val result = flowHandle.use { it.returnValue.getOrThrow() }
+            // Return the response.
+            Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
+        } catch (e: Exception) {
+            // For the purposes of this demo app, we do not differentiate by exception type.
+            var message ="some error"
+            if(e.message!=null)
+                message = e.message.toString()
+            Response.Status.CREATED to message.substring(56)
+        }
+
+        return Response.status(status).entity(message).build()
+    }
+
+
+    // Redumtion API
+
+    @GET
+    @Path("redumption-iou")
+    fun issueIOU(
+            @QueryParam(value = "fundId") fundId: String,
+            @QueryParam(value = "Unit") units: Float
+
+    ): Response {
+
+        val tAgent1= "CN=TA,O=NodeA";
+        val fManager1 = "CN=FM,O=NodeB";
+        val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
+        val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+        val txType="Redemption"
+        val transactionAmount=0
+        val txnId = 1009;
+        val investorId = "UH00001";
+        val nav=  0.0f;
+        val kycValid= "";
+        val txStat= "PEND"
+        val ccy= "GBP" ;//Need to pull this based on fund ID
+        val amtPaid= 0.0f;
+        val investor1 = myLegalName;
+        val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+
+
+        // Get party objects for myself and the counterparty.
+        val me = services.nodeIdentity().legalIdentity
+
+        // Create a new IOU state using the parameters given.
+        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
+        //Function to  check for the total amount available
+        val totalholding =0.0f;
+        fun total_holding(): Response {
+            val (status, message) = try {
+                val flowHandle = services.startTrackedFlowDynamic(TotalPosition::class.java)
+                var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
+                Response.Status.CREATED to totalholding
+            } catch (e: Exception) {
+                Response.Status.BAD_REQUEST to e.message
+            }
+
+            return Response.status(status).entity(message).build()
+        }
+
+        // Start the IOUIssueFlow. We block and wait for the flow to return.
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent,totalholding)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"

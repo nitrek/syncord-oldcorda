@@ -56,19 +56,9 @@ object IOUSettleFlow {
             val notary = iouToSettle.state.notary
             val builder = TransactionType.General.Builder(notary)
 
-//            // Step 4. Check we have enough cash to settle the requested amount.
-//            val cashBalance = serviceHub.vaultService.cashBalances[amount.token] ?:
-//                    throw IllegalArgumentException("Borrower has no ${amount.token} to settle.")
-//            val amountLeftToSettle = iouToSettle.state.data.amount - iouToSettle.state.data.paid
-//            require(cashBalance >= amount) { "Borrower has only $cashBalance but needs $amount to settle." }
-//            require(amountLeftToSettle >= amount) { "Borrower tried to settle with $amount but only needs $amountLeftToSettle" }
 
-            // Step 5. Get some cash from the vault and add a spend to our transaction builder.
-            //serviceHub.vaultService.generateSpend(builder, options, counterparty)
-
-            // Step 6. Add the IOU input state and settle command to the transaction builder.
             val settleCommand = Command(IOUContract.Commands.Settle(), listOf(counterparty.owningKey, me.owningKey))
-            // Add the input IOU and IOU settle command.
+
             builder.addCommand(settleCommand)
             builder.addInputState(iouToSettle)
 
@@ -79,11 +69,6 @@ object IOUSettleFlow {
             val finalState:IOUState = unitsState.updateTransactionStatus("ALLOTED")
             //System.out.print(kycStatus.toString()+" hjjkh");
             builder.addOutputState(finalState)
-//            val amountRemaining = amountLeftToSettle - amount
-//            if (amountRemaining > Amount(0, amount.token)) {
-//                val settledIOU: IOUState = iouToSettle.state.data.pay(amount)
-//                builder.addOutputState(settledIOU)
-//            }
 
             // Step 8. Verify and sign the transaction.
             builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
