@@ -221,7 +221,8 @@ class IOUApi(val services: CordaRPCOps) {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)
-        val txType="Redemption"
+       // val txType="Redemption"
+        val txType="REDUMPTION"
         val transactionAmount=0
         val txnId = 1009;
         val investorId = "UH00001";
@@ -240,8 +241,8 @@ class IOUApi(val services: CordaRPCOps) {
         // Create a new IOU state using the parameters given.
         val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
         //Function to  check for the total amount available
-        val totalholding =0.0f;
-        fun total_holding(): Response {
+       // val totalholding =0.0f;
+       /* fun total_holding(): Response {
             val (status, message) = try {
                 val flowHandle = services.startTrackedFlowDynamic(TotalPosition::class.java)
                 var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
@@ -251,11 +252,11 @@ class IOUApi(val services: CordaRPCOps) {
             }
 
             return Response.status(status).entity(message).build()
-        }
+        }*/
 
         // Start the IOUIssueFlow. We block and wait for the flow to return.
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent,totalholding)
+            val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
