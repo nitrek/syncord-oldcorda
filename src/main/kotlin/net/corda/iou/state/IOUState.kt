@@ -34,8 +34,6 @@ data class IOUState(
                 val borrower: Party,   //Transfer Agent
                 val fundManager: Party,
                 val transactionID: Int,
-                //val transactionDate: Date,
-                //val transactionSettlementDate: Date,
                 val investorId: String,
                 val nav: Float,
                 val units: Float,

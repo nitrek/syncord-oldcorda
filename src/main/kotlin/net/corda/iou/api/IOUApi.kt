@@ -89,56 +89,7 @@ class IOUApi(val services: CordaRPCOps) {
 
         return Response.status(status).entity(message).build()
     }
-    /**
-     * Displays all cash states that exist in the node's vault.
-     */
-    /*
-    @GET
-    @Path("cash")
-    @Produces(MediaType.APPLICATION_JSON)
-    // Filter by state type: Cash.
-    fun getCash(): List<StateAndRef<ContractState>> {
-        return services.vaultAndUpdates().justSnapshot.filter { it.state.data is Cash.State }
-    }
-*/
-    /**
-     * Displays all cash states that exist in the node's vault.
-     */
-    /*
-    @GET
-    @Path("cash-balances")
-    @Produces(MediaType.APPLICATION_JSON)
-    // Display cash balances.
-    fun getCashBalances(): Map<Currency, Amount<Currency>> = services.getCashBalances()
-*/
-    /**
-     * Initiates a flow to agree an IOU between two parties.
-     *  val lender: Party, //Investor
-    val borrower: Party, //Transfer Agent
-    val fundManager: Party,
-    val transactionID: Int,
-    val transactionDate: Date,
-    val transactionSettlementDate: Date,
-    val fundId: String,
-    val investorId: String,
-    val nav: Float,
-    val transactionAmount: Float,
-    val units: Float,
-    val kycValidated: Boolean,
-    val txnStatus: String,
-    val ccy: String,
-    val amountPaid: Float,
-     */
-   /* fun Random(): Int{
-        val i=50001
-        val a=i+1
-        return a;
-         } */
-   /* val random = Random()
 
-    fun rand(from: Int, to: Int) : Int {
-        return random.nextInt(to - from) + from
-    }*/
     @GET
     @Path("issue-iou")
     fun issueIOU(
@@ -146,23 +97,15 @@ class IOUApi(val services: CordaRPCOps) {
                  @QueryParam(value = "txType") txType: String,
                  @QueryParam(value = "txId") txId: Int,
                  @QueryParam(value = "transactionAmount") transactionAmount: Int
-                // @QueryParam(value = "Inverstor") investor1: String,
-                // @QueryParam(value = "FundMgrA") fManager1: String,
-                 //@QueryParam(value = "HSSTA") tAgent1: String
                ): Response {
 
         val tAgent1= "CN=TA,O=NodeA";
         val fManager1 = "CN=FM,O=NodeB";
         val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
         val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
-
-
         val current = LocalDateTime.now()
-
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)
-
-
         val txnId = 1009;
         val investorId = "UH00001";
         val nav=  0.0f;
@@ -175,18 +118,8 @@ class IOUApi(val services: CordaRPCOps) {
         val investor1 = myLegalName;
 
         val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
-
-
-
-
         val me = services.nodeIdentity().legalIdentity
-        //val trfAgent = services.partyFromName(tAgent) ?: throw IllegalArgumentException("Unknown party name.")
-        //val fundMan = services.partyFromName(fManager) ?: throw IllegalArgumentException("Unknown party name.")
-        // Create a new IOU state using the parameters given.
         val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
-                //trfAgent, fundMan, txnId,tDate,tsDate,fundId,investorId,nav,txnAmt,units,kycValid, txStat,ccy,amtPaid)
-
-        // Start the IOUIssueFlow. We block and wait for the flow to return.
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
@@ -241,22 +174,43 @@ class IOUApi(val services: CordaRPCOps) {
         // Create a new IOU state using the parameters given.
         val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
         //Function to  check for the total amount available
-       // val totalholding =0.0f;
-       /* fun total_holding(): Response {
+        var toalunits=""
+        fun total_holding(): Response {
             val (status, message) = try {
                 val flowHandle = services.startTrackedFlowDynamic(TotalPosition::class.java)
                 var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
-                Response.Status.CREATED to totalholding
+                //var Identify_fund =""
+                if (fundId=="HKIV01"){
+
+                    toalunits=totalholding.split(",")[0]
+                }
+                if (fundId=="DBKS01"){
+
+                    toalunits=totalholding.split(",")[1]
+                }
+                if (fundId=="DBKS02"){
+
+                    toalunits=totalholding.split(",")[2]
+                }
+                if (fundId=="LUKT01"){
+
+                    toalunits=totalholding.split(",")[3]
+                }
+
+
+                Response.Status.CREATED to toalunits
             } catch (e: Exception) {
                 Response.Status.BAD_REQUEST to e.message
             }
 
             return Response.status(status).entity(message).build()
-        }*/
+        }
 
+        //Print the input holding the needs to be checked
         // Start the IOUIssueFlow. We block and wait for the flow to return.
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent)
+            total_holding()
+            val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent,toalunits.toFloat())
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"

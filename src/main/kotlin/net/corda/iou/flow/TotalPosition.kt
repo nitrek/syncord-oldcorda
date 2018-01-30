@@ -53,32 +53,68 @@ class TotalPosition() : FlowLogic<String>() {
             val iouststeref = iouStates[i.key] ?: throw IllegalArgumentException("Could not map IOU's")
             val fundid = iouststeref.state.data.fundId.trim()
             val transactionamount = iouststeref.state.data.units
+            val transactiontype = iouststeref.state.data.txType
             //val investorname = state.participants.map { it.owningKey }
 
             //To get the sum
             /// val numbers: IntArray = intArrayOf()
+
+            //For HKIV01 fundID
             if (fundid=="HKIV01"){
 
-               // sumHKIV01.add(transactionamount)
-                sumHKIV01 =sumHKIV01+transactionamount
+                if (transactiontype=="SUBSCRIPTION"){
+
+                    // sumHKIV01.add(transactionamount)
+                    sumHKIV01 =sumHKIV01+transactionamount
+
+                }
+                else {
+                    sumHKIV01 =sumHKIV01-transactionamount
+                }
 
             }
 
+            //For DBKS01 fundID
             if (fundid=="DBKS01"){
 
-               // sumDBKS01.add(transactionamount)
-                sumDBKS01 =sumDBKS01+transactionamount
+                if (transactiontype=="SUBSCRIPTION"){
+                    // sumDBKS01.add(transactionamount)
+                    sumDBKS01 =sumDBKS01+transactionamount
+                }
+                else {
+
+                    sumDBKS01 =sumDBKS01-transactionamount
+                }
+
             }
+
+            //For DBKS02 fundID
             if (fundid=="DBKS02"){
+                if (transactiontype=="SUBSCRIPTION"){
+                    // sumDBKS02.add(transactionamount)
+                    sumDBKS02 =sumDBKS02+transactionamount
+                }
+                else {
 
-               // sumDBKS02.add(transactionamount)
-                sumDBKS02 =sumDBKS02+transactionamount
+                    sumDBKS02 =sumDBKS02-transactionamount
+                }
+
+
 
             }
+            //For LUKT01 fundID
             if (fundid=="LUKT01"){
 
-               // sumLUKT01.add(transactionamount)
-                sumLUKT01 =sumLUKT01+transactionamount
+                if (transactiontype=="SUBSCRIPTION"){
+                    // sumLUKT01.add(transactionamount)
+                    sumLUKT01 =sumLUKT01+transactionamount
+
+                }
+                else {
+
+                    sumLUKT01 =sumLUKT01-transactionamount
+                }
+
 
             }
 

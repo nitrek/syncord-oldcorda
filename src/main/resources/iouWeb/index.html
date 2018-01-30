@@ -278,13 +278,13 @@ document.getElementById("txnid").innerHTML=todayDate;
     <div class="col-md-10" style="width:100%;margin-top:100px;">
         <div ng-show="!demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">fdf</h3>
+                <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">sexy</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Pending Transaction Summary:</h3>
+                <h3 class="panel-title">Total Holding:</h3>
             </div>
             <div class="panel-body">
                 <table class="table">
@@ -300,18 +300,24 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">HKIV01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[0]}}</td>
                       <!--  <td class="vert-align"></td>-->
-
+                    </tr>
+                    <tr>
                         <td class="vert-align">DBKS01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[1]}}</td>
                         <!--<td class="vert-align"></td>-->
+                    </tr>
+                    <tr>
 
                         <td class="vert-align">DBKS02</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[2]}}</td>
                         <!--<td class="vert-align"></td>-->
+                    </tr>
+                    <tr>
 
                         <td class="vert-align">LUKT01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[3]}}</td>
                         <td class="vert-align"></td>
+                    </tr>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
                        <!-- <td>
                             <div class="btn-group" role="group">
@@ -339,7 +345,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
@@ -357,7 +363,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <th>Investor ID</th>
                       <!--  <th>NAV</th>    -->
                         <th>Transcation Amount</th>
-                      <!--  <th>Units</th>  -->
+                        <th>Units</th>
                         <th>KYC Validated</th>
                         <th>Transaction Status</th>
                         <th>Currency</th>
@@ -381,7 +387,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.investorId}}</td>
                        <!--  <td class="vert-align">{{iou.nav}}</td>  -->
                         <td class="vert-align">{{iou.transactionAmount}}</td>
-                      <!--  <td class="vert-align">{{iou.units}}</td> -->
+                        <td class="vert-align">{{iou.units}}</td>
                         <td class="vert-align">{{iou.kycValidated}}</td>
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
@@ -413,7 +419,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
@@ -431,7 +437,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <th>Investor ID</th>
                        <!-- <th>NAV</th>  -->
                         <th>Transcation Amount</th>
-                       <!-- <th>Units</th>  -->
+                       <th>Units</th>
                         <th>KYC Validated</th>
                         <th>Transaction Status</th>
                         <th>Currency</th>
@@ -455,7 +461,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.investorId}}</td>
                      <!--   <td class="vert-align">{{iou.nav}}</td>  -->
                         <td class="vert-align">{{iou.transactionAmount}}</td>
-                    <!--    <td class="vert-align">{{iou.units}}</td>  -->
+                     <td class="vert-align">{{iou.units}}</td>
                         <td class="vert-align">{{iou.kycValidated}}</td>
                         <td class="vert-align">{{iou.txnStatus}}</td>
                         <td class="vert-align">{{iou.ccy}}</td>
@@ -489,7 +495,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
@@ -564,7 +570,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">
@@ -637,7 +643,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             <div class="panel-heading">
                 <h3 class="panel-title">There are no recorded Trades</h3>
             </div>
-            <div class="panel-body">Use the "Trade" button to send an Trade to a Transfer Agent.</div>
+            <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
         </div>
         <div ng-show="demoApp.ious.length" class="panel panel-primary">
             <div class="panel-heading">

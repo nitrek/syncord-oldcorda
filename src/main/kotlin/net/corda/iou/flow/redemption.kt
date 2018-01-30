@@ -26,7 +26,7 @@ object redemption{
     @StartableByRPC
 
     //Rohan:-Class is defoned as  class <class name> (<Variable you want to declare>):<Type if you want any specific flow>
-    class Initiator(val state: IOUState, val otherParty: Party) : FlowLogic<SignedTransaction>() {
+    class Initiator(val state: IOUState, val otherParty: Party, val toalunits: Float) : FlowLogic<SignedTransaction>() {
 
 
         //Rohan:-Object declaration inside a class i
@@ -56,12 +56,13 @@ object redemption{
             // Remember that a command is a CommandData object and a list of CompositeKeys
             val issueCommand = Command(IOUContract.Commands.Transfer(), state.participants.map { it.owningKey })
 
-           // require(state.units <= totalholding ) { "You don't have enough balance...Please enter the lower amount" }
+           require(state.units <= toalunits ) { "You don't have enough balance...Please enter the lower amount" }
             // Step 3. Create a new TransactionBuilder object.
             val builder = TransactionType.General.Builder(notary)
 
             // Step 4. Add the iou as an output state, as well as a command to the transaction builder.
             builder.withItems(state, issueCommand)
+
 
             // Step 5. Verify and sign it with our KeyPair.
             //  try {
