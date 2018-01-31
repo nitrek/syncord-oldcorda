@@ -18,6 +18,9 @@ import net.corda.flows.SignTransactionFlow
 import net.corda.iou.contract.IOUContract
 import net.corda.iou.state.IOUState
 import java.util.*
+//
+
+//For alloting of transaction
 
 object IOUSettleFlow {
     @StartableByRPC
@@ -61,14 +64,30 @@ object IOUSettleFlow {
 
             builder.addCommand(settleCommand)
             builder.addInputState(iouToSettle)
+            val type = iouToSettle.state.data.txType
 
-            // Step 7. Only add an output IOU state of the IOU has not been fully settled
-            val votedIOU: IOUState = iouToSettle.state.data.updateNav(navValue)
-            val units:Float = iouToSettle.state.data.transactionAmount / navValue;
-            val unitsState:IOUState = votedIOU.updateUnits(units)
-            val finalState:IOUState = unitsState.updateTransactionStatus("ALLOTED")
-            //System.out.print(kycStatus.toString()+" hjjkh");
-            builder.addOutputState(finalState)
+            if (type =="SUBSCRIPTION"){
+
+                // Step 7. Only add an output IOU state of the IOU has not been fully settled
+                val votedIOU: IOUState = iouToSettle.state.data.updateNav(navValue)
+
+                val units:Float = iouToSettle.state.data.transactionAmount / navValue;
+                val unitsState:IOUState = votedIOU.updateUnits(units)
+                val finalState:IOUState = unitsState.updateTransactionStatus("ALLOTED")
+                //System.out.print(kycStatus.toString()+" hjjkh");
+                builder.addOutputState(finalState)
+
+
+            }
+
+            else {
+                val votedIOU: IOUState = iouToSettle.state.data.updateNav(navValue)
+
+                val transactionamount = iouToSettle.state.data.units * navValue
+                val xyz :IOUState = votedIOU.transactionamountupdate(transactionamount.toInt())
+                val finalState:IOUState = xyz.updateTransactionStatus("ALLOTED")
+                builder.addOutputState(finalState)
+            }
 
             // Step 8. Verify and sign the transaction.
             builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()

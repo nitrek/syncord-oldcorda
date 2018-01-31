@@ -97,6 +97,8 @@ data class IOUState(
 
     fun updateNav(navValue: Float) = copy(nav = navValue)
 
+    fun transactionamountupdate(amountValue: Int) = copy(transactionAmount = amountValue)
+
     fun updateUnits(navUnits: Float) = copy(units = navUnits)
 
     //fun updateTxansactionDate (transactiondate:LocalDateTime)=copy(transactiondate =transactiondate )

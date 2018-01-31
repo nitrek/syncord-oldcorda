@@ -56,7 +56,10 @@ object redemption{
             // Remember that a command is a CommandData object and a list of CompositeKeys
             val issueCommand = Command(IOUContract.Commands.Transfer(), state.participants.map { it.owningKey })
 
-           require(state.units <= toalunits ) { "You don't have enough balance...Please enter the lower amount" }
+            //Checking required amount  to do the redemption from the fund.
+
+            require(state.units <= toalunits ) { "You don't have enough balance...Please enter the lower amount" }
+            require(state.units > 0.0f) { "You cannot create a transaction with zero amount" }
             // Step 3. Create a new TransactionBuilder object.
             val builder = TransactionType.General.Builder(notary)
 

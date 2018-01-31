@@ -137,7 +137,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
 <script type="text/ng-template" id="sellMsgModal.html">
     <div class="modal-body" id="sell-iou-modal-body">
-        {{ sellModal.message }}
+        {{ sellMsgModal.message }}
     </div>
 </script>
 
@@ -384,7 +384,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
-                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
                        <!--  <td class="vert-align">{{iou.nav}}</td>  -->
                         <td class="vert-align">{{iou.transactionAmount}}</td>
                         <td class="vert-align">{{iou.units}}</td>

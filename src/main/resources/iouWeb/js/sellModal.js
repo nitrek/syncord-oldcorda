@@ -26,8 +26,8 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
 
 
             $http.get(sellModalEndpoint).then(
+               (result) => sellModal.displayMessage(result),
                (result) => sellModal.displayMessage(result)
-               //(result) => sellModal.displayMessage(result)
             );
         }
     };
@@ -42,7 +42,7 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
             }
         });
 
-        sellModal.result.then(() => {}, () => { location.reload();});
+        sellModal.result.then(() => { location.reload();}, () => { location.reload();});
         //issueCashMsgModal.result.then(() => { demoApp.refresh();}, () => { demoApp.refresh();});
     };
 
@@ -54,6 +54,6 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
 });
 
 angular.module('demoAppModule').controller('sellMsgModalCtrl', function($uibModalInstance, message) {
-    const issueCashMsgModal = this;
-    issueCashMsgModal.message = message.data;
+    const sellMsgModal = this;
+    sellMsgModal.message = message.data;
 });

@@ -30,8 +30,8 @@ fun main(args: Array<String>) {
         val (nodeA, nodeB, nodeC, nodeD) = Futures.allAsList(
                 startNode(X500Name("CN=TA,O=NodeA"), rpcUsers = listOf(user)),
                 startNode(X500Name("CN=FM,O=NodeB"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=Investor1,O=NodeC"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=Investor2,O=NodeD"), rpcUsers = listOf(user))).getOrThrow()
+                startNode(X500Name("CN=UH00001,O=NodeC"), rpcUsers = listOf(user)),
+                startNode(X500Name("CN=UH00002,O=NodeD"), rpcUsers = listOf(user))).getOrThrow()
         startWebserver(nodeA)
         startWebserver(nodeB)
         startWebserver(nodeC)

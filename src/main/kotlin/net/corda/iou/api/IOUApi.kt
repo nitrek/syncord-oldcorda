@@ -213,13 +213,13 @@ class IOUApi(val services: CordaRPCOps) {
             val flowHandle = services.startTrackedFlowDynamic(redemption.Initiator::class.java, state, tAgent,toalunits.toFloat())
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
-            Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
+            //Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
+
+            Response.Status.CREATED to "Your request for redeeming fund `$fundId` created successfully"
+
         } catch (e: Exception) {
             // For the purposes of this demo app, we do not differentiate by exception type.
-            var message ="some error"
-            if(e.message!=null)
-                message = e.message.toString()
-            Response.Status.CREATED to message.substring(56)
+           Response.Status.BAD_REQUEST to e.message
         }
 
         return Response.status(status).entity(message).build()

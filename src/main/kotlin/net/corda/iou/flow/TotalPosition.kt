@@ -54,6 +54,7 @@ class TotalPosition() : FlowLogic<String>() {
             val fundid = iouststeref.state.data.fundId.trim()
             val transactionamount = iouststeref.state.data.units
             val transactiontype = iouststeref.state.data.txType
+            val transactionstatus = iouststeref.state.data.txnStatus
             //val investorname = state.participants.map { it.owningKey }
 
             //To get the sum
@@ -62,14 +63,16 @@ class TotalPosition() : FlowLogic<String>() {
             //For HKIV01 fundID
             if (fundid=="HKIV01"){
 
-                if (transactiontype=="SUBSCRIPTION"){
+                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
 
                     // sumHKIV01.add(transactionamount)
                     sumHKIV01 =sumHKIV01+transactionamount
 
                 }
                 else {
-                    sumHKIV01 =sumHKIV01-transactionamount
+                    if (transactiontype=="REDUMPTION") {
+                        sumHKIV01 = sumHKIV01 - transactionamount
+                    }
                 }
 
             }
@@ -77,26 +80,30 @@ class TotalPosition() : FlowLogic<String>() {
             //For DBKS01 fundID
             if (fundid=="DBKS01"){
 
-                if (transactiontype=="SUBSCRIPTION"){
+                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
                     // sumDBKS01.add(transactionamount)
                     sumDBKS01 =sumDBKS01+transactionamount
                 }
                 else {
+                    if (transactiontype=="REDUMPTION")
+                    {sumDBKS01 =sumDBKS01-transactionamount}
 
-                    sumDBKS01 =sumDBKS01-transactionamount
                 }
 
             }
 
             //For DBKS02 fundID
             if (fundid=="DBKS02"){
-                if (transactiontype=="SUBSCRIPTION"){
+                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
                     // sumDBKS02.add(transactionamount)
                     sumDBKS02 =sumDBKS02+transactionamount
                 }
                 else {
-
+                    if (transactiontype=="REDUMPTION")
+                    {
                     sumDBKS02 =sumDBKS02-transactionamount
+                    }
+
                 }
 
 
@@ -105,14 +112,14 @@ class TotalPosition() : FlowLogic<String>() {
             //For LUKT01 fundID
             if (fundid=="LUKT01"){
 
-                if (transactiontype=="SUBSCRIPTION"){
+                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
                     // sumLUKT01.add(transactionamount)
                     sumLUKT01 =sumLUKT01+transactionamount
 
                 }
                 else {
-
-                    sumLUKT01 =sumLUKT01-transactionamount
+                    if (transactiontype=="REDUMPTION")
+                    {sumLUKT01 =sumLUKT01-transactionamount}
                 }
 
 

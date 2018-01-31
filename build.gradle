@@ -116,7 +116,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
     node {
-        name "CN=Investor1,O=NodeC"
+        name "CN=UH00001,O=NodeC"
         advertisedServices = []
         p2pPort 10011
         rpcPort 10012
@@ -126,7 +126,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
     }
 
     node {
-        name "CN=Investor2,O=NodeD"
+        name "CN=UH00002,O=NodeD"
         advertisedServices = []
         p2pPort 10014
         rpcPort 10015
