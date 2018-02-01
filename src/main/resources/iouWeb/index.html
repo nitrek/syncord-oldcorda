@@ -35,8 +35,8 @@ document.getElementById("txnid").innerHTML=todayDate;
         <div class="navbar-header">
             <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
         </div>
-        <button ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">Buy</button>
-        <button ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">Sell</button>
+        <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">Buy</button>
+        <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">Sell</button>
 
       <!--  <button type="button" class="btn btn-primary navbar-btn">Sell</button>-->
         <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
@@ -292,6 +292,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                     <tr>
                         <th>Fund ID</th>
                         <th>Total Holding</th>
+                        <th>Blocked Holding</th>
+                        <th>Current Holding</th>
 
                     </tr>
                     </thead>
@@ -299,23 +301,31 @@ document.getElementById("txnid").innerHTML=todayDate;
                     <tr  >
                         <td class="vert-align">HKIV01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[0]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[4]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[8]}}</td>
                       <!--  <td class="vert-align"></td>-->
                     </tr>
                     <tr>
                         <td class="vert-align">DBKS01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[1]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[5]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[9]}}</td>
                         <!--<td class="vert-align"></td>-->
                     </tr>
                     <tr>
 
                         <td class="vert-align">DBKS02</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[2]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[6]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[10]}}</td>
                         <!--<td class="vert-align"></td>-->
                     </tr>
                     <tr>
 
                         <td class="vert-align">LUKT01</td>
                         <td class="vert-align">{{demoApp.holding.split(',')[3]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[7]}}</td>
+                        <td class="vert-align">{{demoApp.holding.split(',')[11]}}</td>
                         <td class="vert-align"></td>
                     </tr>
                         <!-- <td class="vert-align">{{iou.paid}}</td>-->
@@ -458,7 +468,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
-                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
                      <!--   <td class="vert-align">{{iou.nav}}</td>  -->
                         <td class="vert-align">{{iou.transactionAmount}}</td>
                      <td class="vert-align">{{iou.units}}</td>
@@ -534,7 +544,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
-                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
                         <td class="vert-align">{{iou.nav}}</td>
                         <td class="vert-align">{{iou.transactionAmount}}</td>
                         <td class="vert-align">{{iou.units}}</td>
@@ -608,7 +618,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
-                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
                         <td class="vert-align">{{iou.nav}}</td>
                         <td class="vert-align">{{iou.transactionAmount}}</td>
                         <td class="vert-align">{{iou.units}}</td>
@@ -682,7 +692,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <td class="vert-align">{{iou.linearId.id}}</td>
                         <td class="vert-align">{{iou.txType}}</td>
                         <td class="vert-align">{{iou.fundId}}</td>
-                        <td class="vert-align">{{iou.investorId}}</td>
+                        <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
                         <td class="vert-align">{{iou.nav}}</td>
                         <td class="vert-align">{{iou.transactionAmount}}</td>
                         <td class="vert-align">{{iou.units}}</td>

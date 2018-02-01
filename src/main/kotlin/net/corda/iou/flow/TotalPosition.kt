@@ -44,6 +44,13 @@ class TotalPosition() : FlowLogic<String>() {
         var sumDBKS02 = 0.0f
         var sumLUKT01 = 0.0f
 
+        //Blocked holding at the time of redumption
+
+        var blockedHKIV01 = 0.0f
+        var blockedDBKS01 = 0.0f
+        var blockedDBKS02 = 0.0f
+        var blockedLUKT01 = 0.0f
+
 
 
         progressTracker.currentStep = TotalPosition.Companion.READ
@@ -61,74 +68,103 @@ class TotalPosition() : FlowLogic<String>() {
             /// val numbers: IntArray = intArrayOf()
 
             //For HKIV01 fundID
-            if (fundid=="HKIV01"){
+            if (fundid == "HKIV01") {
 
-                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
 
                     // sumHKIV01.add(transactionamount)
-                    sumHKIV01 =sumHKIV01+transactionamount
+                    sumHKIV01 = sumHKIV01 + transactionamount
 
-                }
-                else {
-                    if (transactiontype=="REDUMPTION") {
-                        sumHKIV01 = sumHKIV01 - transactionamount
+                } else {
+                    if (transactiontype == "REDUMPTION") {
+                        if (transactionstatus == "Settled") {
+                            sumHKIV01 = sumHKIV01 - transactionamount
+                        } else {
+                            blockedHKIV01 = blockedHKIV01 + transactionamount
+                        }
                     }
                 }
-
             }
 
+
             //For DBKS01 fundID
-            if (fundid=="DBKS01"){
+            if (fundid == "DBKS01") {
 
-                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
                     // sumDBKS01.add(transactionamount)
-                    sumDBKS01 =sumDBKS01+transactionamount
-                }
-                else {
-                    if (transactiontype=="REDUMPTION")
-                    {sumDBKS01 =sumDBKS01-transactionamount}
+                    sumDBKS01 = sumDBKS01 + transactionamount
+                } else {
+                    if (transactiontype == "REDUMPTION") {
+                        if (transactionstatus == "Settled") {
+                            sumDBKS01 = sumDBKS01 - transactionamount
+                        } else {
+
+                            blockedDBKS01 = blockedDBKS01 + transactionamount
+                        }
+
+                    }
+
 
                 }
-
             }
 
             //For DBKS02 fundID
-            if (fundid=="DBKS02"){
-                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
+            if (fundid == "DBKS02") {
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
                     // sumDBKS02.add(transactionamount)
-                    sumDBKS02 =sumDBKS02+transactionamount
-                }
-                else {
-                    if (transactiontype=="REDUMPTION")
-                    {
-                    sumDBKS02 =sumDBKS02-transactionamount
+                    sumDBKS02 = sumDBKS02 + transactionamount
+                } else {
+                    if (transactiontype == "REDUMPTION") {
+                        if (transactionstatus == "Settled") {
+                            sumDBKS02 = sumDBKS02 - transactionamount
+                        } else {
+
+                            blockedDBKS02 = blockedDBKS02 + transactionamount
+                        }
+
                     }
 
                 }
-
-
-
             }
             //For LUKT01 fundID
-            if (fundid=="LUKT01"){
+            if (fundid == "LUKT01") {
 
-                if (transactiontype=="SUBSCRIPTION" && transactionstatus=="Settled"){
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
                     // sumLUKT01.add(transactionamount)
-                    sumLUKT01 =sumLUKT01+transactionamount
+                    sumLUKT01 = sumLUKT01 + transactionamount
 
-                }
-                else {
-                    if (transactiontype=="REDUMPTION")
-                    {sumLUKT01 =sumLUKT01-transactionamount}
+                } else {
+                    if (transactiontype == "REDUMPTION") {
+
+                        if (transactionstatus == "Settled") {
+                            sumLUKT01 = sumLUKT01 - transactionamount
+                        } else {
+
+                            blockedLUKT01 = blockedLUKT01 + transactionamount
+                        }
+                    }
+
+
                 }
 
 
             }
-
-
         }
+
+        //Variable for getting the current holding //Initiating the  variable
+        var CurrentHKIV01 = 0.0f
+        var CurrentDBKS01 = 0.0f
+        var CurrentDBKS02 = 0.0f
+        var CurrentLUKT01 = 0.0f
+
+        // Finding the actual holding
+        CurrentHKIV01=sumHKIV01-blockedHKIV01
+        CurrentDBKS01=sumDBKS01-blockedDBKS01
+        CurrentDBKS02=sumDBKS02-blockedDBKS02
+        CurrentLUKT01=sumLUKT01-blockedLUKT01
+
         //Crete an comma seperated string to be returned when this KT file is called by API
-        var output = sumHKIV01.toString()+","+sumDBKS01+","+sumDBKS02+","+sumLUKT01
+        var output = sumHKIV01.toString()+","+sumDBKS01+","+sumDBKS02+","+sumLUKT01+","+blockedHKIV01+","+blockedDBKS01+","+blockedDBKS02+","+blockedLUKT01+","+CurrentHKIV01+","+CurrentDBKS01+","+CurrentDBKS02+","+CurrentLUKT01
 
 
         return  output

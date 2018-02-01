@@ -174,7 +174,7 @@ class IOUApi(val services: CordaRPCOps) {
         // Create a new IOU state using the parameters given.
         val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
         //Function to  check for the total amount available
-        var toalunits=""
+        var toalunits=0.0f
         fun total_holding(): Response {
             val (status, message) = try {
                 val flowHandle = services.startTrackedFlowDynamic(TotalPosition::class.java)
@@ -182,19 +182,19 @@ class IOUApi(val services: CordaRPCOps) {
                 //var Identify_fund =""
                 if (fundId=="HKIV01"){
 
-                    toalunits=totalholding.split(",")[0]
+                    toalunits=totalholding.split(",")[0].toFloat()-totalholding.split(",")[4].toFloat()
                 }
                 if (fundId=="DBKS01"){
 
-                    toalunits=totalholding.split(",")[1]
+                    toalunits=totalholding.split(",")[1].toFloat()-totalholding.split(",")[5].toFloat()
                 }
                 if (fundId=="DBKS02"){
 
-                    toalunits=totalholding.split(",")[2]
+                    toalunits=totalholding.split(",")[2].toFloat()-totalholding.split(",")[6].toFloat()
                 }
                 if (fundId=="LUKT01"){
 
-                    toalunits=totalholding.split(",")[3]
+                    toalunits=totalholding.split(",")[3].toFloat()-totalholding.split(",")[7].toFloat()
                 }
 
 
@@ -256,6 +256,7 @@ class IOUApi(val services: CordaRPCOps) {
                   @QueryParam(value = "amount") amount: Float): Response {
         val linearId = UniqueIdentifier.fromString(id)
         val settleAmount = amount
+        var f="1,2,3,4";
         System.out.print(settleAmount)
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUSettleFlow.Initiator::class.java, linearId, settleAmount)
