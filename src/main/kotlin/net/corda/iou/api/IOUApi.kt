@@ -256,7 +256,7 @@ class IOUApi(val services: CordaRPCOps) {
                   @QueryParam(value = "amount") amount: Float): Response {
         val linearId = UniqueIdentifier.fromString(id)
         val settleAmount = amount
-        var f="1,2,3,4";
+        //var f="1,2,3,4";
         System.out.print(settleAmount)
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUSettleFlow.Initiator::class.java, linearId, settleAmount)
