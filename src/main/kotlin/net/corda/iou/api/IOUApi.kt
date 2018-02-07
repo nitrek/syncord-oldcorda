@@ -302,6 +302,20 @@ class IOUApi(val services: CordaRPCOps) {
 
         return Response.status(status).entity(message).build()
     }
+
+    @GET
+    @Path("register_book")
+    fun register_book(): Response {
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(Register::class.java)
+            var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
+            Response.Status.CREATED to totalholding
+        } catch (e: Exception) {
+            Response.Status.BAD_REQUEST to e.message
+        }
+
+        return Response.status(status).entity(message).build()
+    }
     // Helper method to get just the snapshot portion of an RPC call which also returns an Observable of updates. It's
     // important to unsubscribe from this Observable if we're not going to use it as otherwise we leak resources on the server.
     private val <A> Pair<A, Observable<*>>.justSnapshot: A get() {

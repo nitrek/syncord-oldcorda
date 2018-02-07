@@ -111,7 +111,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         advertisedServices = []
         p2pPort 10008
         rpcPort 10009
-        webPort 10010
+            webPort 10010
         cordapps = []
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
