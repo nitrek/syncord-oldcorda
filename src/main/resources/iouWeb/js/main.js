@@ -111,8 +111,9 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         // Update the list of IOUs.
         $http.get(apiBaseURL + "ious").then((response) => demoApp.ious =
             Object.keys(response.data).map((key) => response.data[key].state.data));
-        $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data
-    );
+        $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data);
+
+        $http.get(apiBaseURL + "register_book").then((response) => demoApp.register = response.data);
 
     }
 
