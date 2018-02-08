@@ -68,7 +68,8 @@ document.getElementById("txnid").innerHTML=todayDate;
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-            <img src="images/user.jpg" class="demo-avatar">
+            <img ng-show="demoApp.thisNode=='CN=UH00001,O=NodeC'" src="images/user.jpg" class="demo-avatar">
+            <img ng-show="demoApp.thisNode=='CN=UH00002,O=NodeD'" src="images/User2.jpg" class="demo-avatar">
             <div class="demo-avatar-dropdown">
                 <span>{{demoApp.thisNode}}</span>
                 <!--      <div class="mdl-layout-spacer"></div>
@@ -142,7 +143,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                 <div class="alert alert-danger" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span>
-                    Enter valid IOU creation parameters
+                    Enter valid Amount value
                 </div>
             </div>
         </div>
@@ -412,6 +413,115 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                 </div>
 
+            <!-- This is where Rohan has started -->
+            <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+
+                <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">There are no recorded Trades</h3>
+                    </div>
+                    <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
+                </div>
+                <div ng-show="demoApp.ious.length" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Transaction Register:</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Investor ID</th>
+                                <th>Fund</th>
+                                <th>Total Amount </th>
+                                <th>Total Units</th>
+                                <th>Percentage</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr >
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[0]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[2]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[3]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[4]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[5]}}</td>
+                                <!--  <td class="vert-align"></td>-->
+                            </tr>
+                            <tr>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[6]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[8]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[9]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[10]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[11]}}</td>
+                                <!--<td class="vert-align"></td>-->
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[12]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[14]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[15]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[16]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[17]}}</td>
+                                <!--<td class="vert-align"></td>-->
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[18]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[20]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[21]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[22]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[23]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[24]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[26]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[27]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[28]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[29]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[30]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[32]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[33]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[34]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[35]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[36]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[38]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[39]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[40]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[41]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[42]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[44]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[45]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[46]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[47]}}</td>
+                            </tr>
+                            <!-- <td class="vert-align">{{iou.paid}}</td>-->
+                            <!-- <td>
+                                 <div class="btn-group" role="group">
+                                     <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
+                                     </button>
+                                     &lt;!&ndash;<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                     </button>&ndash;&gt;
+                                 </div>
+                             </td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+
             <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 
                         <div ng-show="!demoApp.ious.length" class="panel panel-primary">
@@ -490,6 +600,12 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <div class="col-md-1"></div>
 
                 </div>
+        </div>
+
+
+
+
+
 
     </main>
 

@@ -94,7 +94,7 @@ html, body {
   font-weight: 500;
 }
 .demo-layout .demo-navigation .mdl-navigation__link:hover {
-  background-color: #00BCD4;
+  background-color: #FF0000;
   color: #37474F;
 }
 .demo-navigation .mdl-navigation__link .material-icons {
