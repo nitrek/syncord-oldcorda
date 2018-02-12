@@ -21,7 +21,7 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
 
              const sellModalEndpoint =
                             apiBaseURL +
-                            `redumption-iou?fundId=${FundID}&Unit=${units}`;
+                            `REDEMPTION-iou?fundId=${FundID}&Unit=${units}`;
 
 
 

@@ -18,11 +18,16 @@ angular.module('demoAppModule').controller('navModalCtrl', function ($http, $uib
             const id = navModal.id;
             const navValue = navModal.form.navValue;
 
+            const fund = iou.fundID
+
+
             $uibModalInstance.close();
 
             const issueIOUEndpoint =
                 apiBaseURL +
                 `saveNav?id=${id}&value=${navValue}&`;
+
+
 
             $http.get(issueIOUEndpoint).then(
                 (result) => transferModal.displayMessage(result),

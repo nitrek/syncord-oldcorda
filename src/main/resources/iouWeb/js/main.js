@@ -4,8 +4,8 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10007/api/iou/";
-    const apiBaseURL = "/api/iou/";
+    //const apiBaseURL = "http://localhost:10013/api/iou/";
+   const apiBaseURL = "/api/iou/";
 
 
     // Retrieves the identity of this and other nodes.
@@ -111,8 +111,11 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         // Update the list of IOUs.
         $http.get(apiBaseURL + "ious").then((response) => demoApp.ious =
             Object.keys(response.data).map((key) => response.data[key].state.data));
-        $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data
-    );
+        $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data);
+
+        $http.get(apiBaseURL + "register_book").then((response) => demoApp.register = response.data);
+
+        $http.get(apiBaseURL + "nav_json").then((response) => demoApp.nav = response.data);
 
     }
 

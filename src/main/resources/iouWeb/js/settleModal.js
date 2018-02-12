@@ -16,12 +16,17 @@ angular.module('demoAppModule').controller('SettleModalCtrl', function($http, $u
 
             const id = settleModal.id;
             const amount = settleModal.form.amount;
-
             $uibModalInstance.close();
 
-            const issueIOUEndpoint =
+       const issueIOUEndpoint =
                 apiBaseURL +
                 `settle-iou?id=${id}&amount=${amount}`;
+
+                       /* const issueIOUEndpoint =
+                                apiBaseURL +
+                                `settle-iou?id=${id}`;*/
+
+
 
             $http.get(issueIOUEndpoint).then(
                 (result) => settleModal.displayMessage(result),

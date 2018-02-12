@@ -40,6 +40,12 @@
       z-index: 900;
     }
     </style>
+
+    <style>
+    table, th, td {
+                    border: 1px solid #becfde;
+                 }
+     </style>
 </head>
 <!--script>var todayDate= new Date().toISOString().slice(0,10);
 document.getElementById("txndate").innerHTML=todayDate;z
@@ -47,11 +53,11 @@ var random=parseInt(Math.random()*20);
 document.getElementById("txnid").innerHTML=todayDate;
 
 </script> -->
-<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp" style="background-image: url('hsbc-logo.jpg');width:100% ,height:100%">
+<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp" background="thrive.png">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Smart Trasfer Agent    :</span>
+            <span class="mdl-layout-title">Smart Transfer Agent    :</span>
             <div class="mdl-layout-spacer">
 
             </div>
@@ -68,7 +74,8 @@ document.getElementById("txnid").innerHTML=todayDate;
     </header>
     <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-            <img src="images/user.jpg" class="demo-avatar">
+            <img ng-show="demoApp.thisNode=='CN=UH00001,O=NodeC'" src="images/user.jpg" class="demo-avatar">
+            <img ng-show="demoApp.thisNode=='CN=UH00002,O=NodeD'" src="images/User2.jpg" class="demo-avatar">
             <div class="demo-avatar-dropdown">
                 <span>{{demoApp.thisNode}}</span>
                 <!--      <div class="mdl-layout-spacer"></div>
@@ -84,12 +91,11 @@ document.getElementById("txnid").innerHTML=todayDate;
      </div>
  </header>
  <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-     <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-     <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Portfolio</a>
-     <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>Transaction</a>
-     <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">Buy</button>
-     <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">Sell</button>
-     <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Transaction History</a>
+     <a class="mdl-navigation__link" href="investor.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
+     <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Transaction</a>
+     <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">SUBSCRIBE</button>
+     <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">REDEEM</button>
+     <a class="mdl-navigation__link" href="Transaction_history.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Transaction History</a>
      <div class="mdl-layout-spacer"></div>
      <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
  </nav>
@@ -142,7 +148,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                 <div class="alert alert-danger" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span>
-                    Enter valid IOU creation parameters
+                    Enter valid Amount value
                 </div>
             </div>
         </div>
@@ -250,7 +256,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         ng-options="peer as peer for peer in transferModal.peers">
                 </select>-->
                 <select id="kycPref" ng-model="transferModal.form.kycstatus">
-                    <option value="yes">Yes</option>      <!--creating a dummy attribute -->
+                    <option value="Yes">Yes</option>      <!--creating a dummy attribute -->
                     <option value="no">No</option>
                 </select>
             </div>
@@ -350,49 +356,54 @@ document.getElementById("txnid").innerHTML=todayDate;
                         </div>
                         <div ng-show="demoApp.ious.length" class="panel panel-primary">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Total Holding:</h3>
+                                <h3 class="panel-title">Unit Balance:</h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table">
                                     <thead>
+                                   <!-- <style>
+                                            th {
+                                                text-align: right;
+                                               }
+
+                                    </style>-->
                                     <tr>
                                         <th>Fund ID</th>
-                                        <th>Total Holding</th>
-                                        <th>Blocked Holding</th>
-                                        <th>Current Holding</th>
+                                        <th>Total Units</th>
+                                        <th>Blocked Units</th>
+                                        <th>Available Units</th>
 
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr  >
                                         <td class="vert-align">HKIV01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[0]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[4]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[8]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[0]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[4]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[8]}}</td>
                                         <!--  <td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
                                         <td class="vert-align">DBKS01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[1]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[5]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[9]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[1]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[5]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[9]}}</td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">DBKS02</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[2]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[6]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[10]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[2]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[6]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[10]}}</td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">LUKT01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[3]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[7]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[11]}}</td>
-                                        <td class="vert-align"></td>
+                                        <td align="right">{{demoApp.holding.split(',')[3]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[7]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[11]}}</td>
                                     </tr>
                                     <!-- <td class="vert-align">{{iou.paid}}</td>-->
                                     <!-- <td>
@@ -411,6 +422,115 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <div class="col-md-1"></div>
 
                 </div>
+
+            <!-- This is where Rohan has started -->
+            <!--<div class="demo-charts mdl-color&#45;&#45;white mdl-shadow&#45;&#45;2dp mdl-cell mdl-cell&#45;&#45;12-col mdl-grid">
+
+                <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">There are no recorded Trades</h3>
+                    </div>
+                    <div class="panel-body">Use the "Buy/Sell" button to send an Trade to a Transfer Agent.</div>
+                </div>
+                <div ng-show="demoApp.ious.length" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Transaction Register:</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Investor ID</th>
+                                <th>Fund</th>
+                                <th>Total Amount </th>
+                                <th>Total Units</th>
+                                <th>Percentage</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr >
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[0]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[2]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[3]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[4]}}</td>
+                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[5]}}</td>
+                                &lt;!&ndash;  <td class="vert-align"></td>&ndash;&gt;
+                            </tr>
+                            <tr>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[6]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[8]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[9]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[10]}}</td>
+                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[11]}}</td>
+                                &lt;!&ndash;<td class="vert-align"></td>&ndash;&gt;
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[12]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[14]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[15]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[16]}}</td>
+                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[17]}}</td>
+                                &lt;!&ndash;<td class="vert-align"></td>&ndash;&gt;
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[18]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[20]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[21]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[22]}}</td>
+                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[23]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[24]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[26]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[27]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[28]}}</td>
+                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[29]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[30]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[32]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[33]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[34]}}</td>
+                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[35]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[36]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[38]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[39]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[40]}}</td>
+                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[41]}}</td>
+                            </tr>
+                            <tr>
+
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[42]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[44]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[45]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[46]}}</td>
+                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[47]}}</td>
+                            </tr>
+                            &lt;!&ndash; <td class="vert-align">{{iou.paid}}</td>&ndash;&gt;
+                            &lt;!&ndash; <td>
+                                 <div class="btn-group" role="group">
+                                     <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
+                                     </button>
+                                     &lt;!&ndash;<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
+                                     </button>&ndash;&gt;
+                                 </div>
+                             </td>&ndash;&gt;
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>-->
+        </div>
 
             <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 
@@ -451,25 +571,22 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="iou in demoApp.ious"  >
+                                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus!='Settled'">
                                         <td class="vert-align">{{iou.lender}}</td>
                                         <td class="vert-align">{{iou.borrower}}</td>
                                         <td class="vert-align">{{iou.linearId.id}}</td>
                                         <td class="vert-align">{{iou.txType}}</td>
                                         <td class="vert-align">{{iou.fundId}}</td>
                                         <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
-                                        <td class="vert-align">{{iou.nav}}</td>
-                                        <td class="vert-align">{{iou.transactionAmount}}</td>
-                                        <td class="vert-align">{{iou.units}}</td>
+                                        <td align="right">{{iou.nav}}</td>
+                                        <td align="right">{{iou.transactionAmount}}</td>
+                                        <td align="right">{{iou.units}}</td>
                                         <td class="vert-align">{{iou.kycValidated}}</td>
                                         <td class="vert-align">{{iou.txnStatus}}</td>
                                         <td class="vert-align">{{iou.ccy}}</td>
-                                        <td class="vert-align">{{iou.amountPaid}}</td>
-
+                                        <td align="right">{{iou.amountPaid}}</td>
                                         <td class="vert-align">{{iou.transactiondate}}</td>
-                                        <td class="vert-align"></td>
-                                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
-                                        <td>
+                                        <!--<td>
                                             <div class="btn-group" role="group">
                                                 <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && iou.txnStatus=='PEND'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
                                                 </button>
@@ -477,11 +594,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                                 </button>
                                                 <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && (iou.txnStatus=='PartialSettled' || iou.txnStatus=='ALLOTED') " ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Amount
                                                 </button>
-
-                                                <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
-                                                </button>-->
                                             </div>
-                                        </td>
+                                        </td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -490,7 +604,6 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <div class="col-md-1"></div>
 
                 </div>
-
     </main>
 
 

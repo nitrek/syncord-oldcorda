@@ -44,7 +44,7 @@ class TotalPosition() : FlowLogic<String>() {
         var sumDBKS02 = 0.0f
         var sumLUKT01 = 0.0f
 
-        //Blocked holding at the time of redumption
+        //Blocked holding at the time of REDEMPTION
 
         var blockedHKIV01 = 0.0f
         var blockedDBKS01 = 0.0f
@@ -76,7 +76,7 @@ class TotalPosition() : FlowLogic<String>() {
                     sumHKIV01 = sumHKIV01 + transactionamount
 
                 } else {
-                    if (transactiontype == "REDUMPTION") {
+                    if (transactiontype == "REDEMPTION") {
                         if (transactionstatus == "Settled") {
                             sumHKIV01 = sumHKIV01 - transactionamount
                         } else {
@@ -94,7 +94,7 @@ class TotalPosition() : FlowLogic<String>() {
                     // sumDBKS01.add(transactionamount)
                     sumDBKS01 = sumDBKS01 + transactionamount
                 } else {
-                    if (transactiontype == "REDUMPTION") {
+                    if (transactiontype == "REDEMPTION") {
                         if (transactionstatus == "Settled") {
                             sumDBKS01 = sumDBKS01 - transactionamount
                         } else {
@@ -114,7 +114,7 @@ class TotalPosition() : FlowLogic<String>() {
                     // sumDBKS02.add(transactionamount)
                     sumDBKS02 = sumDBKS02 + transactionamount
                 } else {
-                    if (transactiontype == "REDUMPTION") {
+                    if (transactiontype == "REDEMPTION") {
                         if (transactionstatus == "Settled") {
                             sumDBKS02 = sumDBKS02 - transactionamount
                         } else {
@@ -134,7 +134,7 @@ class TotalPosition() : FlowLogic<String>() {
                     sumLUKT01 = sumLUKT01 + transactionamount
 
                 } else {
-                    if (transactiontype == "REDUMPTION") {
+                    if (transactiontype == "REDEMPTION") {
 
                         if (transactionstatus == "Settled") {
                             sumLUKT01 = sumLUKT01 - transactionamount
