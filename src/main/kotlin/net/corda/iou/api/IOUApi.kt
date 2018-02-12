@@ -140,7 +140,7 @@ class IOUApi(val services: CordaRPCOps) {
     // Redumtion API
 
     @GET
-    @Path("redumption-iou")
+    @Path("REDEMPTION-iou")
     fun issueIOU(
             @QueryParam(value = "fundId") fundId: String,
             @QueryParam(value = "Unit") units: Float
@@ -155,7 +155,7 @@ class IOUApi(val services: CordaRPCOps) {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)
        // val txType="Redemption"
-        val txType="REDUMPTION"
+        val txType="REDEMPTION"
         val transactionAmount=0
         val txnId = 1009;
         val investorId = "UH00001";
@@ -308,6 +308,20 @@ class IOUApi(val services: CordaRPCOps) {
     fun register_book(): Response {
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(Register::class.java)
+            var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
+            Response.Status.CREATED to totalholding
+        } catch (e: Exception) {
+            Response.Status.BAD_REQUEST to e.message
+        }
+
+        return Response.status(status).entity(message).build()
+    }
+
+    @GET
+    @Path("nav_json")
+    fun nav_json(): Response {
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(nav::class.java)
             var totalholding=flowHandle.use { flowHandle.returnValue.getOrThrow() }
             Response.Status.CREATED to totalholding
         } catch (e: Exception) {

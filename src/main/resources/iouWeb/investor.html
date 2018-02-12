@@ -40,6 +40,12 @@
       z-index: 900;
     }
     </style>
+
+    <style>
+    table, th, td {
+                    border: 1px solid #becfde;
+                 }
+     </style>
 </head>
 <!--script>var todayDate= new Date().toISOString().slice(0,10);
 document.getElementById("txndate").innerHTML=todayDate;z
@@ -47,11 +53,11 @@ var random=parseInt(Math.random()*20);
 document.getElementById("txnid").innerHTML=todayDate;
 
 </script> -->
-<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp" style="background-image: url('hsbc-logo.jpg');width:100% ,height:100%">
+<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp" background="thrive.png">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Smart Trasfer Agent    :</span>
+            <span class="mdl-layout-title">Smart Transfer Agent    :</span>
             <div class="mdl-layout-spacer">
 
             </div>
@@ -251,7 +257,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         ng-options="peer as peer for peer in transferModal.peers">
                 </select>-->
                 <select id="kycPref" ng-model="transferModal.form.kycstatus">
-                    <option value="yes">Yes</option>      <!--creating a dummy attribute -->
+                    <option value="Yes">Yes</option>      <!--creating a dummy attribute -->
                     <option value="no">No</option>
                 </select>
             </div>
@@ -351,11 +357,17 @@ document.getElementById("txnid").innerHTML=todayDate;
                         </div>
                         <div ng-show="demoApp.ious.length" class="panel panel-primary">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Total Holding:</h3>
+                                <h3 class="panel-title">Total Units:</h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table">
                                     <thead>
+                                   <!-- <style>
+                                            th {
+                                                text-align: right;
+                                               }
+
+                                    </style>-->
                                     <tr>
                                         <th>Fund ID</th>
                                         <th>Total Holding</th>
@@ -367,33 +379,32 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     <tbody>
                                     <tr  >
                                         <td class="vert-align">HKIV01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[0]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[4]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[8]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[0]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[4]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[8]}}</td>
                                         <!--  <td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
                                         <td class="vert-align">DBKS01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[1]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[5]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[9]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[1]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[5]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[9]}}</td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">DBKS02</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[2]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[6]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[10]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[2]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[6]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[10]}}</td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">LUKT01</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[3]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[7]}}</td>
-                                        <td class="vert-align">{{demoApp.holding.split(',')[11]}}</td>
-                                        <td class="vert-align"></td>
+                                        <td align="right">{{demoApp.holding.split(',')[3]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[7]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[11]}}</td>
                                     </tr>
                                     <!-- <td class="vert-align">{{iou.paid}}</td>-->
                                     <!-- <td>
@@ -561,25 +572,22 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="iou in demoApp.ious"  >
+                                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus!='Settled'">
                                         <td class="vert-align">{{iou.lender}}</td>
                                         <td class="vert-align">{{iou.borrower}}</td>
                                         <td class="vert-align">{{iou.linearId.id}}</td>
                                         <td class="vert-align">{{iou.txType}}</td>
                                         <td class="vert-align">{{iou.fundId}}</td>
                                         <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
-                                        <td class="vert-align">{{iou.nav}}</td>
-                                        <td class="vert-align">{{iou.transactionAmount}}</td>
-                                        <td class="vert-align">{{iou.units}}</td>
+                                        <td align="right">{{iou.nav}}</td>
+                                        <td align="right">{{iou.transactionAmount}}</td>
+                                        <td align="right">{{iou.units}}</td>
                                         <td class="vert-align">{{iou.kycValidated}}</td>
                                         <td class="vert-align">{{iou.txnStatus}}</td>
                                         <td class="vert-align">{{iou.ccy}}</td>
-                                        <td class="vert-align">{{iou.amountPaid}}</td>
-
+                                        <td align="right">{{iou.amountPaid}}</td>
                                         <td class="vert-align">{{iou.transactiondate}}</td>
-                                        <td class="vert-align"></td>
-                                        <!-- <td class="vert-align">{{iou.paid}}</td>-->
-                                        <td>
+                                        <!--<td>
                                             <div class="btn-group" role="group">
                                                 <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && iou.txnStatus=='PEND'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
                                                 </button>
@@ -587,11 +595,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                                 </button>
                                                 <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && (iou.txnStatus=='PartialSettled' || iou.txnStatus=='ALLOTED') " ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Amount
                                                 </button>
-
-                                                <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
-                                                </button>-->
                                             </div>
-                                        </td>
+                                        </td>-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -600,13 +605,6 @@ document.getElementById("txnid").innerHTML=todayDate;
                         <div class="col-md-1"></div>
 
                 </div>
-        </div>
-
-
-
-
-
-
     </main>
 
 

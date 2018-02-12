@@ -102,7 +102,7 @@ object IOUTransferFlow {
             //val a :IOUState = iouToSettle.state.data.updateTxansactionDate(CBD)
             //val finala:IOUState;
 
-            if(kycStatus.equals("yes"))
+            if(kycStatus.toLowerCase().equals("yes"))
                 finalState = votedIOU.updateTransactionStatus("APPROVED")
 
             else

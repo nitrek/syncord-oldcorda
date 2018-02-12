@@ -66,7 +66,10 @@ object IOUSettleFlow {
             builder.addInputState(iouToSettle)
             val type = iouToSettle.state.data.txType
 
+
             if (type =="SUBSCRIPTION"){
+
+
 
                 // Step 7. Only add an output IOU state of the IOU has not been fully settled
                 val votedIOU: IOUState = iouToSettle.state.data.updateNav(navValue)

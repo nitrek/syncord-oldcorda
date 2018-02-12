@@ -173,7 +173,7 @@ class Register() : FlowLogic<String>() {
                         sumHKIV01unitsiv1 = sumHKIV01unitsiv1 +units
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
 
                                 //substraction of transaction amount
@@ -201,7 +201,7 @@ class Register() : FlowLogic<String>() {
 
                         sumDBKS01unitsiv1 = sumDBKS01unitsiv1 +units
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
                                 sumDBKS01iv1 = sumDBKS01iv1 - transactionamount
 
@@ -227,7 +227,7 @@ class Register() : FlowLogic<String>() {
 
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
                                 sumDBKS02iv1 = sumDBKS02iv1 - transactionamount
 
@@ -251,7 +251,7 @@ class Register() : FlowLogic<String>() {
                         sumLUKT01unitsiv1 = sumLUKT01unitsiv1 + units
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
 
                             if (transactionstatus == "Settled") {
                                 sumLUKT01iv1 = sumLUKT01iv1 - transactionamount
@@ -282,7 +282,7 @@ class Register() : FlowLogic<String>() {
                         sumHKIV01unitsiv2 = sumHKIV01unitsiv2 + units
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
                                 sumHKIV01iv2 = sumHKIV01iv2 - transactionamount
 
@@ -305,7 +305,7 @@ class Register() : FlowLogic<String>() {
                         sumDBKS01unitsiv2 += units
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
                                 sumDBKS01iv2 = sumDBKS01iv2 - transactionamount
 
@@ -329,7 +329,7 @@ class Register() : FlowLogic<String>() {
 
                         sumDBKS02unitsiv2 += units
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
                             if (transactionstatus == "Settled") {
                                 sumDBKS02iv2 = sumDBKS02iv2 - transactionamount
 
@@ -355,7 +355,7 @@ class Register() : FlowLogic<String>() {
                         sumLUKT01unitsiv2 += sumLUKT01unitsiv2
 
                     } else {
-                        if (transactiontype == "REDUMPTION") {
+                        if (transactiontype == "REDEMPTION") {
 
                             if (transactionstatus == "Settled") {
                                 sumLUKT01iv2 = sumLUKT01iv2 - transactionamount
