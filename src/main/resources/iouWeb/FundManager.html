@@ -91,12 +91,11 @@ document.getElementById("txnid").innerHTML=todayDate;
             </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Portfolio</a>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>Transaction</a>
-            <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">Buy</button>
-            <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">Sell</button>
-            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Transaction History</a>
+            <a class="mdl-navigation__link" href="FundManager.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
+
+            <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.openCreateIOUModal()" type="button" class="btn btn-primary navbar-btn">SUBSCRIBE</button>
+            <button ng-show="demoApp.thisNode!='CN=FM,O=NodeB'" ng-click="demoApp.opensellModal()" type="button" class="btn btn-primary navbar-btn">REDEEM</button>
+            <a class="mdl-navigation__link" href="Transaction_history.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Transaction History</a>
             <div class="mdl-layout-spacer"></div>
             <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
@@ -357,7 +356,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                 </div>
                 <div ng-show="demoApp.ious.length" class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Total Units:</h3>
+                        <h3 class="panel-title">Unit Balance:</h3>
                     </div>
                     <div class="panel-body">
                         <table class="table">
