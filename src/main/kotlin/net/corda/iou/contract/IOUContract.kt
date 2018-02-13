@@ -28,6 +28,7 @@ class IOUContract : Contract {
         class Issue : TypeOnlyCommandData(), Commands
         class Transfer : TypeOnlyCommandData(), Commands
         class Settle : TypeOnlyCommandData(), Commands
+        class NAV : TypeOnlyCommandData(), Commands
     }
 
     /**
@@ -58,48 +59,10 @@ class IOUContract : Contract {
 //                                output.participants.map { it.owningKey }.toSet()))
             }
             is Commands.Settle -> {
-                // Check there is only one group of IOUs and that there is always an input IOU.
-               /* val ious: InOutGroup<IOUState, UniqueIdentifier> = tx.groupStates<IOUState, UniqueIdentifier> { it.linearId }.single()
-                require(ious.inputs.size == 1) { "There must be one input IOU." }
 
-                // Check there are output cash states.
-                val cash = tx.outputs.filterIsInstance<Cash.State>()
-                require(cash.isNotEmpty()) { "There must be output cash." }
+            }
+            is Commands.NAV -> {
 
-                // Check that the cash is being assigned to us.
-                val inputIou = ious.inputs.single()
-                val acceptableCash = cash.filter { it.owner == inputIou.lender }
-                require(acceptableCash.isNotEmpty()) { "There must be output cash paid to the recipient." }
-
-                // Sum the cash being sent to us (we don't care about the issuer).
-                val sumAcceptableCash = acceptableCash.sumCash().withoutIssuer()
-                //val amountOutstanding = inputIou.amount - inputIou.paid
-                //require(amountOutstanding >= sumAcceptableCash) { "The amount settled cannot be more than the amount outstanding." }
-
-                // Check to see if we need an output IOU or not.
-                if (amountOutstanding == sumAcceptableCash) {
-                    // If the IOU has been fully settled then there should be no IOU output state.
-                    require(ious.outputs.isEmpty()) { "There must be no output IOU as it has been fully settled." }
-                } else {
-                    // If the IOU has been partially settled then it should still exist.
-                    require(ious.outputs.size == 1) { "There must be one output IOU." }
-
-                    // Check only the paid property changes.
-                    val outputIou = ious.outputs.single()
-                    requireThat {
-                        "The amount may not change when settling." using (inputIou.amount == outputIou.amount)
-                        "The borrower may not change when settling." using (inputIou.borrower == outputIou.borrower)
-                        "The lender may not change when settling." using (inputIou.lender == outputIou.lender)
-                        "The linearId may not change when settling." using (inputIou.linearId == outputIou.linearId)
-                    }
-
-                    // Check the paid property is updated correctly.
-                    //require(outputIou.paid == inputIou.paid + sumAcceptableCash) { "Paid property incorrectly updated." }
-                }
-
-                // Checks the required parties have signed.
-                "Both lender and borrower together only must sign IOU settle transaction." using
-                        (command.signers.toSet() == inputIou.participants.map { it.owningKey }.toSet())*/
             }
         }
     }

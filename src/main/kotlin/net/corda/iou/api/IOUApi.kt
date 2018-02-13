@@ -13,6 +13,7 @@ import net.corda.core.random63BitValue
 import net.corda.core.serialization.makeNoWhitelistClassResolver
 import net.corda.iou.flow.*
 import net.corda.iou.state.IOUState
+import net.corda.iou.state.IOUState_NAV
 import org.apache.commons.math.random.RandomData
 import org.bouncycastle.asn1.x500.X500Name
 import org.jetbrains.exposed.sql.Date
@@ -330,6 +331,48 @@ class IOUApi(val services: CordaRPCOps) {
 
         return Response.status(status).entity(message).build()
     }
+
+
+    //TO extract the nav from NAV node
+
+    @GET
+    @Path("issue-nav")
+    fun issueNAV(
+            @QueryParam(value = "fundId") fundId: String,
+            @QueryParam(value = "nav") nav: Float
+    ): Response {
+
+        val tAgent1= "CN=TA,O=NodeA";
+        val fManager1 = "CN=FM,O=NodeB";
+        val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
+        val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+
+
+
+        val me = services.nodeIdentity().legalIdentity
+
+        val state = IOUState_NAV(fundId,tAgent,fManager,nav,me,formatted)
+
+
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow_NAV.Initiator::class.java, state, tAgent)
+            val result = flowHandle.use { it.returnValue.getOrThrow() }
+            // Return the response.
+            Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
+        } catch (e: Exception) {
+            // For the purposes of this demo app, we do not differentiate by exception type.
+            var message ="some error"
+            if(e.message!=null)
+                message = e.message.toString()
+            Response.Status.CREATED to message.substring(56)
+        }
+
+        return Response.status(status).entity(message).build()
+    }
+
     // Helper method to get just the snapshot portion of an RPC call which also returns an Observable of updates. It's
     // important to unsubscribe from this Observable if we're not going to use it as otherwise we leak resources on the server.
     private val <A> Pair<A, Observable<*>>.justSnapshot: A get() {
