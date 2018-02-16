@@ -102,7 +102,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         advertisedServices = []
         p2pPort 10005
         rpcPort 10006
-        webPort 20001
+        webPort 10007
         cordapps = []
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
@@ -111,27 +111,16 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         advertisedServices = []
         p2pPort 10008
         rpcPort 10009
-            webPort 20002
+        webPort 10010
         cordapps = []
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
-
-    node {
-        name "CN=NAVSYSTEM,O=NodeD"
-        advertisedServices = []
-        p2pPort 10017
-        rpcPort 10018
-        webPort 20003
-        cordapps = []
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
-    }
-
     node {
         name "CN=UH00001,O=NodeC"
         advertisedServices = []
         p2pPort 10011
         rpcPort 10012
-        webPort 20004
+        webPort 10013
         cordapps = []
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
@@ -141,10 +130,20 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         advertisedServices = []
         p2pPort 10014
         rpcPort 10015
-        webPort 20005
+        webPort 10016
         cordapps = []
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
+    node {
+        name "CN=NAVSYSTEM,O=NodeE"
+        advertisedServices = []
+        p2pPort 10017
+        rpcPort 10018
+        webPort 10019
+        cordapps = []
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
+    }
+
 }
 
 idea {

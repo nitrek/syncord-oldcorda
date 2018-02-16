@@ -31,7 +31,7 @@ data class IOUState_NAV(
         val fundId: String,
         val borrower: Party,   //Transfer Agent
         val fundManager: Party,  //FundManager
-        val nav: Float,
+        val nav: String,
         val lender: Party,     //Me the node that  doing the transaction.
         val date :String,
 

@@ -29,6 +29,7 @@ class IOUContract : Contract {
         class Transfer : TypeOnlyCommandData(), Commands
         class Settle : TypeOnlyCommandData(), Commands
         class NAV : TypeOnlyCommandData(), Commands
+        class NAVPublish:TypeOnlyCommandData(), Commands
     }
 
     /**

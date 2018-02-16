@@ -1,0 +1,200 @@
+<!-- Define your frontend here. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>A&V</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src ="js/AandV.js"></script>
+    <script src ="js/javascriptAandV.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    </style>
+
+    <style>
+    table, th, td {
+                    border: 1px solid #becfde;
+                 }
+     </style>
+</head>
+
+<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp">
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Smart Transfer Agent    :</span>
+            <div class="mdl-layout-spacer">
+
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
+                        class="glyphicon glyphicon-refresh"></span></button>
+                <div class="mdl-textfield__expandable-holder">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <header class="demo-drawer-header">
+            <img  src="images/user.jpg" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span>{{demoApp.thisNode}}</span>
+
+            </div>
+        </header>
+
+
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+
+            <a class="mdl-navigation__link" href="investor.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
+
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Transaction</a>
+
+            <a class="mdl-navigation__link" href="Transaction_history.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Transaction History</a>
+
+            <div class="mdl-layout-spacer"></div>
+
+            <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+
+
+
+        </nav>
+    </div>
+
+    <script type="text/ng-template" id="AandVModal.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Update NAV amount</h4>
+        </div>
+        <form>
+            <div class="modal-body">
+
+               <p> Do you want to  Publish Nav to TA ?
+            </div>
+            <div class="modal-footer">
+                <button ng-click="AandVModal.cancel()" type="button" class="btn btn-default">No</button>
+
+                <button ng-click="AandVModal.create()" type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="AandVMsgModal.html">
+        <div class="modal-body" id="AandV-modal-body">
+            {{ AandVMsgModal.message }}
+        </div>
+    </script>
+
+
+
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+
+        <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Transaction Summary:</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Fund Id</th>
+                            <th>Nav Value</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="navTable">
+                        <tr>
+                            <td class="vert-align">HKIV01</td>
+                            <td class="vert-align" id ="HKIV01NavValue"></td>
+                        </tr>
+                        <tr>
+                            <td class="vert-align">DBKS01</td>
+                            <td class="vert-align" id ="DBKS01NavValue"></td>
+                        </tr>
+                        <tr>
+                            <td class="vert-align">DBKS02</td>
+                            <td class="vert-align" id ="DBKS02NavValue"></td>
+                        </tr>
+                        <tr>
+                            <td class="vert-align">LUKT01</td>
+                            <td class="vert-align" id ="LUKT01NavValue"></td>
+                        </tr>
+                        <tr>
+                            <td> </td><td><button ng-click="demoApp.AandVModal()" type="button" class="btn btn-primary navbar-btn">Publish NAV</button></td>
+                        </tr>
+                        <!--
+                           <tr>
+                            <td class="vert-align">{{demoApp.navValues[0].state.data.fundId.split(",")[0]}}</td>
+                            <td class="vert-align">{{demoApp.navValues[0].state.data.fundManager}}</td>
+                            <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.nav.split(",")[0]}}</td>
+                            <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.date}}</td>
+                            <td class="vert-align">{{demoApp.navValues[0].state.data.participants[0].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[1].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[2].split(",")[0].split("=")[1]}}</td>
+                            </tr>
+                           <tr>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundId.split(",")[1]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundManager}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.nav.split(",")[1]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.date}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.participants[0].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[1].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[2].split(",")[0].split("=")[1]}}</td>
+                           </tr>
+                           <tr>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundId.split(",")[2]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundManager}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.nav.split(",")[2]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.date}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.participants[0].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[1].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[2].split(",")[0].split("=")[1]}}</td>
+                           </tr>
+                           <tr>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundId.split(",")[3]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.fundManager}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.nav.split(",")[3]}}</td>
+                               <td class="vert-align">{{demoApp.navValues[demoApp.navValues.length-1].state.data.date}}</td>
+                               <td class="vert-align">{{demoApp.navValues[0].state.data.participants[0].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[1].split(",")[0].split("=")[1]}},{{demoApp.navValues[0].state.data.participants[2].split(",")[0].split("=")[1]}}</td>
+                           </tr>
+                           -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+
+        </div>
+        </div>
+    </main>
+
+
+
+
+
+</div>
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</body>
+</html>

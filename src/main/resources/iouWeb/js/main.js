@@ -4,8 +4,8 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10013/api/iou/";
-   const apiBaseURL = "/api/iou/";
+    const apiBaseURL = "http://localhost:10019/api/iou/";
+    //const apiBaseURL = "/api/iou/";
 
 
     // Retrieves the identity of this and other nodes.
@@ -106,6 +106,19 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
             sellModal.result.then(() => { }, () => { });
         };
 
+        demoApp.AandVModal = () => {
+                    const AandV = $uibModal.open({
+                        templateUrl: 'AandVModal.html',
+                        controller: 'AandVCtrl',
+                        controllerAs: 'AandVModal',
+                        resolve: {
+                            apiBaseURL: () => apiBaseURL
+                        }
+                    });
+
+                    AandV.result.then(() => { }, () => { });
+                };
+
     /** Refreshes the front-end. */
     demoApp.refresh = () => {
         // Update the list of IOUs.
@@ -114,8 +127,22 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
         $http.get(apiBaseURL + "total_holding").then((response) => demoApp.holding = response.data);
 
         $http.get(apiBaseURL + "register_book").then((response) => demoApp.register = response.data);
-
+/*
+        Need to remove this after this change*/
         $http.get(apiBaseURL + "nav_json").then((response) => demoApp.nav = response.data);
+
+         $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data);
+//nav
+/*
+        var x = Math.round((Math.random() * 1000) + 1,2)/100;
+        document.getElementById("HKIV01NavValue").innerHTML = x;
+        var x = Math.round((Math.random() * 10000) + 4,2)/100;
+        document.getElementById("DBKS01NavValue").innerHTML = x;
+        var x = Math.round((Math.random() * 1000) + 6,2)/100;
+        document.getElementById("DBKS02NavValue").innerHTML = x;
+        var x = Math.round((Math.random() * 100) + 1,2)/100;
+        document.getElementById("LUKT01NavValue").innerHTML = x;
+*/
 
     }
 

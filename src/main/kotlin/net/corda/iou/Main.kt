@@ -27,15 +27,17 @@ fun main(args: Array<String>) {
     val user = User("user1", "test", permissions = setOf())
     driver(isDebug = true) {
         startNode(X500Name("CN=Controller,O=R3,OU=corda,L=London,C=UK"), setOf(ServiceInfo(SimpleNotaryService.type)))
-        val (nodeA, nodeB, nodeC, nodeD) = Futures.allAsList(
+        val (nodeA, nodeB, nodeC, nodeD ,nodeE) = Futures.allAsList(
                 startNode(X500Name("CN=TA,O=NodeA"), rpcUsers = listOf(user)),
                 startNode(X500Name("CN=FM,O=NodeB"), rpcUsers = listOf(user)),
                 startNode(X500Name("CN=UH00001,O=NodeC"), rpcUsers = listOf(user)),
-                startNode(X500Name("CN=UH00002,O=NodeD"), rpcUsers = listOf(user))).getOrThrow()
+                startNode(X500Name("CN=UH00002,O=NodeD"), rpcUsers = listOf(user)),
+                startNode(X500Name("CN=NAVSYSTEM,O=NodeE"), rpcUsers = listOf(user))).getOrThrow()
         startWebserver(nodeA)
         startWebserver(nodeB)
         startWebserver(nodeC)
         startWebserver(nodeD)
+        startWebserver(nodeE)
         waitForAllNodesToFinish()
     }
 }

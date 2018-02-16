@@ -92,6 +92,21 @@ class IOUApi(val services: CordaRPCOps) {
     }
 
     @GET
+    @Path("updateNav")
+    fun updateNav(@QueryParam(value = "fundid") fundId: String,
+                  @QueryParam(value = "navValue") navValues: String): Response {
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(UpdateNavFlow.Initiator::class.java, fundId,navValues)
+            flowHandle.use { flowHandle.returnValue.getOrThrow() }
+            Response.Status.CREATED to "Nav Applied"+ fundId + navValues
+        } catch (e: Exception) {
+            Response.Status.BAD_REQUEST to e.message
+        }
+
+        return Response.status(status).entity(message).build()
+    }
+
+    @GET
     @Path("issue-iou")
     fun issueIOU(
                  @QueryParam(value = "fundId") fundId: String,
@@ -334,12 +349,16 @@ class IOUApi(val services: CordaRPCOps) {
 
 
     //TO extract the nav from NAV node
+    val random = Random()
 
+    fun rand(from: Float, to: Float) : Float {
+        return from + random.nextFloat() * (from - to);
+    }
     @GET
     @Path("issue-nav")
     fun issueNAV(
             @QueryParam(value = "fundId") fundId: String,
-            @QueryParam(value = "nav") nav: Float
+            @QueryParam(value = "nav") nav: String
     ): Response {
 
         val tAgent1= "CN=TA,O=NodeA";
@@ -347,21 +366,29 @@ class IOUApi(val services: CordaRPCOps) {
         val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
         val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd,HH:mm:ss")
         val formatted = current.format(formatter)
 
 
 
         val me = services.nodeIdentity().legalIdentity
-
-        val state = IOUState_NAV(fundId,tAgent,fManager,nav,me,formatted)
-
-
+//""+rand(8.1f,11.2f)+","+rand(15.1f,18.2f)+","+rand(15.1f,18.2f)+","+rand(15.1f,18.2f)
+        val state1 = IOUState_NAV("HKIV01"+","+"DBKS01"+","+"DBKS02"+","+"LUKT01",tAgent,fManager,nav,me,formatted)
+        //val state2 = IOUState_NAV("DBKS01",tAgent,fManager,rand(15.1f,18.2f),me,formatted)
+        //val state3 = IOUState_NAV("DBKS02",tAgent,fManager,rand(50.1f,55.2f),me,formatted)
+        //val state4 = IOUState_NAV("LUKT01",tAgent,fManager,rand(105.5f,110.4f),me,formatted)
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow_NAV.Initiator::class.java, state, tAgent)
-            val result = flowHandle.use { it.returnValue.getOrThrow() }
+            var flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow_NAV.Initiator::class.java, state1, tAgent)
+            var result = flowHandle.use { it.returnValue.getOrThrow() }
+            var msg = "Nav for ${result.id} "
+            /* flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow_NAV.Initiator::class.java, state3, tAgent)
+             result = flowHandle.use { it.returnValue.getOrThrow() }
+            msg = msg + ", ${result.id}"
+             flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow_NAV.Initiator::class.java, state4, tAgent)
+             result = flowHandle.use { it.returnValue.getOrThrow() }
+            msg = msg + ", ${result.id} Updated Successfully"*/
             // Return the response.
-            Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
+            Response.Status.CREATED to "Nav for HKIV01,DBKS01,DBKS02,LUKT01 Published Successfully"
         } catch (e: Exception) {
             // For the purposes of this demo app, we do not differentiate by exception type.
             var message ="some error"
@@ -373,10 +400,24 @@ class IOUApi(val services: CordaRPCOps) {
         return Response.status(status).entity(message).build()
     }
 
+
+    @GET
+    @Path("navvalues")
+    @Produces(MediaType.APPLICATION_JSON)
+            // Filter by state type: IOU.
+    fun navValues(): List<StateAndRef<ContractState>> {
+        return services.vaultAndUpdates().justSnapshot.filter { it.state.data is IOUState_NAV }
+    }
+
+
+
+
     // Helper method to get just the snapshot portion of an RPC call which also returns an Observable of updates. It's
     // important to unsubscribe from this Observable if we're not going to use it as otherwise we leak resources on the server.
     private val <A> Pair<A, Observable<*>>.justSnapshot: A get() {
         second.notUsed()
         return first
     }
+
+
 }
