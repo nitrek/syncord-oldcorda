@@ -7,11 +7,11 @@ xhttp.onreadystatechange = function() {
   		resp = JSON.parse(xhttp.responseText);
   		if (typeof avl != 'undefined') {
         var navValues =resp[resp.length-1].state.data.nav;
-       document.getElementById('HKIV01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[0]) * parseFloat(avl.split(",")[0])*100) /100;
-       document.getElementById('DBKS01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[1]) * parseFloat(avl.split(",")[1])*100) /100;
-       document.getElementById('DBKS02NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[2]) * parseFloat(avl.split(",")[2])*100) /100;
-       document.getElementById('LUKT01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[3]) * parseFloat(avl.split(",")[3])*100) / 100;
-       document.getElementById('navUpdateTime').innerHTML  = resp[1].state.data.date;
+       document.getElementById('HKIV01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[0]) * parseFloat(avl.split(",")[8])*100) /100;
+       document.getElementById('DBKS01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[1]) * parseFloat(avl.split(",")[9])*100) /100;
+       document.getElementById('DBKS02NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[2]) * parseFloat(avl.split(",")[10])*100) /100;
+       document.getElementById('LUKT01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[3]) * parseFloat(avl.split(",")[11])*100) / 100;
+       document.getElementById('navUpdateTime').innerHTML  = resp[resp.length-1].state.data.date;
   		}
     }
 };
@@ -23,11 +23,11 @@ xhttp1.onreadystatechange = function() {
        avl = xhttp1.responseText;
        if (typeof resp != 'undefined') {
        var navValues =resp[resp.length-1].state.data.nav;
-       document.getElementById('HKIV01NavValue').innerHTML = parseFloat(navValues.split(",")[0]) * parseFloat(avl.split(",")[0]);
-       document.getElementById('DBKS01NavValue').innerHTML = parseFloat(navValues.split(",")[1]) * parseFloat(avl.split(",")[1]);
-       document.getElementById('DBKS02NavValue').innerHTML = parseFloat(navValues.split(",")[2]) * parseFloat(avl.split(",")[2]);
-       document.getElementById('LUKT01NavValue').innerHTML = parseFloat(navValues.split(",")[3]) * parseFloat(avl.split(",")[3]);
-       document.getElementById('navUpdateTime').innerHTML = resp[1].state.data.date;
+       document.getElementById('HKIV01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[0]) * parseFloat(avl.split(",")[8])*100) /100;
+       document.getElementById('DBKS01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[1]) * parseFloat(avl.split(",")[9])*100) /100;
+       document.getElementById('DBKS02NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[2]) * parseFloat(avl.split(",")[10])*100) /100;
+       document.getElementById('LUKT01NavValue').innerHTML = Math.round(parseFloat(navValues.split(",")[3]) * parseFloat(avl.split(",")[11])*100) / 100;
+       document.getElementById('navUpdateTime').innerHTML = resp[resp.length-1].state.data.date;
    }
     }
 };

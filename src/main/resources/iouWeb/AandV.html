@@ -52,8 +52,16 @@
             <div class="mdl-layout-spacer">
 
             </div>
+            <div>Auto Refresh Interval <select id="autorefresh" onchange="select_autoRefresh()">
+  <option value="1000">1 Sec</option>
+  <option value="5000">5 Sec</option>
+  <option value="10000">10 Sec</option>
+  <option value="20000">20 Sec</option>
+  <option value="60000" selected>60 Sec</option>
+  <option value="10000000">Never</option>
+</select> </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
+                <button onclick="navValue()" type="button" class="btn btn-default navbar-btn"><span
                         class="glyphicon glyphicon-refresh"></span></button>
                 <div class="mdl-textfield__expandable-holder">
                 </div>
