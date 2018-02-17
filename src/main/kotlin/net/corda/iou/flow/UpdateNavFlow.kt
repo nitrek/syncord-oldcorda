@@ -61,9 +61,9 @@ object UpdateNavFlow {
             val navValueParsed = navValue.split(",")
 
 
-          //  for (i in iouStates) {
+            for (i in iouStates) {
 
-                val navStates = iouStates[iouStates.keys.last()] ?: throw IllegalArgumentException("Could not map IOU's")
+                val navStates = iouStates[i.key] ?: throw IllegalArgumentException("Could not map IOU's")
                 val counterparty = navStates.state.data.lender
                 progressTracker.currentStep = BUILDING
                 val notary = navStates.state.notary
@@ -102,6 +102,7 @@ object UpdateNavFlow {
                 progressTracker.currentStep = FINALISING
 
                 subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
+                }
                 return "done";
             }
         }

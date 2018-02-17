@@ -4,8 +4,8 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
     const demoApp = this;
 
-    const apiBaseURL = "http://localhost:10019/api/iou/";
-    //const apiBaseURL = "/api/iou/";
+    //const apiBaseURL = "http://localhost:10019/api/iou/";
+    const apiBaseURL = "/api/iou/";
 
 
     // Retrieves the identity of this and other nodes.
@@ -133,17 +133,6 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 
          $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data);
 //nav
-/*
-        var x = Math.round((Math.random() * 1000) + 1,2)/100;
-        document.getElementById("HKIV01NavValue").innerHTML = x;
-        var x = Math.round((Math.random() * 10000) + 4,2)/100;
-        document.getElementById("DBKS01NavValue").innerHTML = x;
-        var x = Math.round((Math.random() * 1000) + 6,2)/100;
-        document.getElementById("DBKS02NavValue").innerHTML = x;
-        var x = Math.round((Math.random() * 100) + 1,2)/100;
-        document.getElementById("LUKT01NavValue").innerHTML = x;
-*/
-
     }
 
     demoApp.refresh();
