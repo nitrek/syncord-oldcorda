@@ -127,7 +127,7 @@ class IOUApi(val services: CordaRPCOps) {
         val investorId = "UH00001";
         val nav=  0.0f;
         val units= 0.0f;
-        val txStat= "PEND"
+        var txStat= "PEND"
         if(kycValid =="Yes"){
             txStat ="APPROVED"
         }
@@ -180,7 +180,7 @@ class IOUApi(val services: CordaRPCOps) {
         val txnId = 1009;
         val investorId = "UH00001";
         val nav=  0.0f;
-        val txStat= "PEND"
+        var txStat= "PEND"
         if(kycValid =="Yes"){
             txStat ="APPROVED"
         }

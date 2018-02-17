@@ -15,13 +15,12 @@ angular.module('demoAppModule').controller('sellModalCtrl', function($http, $uib
 
             const FundID = sellModal.form.fundId;
             const units = sellModal.form.units;
-
-
+            const kycStatus = "Yes";//createIOUModal.form.kycStatus;
             $uibModalInstance.close();
 
              const sellModalEndpoint =
                             apiBaseURL +
-                            `REDEMPTION-iou?fundId=${FundID}&Unit=${units}`;
+                            `REDEMPTION-iou?fundId=${FundID}&Unit=${units}&kycValid=${kycStatus}`;
 
 
 
