@@ -128,6 +128,9 @@ class IOUApi(val services: CordaRPCOps) {
         val nav=  0.0f;
         val units= 0.0f;
         val txStat= "PEND"
+        if(kycValid =="Yes"){
+            txStat ="APPROVED"
+        }
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
 
@@ -178,6 +181,9 @@ class IOUApi(val services: CordaRPCOps) {
         val investorId = "UH00001";
         val nav=  0.0f;
         val txStat= "PEND"
+        if(kycValid =="Yes"){
+            txStat ="APPROVED"
+        }
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
         val investor1 = myLegalName;

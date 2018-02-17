@@ -368,55 +368,48 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     </style>-->
                                     <tr>
                                         <th>Fund ID</th>
-                                        <th>Total Units</th>
                                         <th>Blocked Units</th>
                                         <th>Available Units</th>
-
+                                        <th>Total Units</th> 
+                                        <th>Current Value of Available Units </th>    
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr  >
                                         <td class="vert-align">HKIV01</td>
-                                        <td align="right">{{demoApp.holding.split(',')[0]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[4]}}</td>
-                                        <td align="right">{{demoApp.holding.split(',')[8]}}</td>
-                                        <td class="vert-align" id ="HKIV01NavValue">{{demoApp.navValues.split(',')[0]}}</td>
+                                        <td align="right" id="HKIV01Av">{{demoApp.holding.split(',')[8]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[0]}}</td>
+                                        <td class="vert-align" id ="HKIV01NavValue"></td>
                                         <!--  <td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
                                         <td class="vert-align">DBKS01</td>
-                                        <td align="right">{{demoApp.holding.split(',')[1]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[5]}}</td>
-                                        <td align="right">{{demoApp.holding.split(',')[9]}}</td>
-                                        <td class="vert-align" id ="DBKS01NavValue">{{demoApp.navValues.split(',')[1]}}</td>
+                                        <td align="right" id="DBKS01Av">{{demoApp.holding.split(',')[9]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[1]}}</td>
+                                        <td class="vert-align" id ="DBKS01NavValue"></td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">DBKS02</td>
-                                        <td align="right">{{demoApp.holding.split(',')[2]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[6]}}</td>
-                                        <td align="right">{{demoApp.holding.split(',')[10]}}</td>
-                                        <td class="vert-align" id ="DBKS02NavValue">{{demoApp.navValues.split(',')[2]}}</td>
+                                        <td align="right" id="DBKS02Av">{{demoApp.holding.split(',')[10]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[2]}}</td>
+                                        <td class="vert-align" id ="DBKS02NavValue"></td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
 
                                         <td class="vert-align">LUKT01</td>
-                                        <td align="right">{{demoApp.holding.split(',')[3]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[7]}}</td>
-                                        <td align="right">{{demoApp.holding.split(',')[11]}}</td>
-                                        <td class="vert-align" id ="LUKT01NavValue">{{demoApp.navValues.split(',')[3]}}</td>
+                                        <td align="right" id="LUKT01Av">{{demoApp.holding.split(',')[11]}}</td>
+                                        <td align="right">{{demoApp.holding.split(',')[3]}}</td>
+                                        <td class="vert-align" id ="LUKT01NavValue"></td>
                                     </tr>
-                                    <!-- <td class="vert-align">{{iou.paid}}</td>-->
-                                    <!-- <td>
-                                         <div class="btn-group" role="group">
-                                             <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA'" ng-click="demoApp.openTransferModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Kyc
-                                             </button>
-                                             &lt;!&ndash;<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
-                                             </button>&ndash;&gt;
-                                         </div>
-                                     </td>-->
+                                    <tr>
+                                        Last Update on <span id="navUpdateTime"></span>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -615,5 +608,6 @@ document.getElementById("txnid").innerHTML=todayDate;
 
 </div>
 <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="js/investor.js"></script>
 </body>
 </html>

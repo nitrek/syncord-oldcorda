@@ -5,8 +5,8 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     const demoApp = this;
 
     //const apiBaseURL = "http://localhost:10019/api/iou/";
+    //const apiBaseURL = "http://52.221.244.252:10013/api/iou/";
     const apiBaseURL = "/api/iou/";
-
 
     // Retrieves the identity of this and other nodes.
     let peers = [];
@@ -133,6 +133,8 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 
          $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data[response.data.length-1].state.data.nav);
          
+         demoApp.currentValue = 
+
 //nav
     }
 
