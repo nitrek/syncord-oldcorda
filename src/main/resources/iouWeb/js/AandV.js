@@ -27,7 +27,8 @@ angular.module('demoAppModule').controller('AandVCtrl', function($http, $uibModa
 
             // We hit the endpoint to create the IOU and handle success/failure responses.
             $http.get(AnadVEndpoint).then(
-               $http.get(TApageurl+`updateNav?fundid=all&navValue=${nav}`)
+               $http.get(TApageurl+`updateNav?fundid=HKIV01,DBKS01,DBKS02,LUKT01&navValue=${nav}`)
+               $http.get(TApageurl+`updateNav?fundid=HKIV01,DBKS01,DBKS02,LUKT01&navValue=${nav}`)
                 //(result) => createIOUModal.displayMessage(result)
             );
         }

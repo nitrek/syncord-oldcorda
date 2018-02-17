@@ -60,10 +60,13 @@ object UpdateNavFlow {
             val fundIdParsed = fundId.split(",")
             val navValueParsed = navValue.split(",")
 
-
             for (i in iouStates) {
 
                 val navStates = iouStates[i.key] ?: throw IllegalArgumentException("Could not map IOU's")
+                val txStatus = navData.txnStatus
+                //APPROVED (for tx kyc is done)
+                if (txStatus == "APPROVED") {
+
                 val counterparty = navStates.state.data.lender
                 progressTracker.currentStep = BUILDING
                 val notary = navStates.state.notary
@@ -72,22 +75,19 @@ object UpdateNavFlow {
                 builder.addCommand(settleCommand)
                 builder.addInputState(navStates)
                 val navData = navStates.state.data
-                val txStatus = navData.txnStatus
-                //APPROVED (for tx kyc is done)
-                if (txStatus == "APPROVED") {
+            
+                val index = fundIdParsed.indexOf(navData.fundId)
 
-                    val index = fundIdParsed.indexOf(navData.fundId)
-
-                    // Step 7. Only add an output IOU state of the IOU has not been fully settled
-                    val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
-                    val units: Float = updatednavData.transactionAmount / navValueParsed.get(index).toFloat();
-                    val unitsState: IOUState = updatednavData.updateUnits(units)
-                    val finalState: IOUState = unitsState.updateTransactionStatus("ALLOTED")
-                    //System.out.print(kycStatus.toString()+" hjjkh");
-                    builder.addOutputState(finalState)
+                // Step 7. Only add an output IOU state of the IOU has not been fully settled
+                val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
+                val units: Float = updatednavData.transactionAmount / navValueParsed.get(index).toFloat();
+                val unitsState: IOUState = updatednavData.updateUnits(units)
+                val finalState: IOUState = unitsState.updateTransactionStatus("ALLOTED")
+                //System.out.print(kycStatus.toString()+" hjjkh");
+                builder.addOutputState(finalState)
 
 
-                }
+                
 
                 // Step 8. Verify and sign the transaction.
                 builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
@@ -102,6 +102,7 @@ object UpdateNavFlow {
                 progressTracker.currentStep = FINALISING
 
                 subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
+                }
                 }
                 return "done";
             }

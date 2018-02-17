@@ -112,7 +112,8 @@ class IOUApi(val services: CordaRPCOps) {
                  @QueryParam(value = "fundId") fundId: String,
                  @QueryParam(value = "txType") txType: String,
                  @QueryParam(value = "txId") txId: Int,
-                 @QueryParam(value = "transactionAmount") transactionAmount: Int
+                 @QueryParam(value = "transactionAmount") transactionAmount: Int,
+                 @QueryParam(value = "kycValid") kycValid: String
                ): Response {
 
         val tAgent1= "CN=TA,O=NodeA";
@@ -126,7 +127,6 @@ class IOUApi(val services: CordaRPCOps) {
         val investorId = "UH00001";
         val nav=  0.0f;
         val units= 0.0f;
-        val kycValid= "";
         val txStat= "PEND"
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;
@@ -176,7 +176,6 @@ class IOUApi(val services: CordaRPCOps) {
         val txnId = 1009;
         val investorId = "UH00001";
         val nav=  0.0f;
-        val kycValid= "";
         val txStat= "PEND"
         val ccy= "GBP" ;//Need to pull this based on fund ID
         val amtPaid= 0.0f;

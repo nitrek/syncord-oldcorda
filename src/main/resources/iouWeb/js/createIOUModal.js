@@ -15,6 +15,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             createIOUModal.formError = true
 
             const fundId = createIOUModal.form.fundId;
+            const kycStatus = "Yes";//createIOUModal.form.kycStatus;
             const txType = "SUBSCRIPTION";
             const transactionAmount = createIOUModal.form.amount;
             var randomNumberBetween0and19 = Math.floor(Math.random() * 3000);
@@ -23,7 +24,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             // We define the IOU creation endpoint.
             const issueIOUEndpoint =
                 apiBaseURL +
-                `issue-iou?fundId=${fundId}&txType=${txType}&transactionAmount=${transactionAmount}&txid=${randomNumberBetween0and19}`;
+                `issue-iou?fundId=${fundId}&txType=${txType}&transactionAmount=${transactionAmount}&txid=${randomNumberBetween0and19}&kycValid=${kycStatus}`;
 
             // We hit the endpoint to create the IOU and handle success/failure responses.
             $http.get(issueIOUEndpoint).then(
