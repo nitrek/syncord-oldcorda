@@ -133,8 +133,6 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 
          $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data[response.data.length-1].state.data.nav);
          
-         demoApp.currentValue = 
-
 //nav
     }
 
