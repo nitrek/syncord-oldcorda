@@ -100,7 +100,7 @@ class IOUApi(val services: CordaRPCOps) {
             flowHandle.use { flowHandle.returnValue.getOrThrow() }
             Response.Status.CREATED to "Nav Applied"+ fundId + navValues
         } catch (e: Exception) {
-            Response.Status.BAD_REQUEST to e.message
+            Response.Status.BAD_REQUEST to e.message+"some error"
         }
 
         return Response.status(status).entity(message).build()
