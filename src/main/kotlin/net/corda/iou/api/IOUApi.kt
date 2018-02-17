@@ -159,7 +159,8 @@ class IOUApi(val services: CordaRPCOps) {
     @Path("REDEMPTION-iou")
     fun issueIOU(
             @QueryParam(value = "fundId") fundId: String,
-            @QueryParam(value = "Unit") units: Float
+            @QueryParam(value = "Unit") units: Float,
+            @QueryParam(value = "kycValid") kycValid: String
 
     ): Response {
 

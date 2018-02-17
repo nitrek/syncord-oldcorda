@@ -63,6 +63,7 @@ object UpdateNavFlow {
             for (i in iouStates) {
 
                 val navStates = iouStates[i.key] ?: throw IllegalArgumentException("Could not map IOU's")
+                val navData = navStates.state.data
                 val txStatus = navData.txnStatus
                 //APPROVED (for tx kyc is done)
                 if (txStatus == "APPROVED") {
@@ -74,7 +75,7 @@ object UpdateNavFlow {
                 val settleCommand = Command(IOUContract.Commands.Settle(), listOf(counterparty.owningKey, me.owningKey))
                 builder.addCommand(settleCommand)
                 builder.addInputState(navStates)
-                val navData = navStates.state.data
+                
             
                 val index = fundIdParsed.indexOf(navData.fundId)
 
