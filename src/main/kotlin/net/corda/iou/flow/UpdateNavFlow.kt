@@ -78,15 +78,25 @@ object UpdateNavFlow {
                 
             
                 val index = fundIdParsed.indexOf(navData.fundId)
+                 val type = navData.txType
 
-                // Step 7. Only add an output IOU state of the IOU has not been fully settled
+                if(type == "SUBSCRIPTION")
+                {
                 val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
                 val units: Float = updatednavData.transactionAmount / navValueParsed.get(index).toFloat();
                 val unitsState: IOUState = updatednavData.updateUnits(units)
                 val finalState: IOUState = unitsState.updateTransactionStatus("ALLOTED")
                 //System.out.print(kycStatus.toString()+" hjjkh");
                 builder.addOutputState(finalState)
+            }
+            else{
+                 val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
 
+                val transactionamount = navData.units * navValueParsed.get(index).toFloat();
+                val xyz :IOUState = updatednavData.transactionamountupdate(transactionamount.toInt())
+                val finalState:IOUState = xyz.updateTransactionStatus("ALLOTED")
+                builder.addOutputState(finalState)
+            }
 
                 
 
