@@ -5,7 +5,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     const demoApp = this;
 
     //const apiBaseURL = "http://localhost:10019/api/iou/";
-    //const apiBaseURL = "http://52.221.244.252:10013/api/iou/";
+    //const apiBaseURL = "http://52.221.244.252:10007/api/iou/";
     const apiBaseURL = "/api/iou/";
 
     // Retrieves the identity of this and other nodes.

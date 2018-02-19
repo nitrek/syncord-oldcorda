@@ -1,13 +1,13 @@
 
 
 function navValue() {
-var x = Math.round((Math.random() * 1000) + 1,2)/100;
+var x = Math.floor((Math.random() * (12-8)+8)*100)/100;
 document.getElementById("HKIV01NavValue").innerHTML = x;
-var x = Math.round((Math.random() * 10000) + 4,2)/100;
+var x = Math.floor((Math.random() * (100-98)+98)*100)/100;
 document.getElementById("DBKS01NavValue").innerHTML = x;
-var x = Math.round((Math.random() * 1000) + 6,2)/100;
+var x = Math.floor((Math.random() * (51-49)+49)*100)/100;
 document.getElementById("DBKS02NavValue").innerHTML = x;
-var x = Math.round((Math.random() * 100) + 1,2)/100;
+var x = Math.floor((Math.random() * (26-24)+24)*100)/100;
 document.getElementById("LUKT01NavValue").innerHTML = x;
 
 }

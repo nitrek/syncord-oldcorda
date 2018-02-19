@@ -125,8 +125,7 @@
 
         <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Transaction Summary:</h3>
+                <div class="panel-heading">Nav Values:</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -134,28 +133,32 @@
                         <tr>
                             <th>Fund Id</th>
                             <th>Nav Value</th>
-
+                            <th>Currency</th>
                         </tr>
                         </thead>
                         <tbody id="navTable">
                         <tr>
                             <td class="vert-align">HKIV01</td>
-                            <td class="vert-align" id ="HKIV01NavValue"></td>
+                            <td  align="right" class="vert-align" id ="HKIV01NavValue"></td>
+                            <td>GBP</td>
                         </tr>
                         <tr>
                             <td class="vert-align">DBKS01</td>
-                            <td class="vert-align" id ="DBKS01NavValue"></td>
+                            <td align="right" class="vert-align" id ="DBKS01NavValue"></td>
+                            <td>GBP</td>
                         </tr>
                         <tr>
                             <td class="vert-align">DBKS02</td>
-                            <td class="vert-align" id ="DBKS02NavValue"></td>
+                            <td  align="right" class="vert-align" id ="DBKS02NavValue">
+                            <td>GBP</td>
                         </tr>
                         <tr>
                             <td class="vert-align">LUKT01</td>
-                            <td class="vert-align" id ="LUKT01NavValue"></td>
+                            <td align="right" class="vert-align" id ="LUKT01NavValue"></td>
+                            <td>GBP</td>
                         </tr>
                         <tr>
-                            <td> </td><td><button ng-click="demoApp.AandVModal()" type="button" class="btn btn-primary navbar-btn">Publish NAV</button></td>
+                            <td> </td><td> </td><td><button ng-click="demoApp.AandVModal()" type="button" class="btn btn-primary navbar-btn">Publish NAV</button></td>
                         </tr>
                         <!--
                            <tr>

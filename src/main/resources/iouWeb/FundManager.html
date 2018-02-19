@@ -367,6 +367,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                               <!--  <th>Blocked Units</th>
                                 <th>Available Units</th>-->
                                 <th>NAV</th>
+                                <th>Currency</th>
 
                             </tr>
                             </thead>
@@ -377,7 +378,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                <!-- <td class="vert-align">{{demoApp.holding.split(',')[4]}}</td>
                                 <td class="vert-align">{{demoApp.holding.split(',')[8]}}</td>
                                 <td  align="right">{{demoApp.nav.split(',')[0]}}</td>-->
-                                <td class="vert-align" id ="HKIV01NavValue">{{demoApp.navValues.split(',')[0]}}</td>
+                                <td align="right" class="vert-align" id ="HKIV01NavValue">{{demoApp.navValues.split(',')[0]}}</td>
+                                <td>GBP</td>
                                 <!--  <td class="vert-align"></td>-->
                             </tr>
                             <tr>
@@ -386,7 +388,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                <!-- <td class="vert-align">{{demoApp.holding.split(',')[5]}}</td>
                                 <td class="vert-align">{{demoApp.holding.split(',')[9]}}</td>
                                 <td  align="right">{{demoApp.nav.split(',')[1]}}</td>-->
-                                <td class="vert-align" id ="DBKS01NavValue">{{demoApp.navValues.split(',')[1]}}</td>
+                                <td align="right" class="vert-align" id ="DBKS01NavValue">{{demoApp.navValues.split(',')[1]}}</td>
+                                <td>GBP</td>
                                 <!--<td class="vert-align"></td>-->
                             </tr>
                             <tr>
@@ -396,7 +399,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                <!-- <td class="vert-align">{{demoApp.holding.split(',')[6]}}</td>
                                 <td class="vert-align">{{demoApp.holding.split(',')[10]}}</td>
                                 <td  align="right">{{demoApp.nav.split(',')[2]}}</td>-->
-                                <td class="vert-align" id ="DBKS02NavValue">{{demoApp.navValues.split(',')[2]}}</td>
+                                <td align="right" class="vert-align" id ="DBKS02NavValue">{{demoApp.navValues.split(',')[2]}}</td>
+                                <td>GBP</td>
                                 <!--<td class="vert-align"></td>-->
                             </tr>
                             <tr>
@@ -406,7 +410,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                               <!--  <td class="vert-align">{{demoApp.holding.split(',')[7]}}</td>
                                 <td 0fckdclass="vert-align">{{demoApp.holding.split(',')[11]}}</td>
                                 <td  align="right">{{demoApp.nav.split(',')[3]}}</td>-->
-                                <td class="vert-align" id ="LUKT01NavValue">{{demoApp.navValues.split(',')[3]}}</td>
+                                <td  align="right" class="vert-align" id ="LUKT01NavValue">{{demoApp.navValues.split(',')[3]}}</td>
+                                <td>GBP</td>
 
                             </tr>
                             <!-- <td class="vert-align">{{iou.paid}}</td>-->
@@ -456,7 +461,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                             <tr >
                                 <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[0]}}</td>
                                 <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[2]}}</td>
-                                <td ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[3]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[3]!='0.0'"  class="vert-align">{{demoApp.register.split(',')[3]}}</td>
                                 <td ng-show="demoApp.register.split(',')[3]!='0.0'"   align="right">{{demoApp.register.split(',')[4]}}</td>
                                 <td ng-show="demoApp.register.split(',')[3]!='0.0'"   align="right">{{demoApp.register.split(',')[5]}} %</td>
                                 <!--  <td class="vert-align"></td>-->
@@ -464,7 +469,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                             <tr>
                                 <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[6]}}</td>
                                 <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[8]}}</td>
-                                <td ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[9]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[9]!='0.0'" class="vert-align">{{demoApp.register.split(',')[9]}}</td>
                                 <td ng-show="demoApp.register.split(',')[9]!='0.0'"  align="right">{{demoApp.register.split(',')[10]}}</td>
                                 <td ng-show="demoApp.register.split(',')[9]!='0.0'"  align="right">{{demoApp.register.split(',')[11]}} %</td>
                                 <!--<td class="vert-align"></td>-->
@@ -473,7 +478,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[12]}}</td>
                                 <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[14]}}</td>
-                                <td ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[15]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[15]!='0.0'" class="vert-align">{{demoApp.register.split(',')[15]}}</td>
                                 <td ng-show="demoApp.register.split(',')[15]!='0.0'"  align="right">{{demoApp.register.split(',')[16]}}</td>
                                 <td ng-show="demoApp.register.split(',')[15]!='0.0'"  align="right">{{demoApp.register.split(',')[17]}} %</td>
                                 <!--<td class="vert-align"></td>-->
@@ -482,7 +487,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[18]}}</td>
                                 <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[20]}}</td>
-                                <td ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[21]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[21]!='0.0'" class="vert-align">{{demoApp.register.split(',')[21]}}</td>
                                 <td ng-show="demoApp.register.split(',')[21]!='0.0'"  align="right">{{demoApp.register.split(',')[22]}}</td>
                                 <td ng-show="demoApp.register.split(',')[21]!='0.0'"  align="right">{{demoApp.register.split(',')[23]}} %</td>
                             </tr>
@@ -490,7 +495,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[24]}}</td>
                                 <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[26]}}</td>
-                                <td ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[27]}}</td>
+                                <td align="right"  ng-show="demoApp.register.split(',')[27]!='0.0'" class="vert-align">{{demoApp.register.split(',')[27]}}</td>
                                 <td ng-show="demoApp.register.split(',')[27]!='0.0'"  align="right">{{demoApp.register.split(',')[28]}}</td>
                                 <td ng-show="demoApp.register.split(',')[27]!='0.0'"  align="right">{{demoApp.register.split(',')[29]}} %</td>
                             </tr>
@@ -498,7 +503,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[30]}}</td>
                                 <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[32]}}</td>
-                                <td ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[33]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[33]!='0.0'" class="vert-align">{{demoApp.register.split(',')[33]}}</td>
                                 <td ng-show="demoApp.register.split(',')[33]!='0.0'"  align="right">{{demoApp.register.split(',')[34]}}</td>
                                 <td ng-show="demoApp.register.split(',')[33]!='0.0'"  align="right">{{demoApp.register.split(',')[35]}} %</td>
                             </tr>
@@ -506,7 +511,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[36]}}</td>
                                 <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[38]}}</td>
-                                <td ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[39]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[39]!='0.0'" class="vert-align">{{demoApp.register.split(',')[39]}}</td>
                                 <td ng-show="demoApp.register.split(',')[39]!='0.0'"  align="right">{{demoApp.register.split(',')[40]}}</td>
                                 <td ng-show="demoApp.register.split(',')[39]!='0.0'"  align="right">{{demoApp.register.split(',')[41]}} %</td>
                             </tr>
@@ -514,7 +519,7 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                 <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[42]}}</td>
                                 <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[44]}}</td>
-                                <td ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[45]}}</td>
+                                <td align="right" ng-show="demoApp.register.split(',')[45]!='0.0'" class="vert-align">{{demoApp.register.split(',')[45]}}</td>
                                 <td ng-show="demoApp.register.split(',')[45]!='0.0'"  align="right">{{demoApp.register.split(',')[46]}}</td>
                                 <td ng-show="demoApp.register.split(',')[45]!='0.0'"  align="right">{{demoApp.register.split(',')[47]}} %</td>
                             </tr>
@@ -544,8 +549,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>From</th>
-                            <th>To</th>
+                            <th>Transaction Date</th>
                             <th>Transaction ID</th>
                             <th>Transaction Type</th>
                             <th>Fund ID</th>
@@ -557,18 +561,18 @@ document.getElementById("txnid").innerHTML=todayDate;
                             <th>Transaction Status</th>
                             <th>Currency</th>
                             <th>Amount Paid</th>
+                            <th>From</th>
+                            <th>To</th>
 
-                            <th>Transaction Date</th>
-
+                            <th>Notary</th>
 
 
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="iou in demoApp.ious" ng-if="iou.txnStatus!='Settled'"  >
-                            <td class="vert-align">{{iou.lender}}</td>
-                            <td class="vert-align">{{iou.borrower}}</td>
-                            <td class="vert-align">{{iou.linearId.id}}</td>
+                            <td class="vert-align">{{iou.transactiondate}}</td>
+                            <td class="vert-align">{{iou.linearId.id.split("-")[0]}}</td>
                             <td class="vert-align">{{iou.txType}}</td>
                             <td class="vert-align">{{iou.fundId}}</td>
                             <td class="vert-align">{{iou.lender.substring(3,10)}}</td>
@@ -579,8 +583,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                             <td class="vert-align">{{iou.txnStatus}}</td>
                             <td class="vert-align">{{iou.ccy}}</td>
                             <td align="right">{{iou.amountPaid}}</td>
-
-                            <td class="vert-align">{{iou.transactiondate}}</td>
+                            <td class="vert-align">{{iou.lender.split(",")[0].split("=")[1]}}</td>
+                            <td class="vert-align">{{iou.borrower.split(",")[0].split("=")[1]}}</td>
+                            <td class="vert-align">HSSNotary1</td>
                         </tr>
                         </tbody>
                     </table>
