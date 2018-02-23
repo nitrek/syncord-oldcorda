@@ -12,13 +12,13 @@ document.getElementById("LUKT01NavValue").innerHTML = x;
 
 }
 var interval = parseInt(document.getElementById("autorefresh").value)
-var setIntervalTimer = setInterval(function(){ navValue() }, interval);
+var setIntervalTimer = setInterval(navValue(), interval);
 
 
 function select_autoRefresh() {	
 	clearInterval(setIntervalTimer)
 	var interval = parseInt(document.getElementById("autorefresh").value)
-	setIntervalTimer = setInterval(function() {navValue()},interval);
+	setIntervalTimer = setInterval(navValue(),interval);
 
 }
 

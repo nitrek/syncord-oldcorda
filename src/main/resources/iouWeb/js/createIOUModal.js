@@ -1,12 +1,18 @@
 "use strict";
 
-angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http, $uibModalInstance, $uibModal, apiBaseURL, peers) {
+angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http, $uibModalInstance, $uibModal, apiBaseURL, peers, me) {
     const createIOUModal = this;
 
     createIOUModal.peers = peers;
     createIOUModal.form = {};
     createIOUModal.formError = false;
+    createIOUModal.me = (me.split(',')[0]).split('=')[1];
 
+    //console.log(createIOUModal.me);
+
+    //$http.get("http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc" ).then(
+     //(result) => { console.log(result);}, (result) => { console.log(result);}
+    //);
     /** Validate and create an IOU. */
     createIOUModal.create = () => {
         if (!validFormInput()) {
@@ -17,6 +23,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             const fundId = createIOUModal.form.fundId;
             const kycStatus = "Yes";//createIOUModal.form.kycStatus;
             const txType = "SUBSCRIPTION";
+            const kycAPI = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc"
             const transactionAmount = createIOUModal.form.amount;
             var randomNumberBetween0and19 = Math.floor(Math.random() * 3000);
             $uibModalInstance.close();
@@ -24,13 +31,20 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             // We define the IOU creation endpoint.
             const issueIOUEndpoint =
                 apiBaseURL +
-                `issue-iou?fundId=${fundId}&txType=${txType}&transactionAmount=${transactionAmount}&txid=${randomNumberBetween0and19}&kycValid=${kycStatus}`;
+                `issue-iou?fundId=${fundId}&txType=${txType}&transactionAmount=${transactionAmount}&txid=${randomNumberBetween0and19}&kycValid=`;
 
             // We hit the endpoint to create the IOU and handle success/failure responses.
-            $http.get(issueIOUEndpoint).then(
-                (result) => createIOUModal.displayMessage(result),
-                (result) => createIOUModal.displayMessage(result)
-            );
+             $http.get(kycAPI).then((result) => {
+                                    var fetchedKYC = (result.data[createIOUModal.me] == null) ? "No" : result.data[createIOUModal.me];
+                                    console.log(fetchedKYC);
+            						return $http.get(issueIOUEndpoint+fetchedKYC);
+                                  }).then(
+                                  (result) => createIOUModal.displayMessage(result)
+                                  );
+            //$http.get(issueIOUEndpoint).then(
+              //  (result) => createIOUModal.displayMessage(result),
+                //(result) => createIOUModal.displayMessage(result)
+           // ));
         }
     };
 

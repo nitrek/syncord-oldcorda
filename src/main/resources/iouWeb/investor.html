@@ -370,9 +370,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <th>Fund ID</th>
                                         <th>Blocked Units</th>
                                         <th>Available Units</th>
-                                        <th>Total Units</th> 
-                                        <th>Current Value of Available Units </th>
+                                        <th>Total Units</th>
                                         <th>Currency</th>
+                                        <th>Current Value of Available Units </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -381,8 +381,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <td align="right">{{demoApp.holding.split(',')[4]}}</td>
                                         <td align="right" id="HKIV01Av">{{demoApp.holding.split(',')[8]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[0]}}</td>
-                                        <td class="vert-align" id ="HKIV01NavValue"></td>
                                         <td>GBP</td>
+                                        <td  align="right" class="vert-align" id ="HKIV01NavValue"></td>
+
                                         <!--  <td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
@@ -390,8 +391,9 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <td align="right">{{demoApp.holding.split(',')[5]}}</td>
                                         <td align="right" id="DBKS01Av">{{demoApp.holding.split(',')[9]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[1]}}</td>
-                                        <td class="vert-align" id ="DBKS01NavValue"></td>
                                         <td>GBP</td>
+                                        <td  align="right" class="vert-align" id ="DBKS01NavValue"></td>
+
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
@@ -400,8 +402,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <td align="right">{{demoApp.holding.split(',')[6]}}</td>
                                         <td align="right" id="DBKS02Av">{{demoApp.holding.split(',')[10]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[2]}}</td>
-                                        <td class="vert-align" id ="DBKS02NavValue"></td>
                                         <td>GBP</td>
+                                        <td  align="right" class="vert-align" id ="DBKS02NavValue"></td>
                                         <!--<td class="vert-align"></td>-->
                                     </tr>
                                     <tr>
@@ -410,8 +412,8 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <td align="right">{{demoApp.holding.split(',')[7]}}</td>
                                         <td align="right" id="LUKT01Av">{{demoApp.holding.split(',')[11]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[3]}}</td>
-                                        <td class="vert-align" id ="LUKT01NavValue"></td>
                                         <td>GBP</td>
+                                        <td class="vert-align" id ="LUKT01NavValue"></td>
                                     </tr>
                                     <tr>
                                         Last Update on <span id="navUpdateTime"></span>

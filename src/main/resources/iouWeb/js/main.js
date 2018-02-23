@@ -1,13 +1,13 @@
 "use strict";
 
 // Define your backend here.
-angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal) {
+angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal, $scope) {
     const demoApp = this;
 
     //const apiBaseURL = "http://localhost:10019/api/iou/";
     //const apiBaseURL = "http://52.221.244.252:10007/api/iou/";
     const apiBaseURL = "/api/iou/";
-
+    const KYCApi = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc";
     // Retrieves the identity of this and other nodes.
     let peers = [];
     $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
@@ -22,7 +22,8 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
             controllerAs: 'createIOUModal',
             resolve: {
                 apiBaseURL: () => apiBaseURL,
-                peers: () => peers
+                peers: () => peers,
+                me: ()=> demoApp.thisNode
             }
         });
 
@@ -60,6 +61,29 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 
         transferModal.result.then(() => { }, () => { });
     };
+
+    demoApp.getKycStatus = (id,me) => {
+            console.log('asdfasdddddddddddddddddddddddddddddddd')
+//            alert("Going to BackEnd System to fetch KYC");
+            $http.get(KYCApi).then((result) => {
+                console.log('lkf;ldkfhv;lskdfh;s')
+                console.log(result)
+                var fetchedKYC = (result.data[me] == null) ? "No" : result.data[me];
+                                               //console.log(fetchedKYC);
+    	        if(fetchedKYC == "No") {
+                   alert('no change')
+                     } else{
+                 var KYCEndpoint = apiBaseURL+`kyc?id=${id}&kycstatus=Yes`;
+                      $http.get(KYCEndpoint).then((response) => {
+                           demoApp.refresh();
+                         alert('done');
+                         return;
+                         });
+                        }
+                return;
+             }).catch(err => console.log(err));
+             alert("Going to BackEnd System to fetch KYC");
+            };
 
    /** Displays the IOU transfer modal. */
     demoApp.openNavModal = (id) => {
@@ -134,7 +158,9 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
          $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data[response.data.length-1].state.data.nav);
          
 //nav
-    }
+    };
+
+
 
     demoApp.refresh();
 });

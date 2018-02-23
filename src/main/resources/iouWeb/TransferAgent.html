@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -126,7 +127,6 @@ document.getElementById("txnid").innerHTML=todayDate;
 
 
         </script>-->
-
 
 
 
@@ -613,6 +613,12 @@ document.getElementById("txnid").innerHTML=todayDate;
 
                                     <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
                                     </button>-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && iou.txnStatus=='PEND'" ng-click="demoApp.getKycStatus(iou.linearId.id,iou.lender.substring(3,10))" type="button" class="btn btn-primary">Fetch Kyc
+                                    </button>
                                 </div>
                             </td>
                         </tr>
