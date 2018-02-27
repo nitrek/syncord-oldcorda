@@ -94,7 +94,8 @@ object UpdateNavFlow {
 
                 val transactionamount = navData.units * navValueParsed.get(index).toFloat();
                 val xyz :IOUState = updatednavData.transactionamountupdate(transactionamount.toInt())
-                val finalState:IOUState = xyz.updateTransactionStatus("ALLOTED")
+                    val yzx :IOUState = xyz.updateAmount(transactionamount);
+                val finalState:IOUState = yzx.updateTransactionStatus("Settled")
                 builder.addOutputState(finalState)
             }
 

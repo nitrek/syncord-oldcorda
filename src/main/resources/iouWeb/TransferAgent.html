@@ -608,7 +608,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     </button>
                                     <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && iou.txnStatus=='APPROVED'" ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Update NAV
                                     </button>
-                                    <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && (iou.txnStatus=='PartialSettled' || iou.txnStatus=='ALLOTED') " ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Update Amount
+                                    <button ng-show="demoApp.thisNode=='CN=TA,O=NodeA' && (iou.txnStatus=='PartialSettled' || iou.txnStatus=='ALLOTED') " ng-click="demoApp.openIssueCashModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
                                     </button>
 
                                     <!--<button ng-click="demoApp.openSettleModal(iou.linearId.id)" type="button" class="btn btn-primary">Settle
