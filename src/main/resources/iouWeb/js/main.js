@@ -65,7 +65,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     demoApp.getKycStatus = (id,me) => {
             alert("Going to BackEnd System to fetch KYC");
             $http.get(KYCApi).then((result) => {
-                var fetchedKYC = (result.data[me] == null) ? "No" : result.data[me];
+                var fetchedKYC = (result.data[0][me] == null) ? "No" : result.data[0][me];
                                                //console.log(fetchedKYC);
     	        if(fetchedKYC == "No") {
                    alert('There is no change in the KYC Status')

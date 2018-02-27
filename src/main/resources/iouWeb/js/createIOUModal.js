@@ -35,7 +35,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
 
             // We hit the endpoint to create the IOU and handle success/failure responses.
              $http.get(kycAPI).then((result) => {
-                                    var fetchedKYC = (result.data[createIOUModal.me] == null) ? "No" : result.data[createIOUModal.me];
+                                    var fetchedKYC = (result.data[0][createIOUModal.me] == null) ? "No" : result.data[0][createIOUModal.me];
                                     console.log(fetchedKYC);
             						return $http.get(issueIOUEndpoint+fetchedKYC);
                                   }).then(
