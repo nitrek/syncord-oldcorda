@@ -10,7 +10,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     const KYCApi = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc";
     // Retrieves the identity of this and other nodes.
     let peers = [];
-    $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
+    $http.get(apiBaseURL + "msrc/maie").then((response) => demoApp.thisNode = response.data.me);
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
 
 
@@ -63,26 +63,21 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     };
 
     demoApp.getKycStatus = (id,me) => {
-            console.log('asdfasdddddddddddddddddddddddddddddddd')
-//            alert("Going to BackEnd System to fetch KYC");
+            alert("Going to BackEnd System to fetch KYC");
             $http.get(KYCApi).then((result) => {
-                console.log('lkf;ldkfhv;lskdfh;s')
-                console.log(result)
                 var fetchedKYC = (result.data[me] == null) ? "No" : result.data[me];
                                                //console.log(fetchedKYC);
     	        if(fetchedKYC == "No") {
-                   alert('no change')
+                   alert('There is no change in the KYC Status')
                      } else{
                  var KYCEndpoint = apiBaseURL+`kyc?id=${id}&kycstatus=Yes`;
                       $http.get(KYCEndpoint).then((response) => {
-                           demoApp.refresh();
-                         alert('done');
-                         return;
+                           alert(response.data);
+                           location.reload();
                          });
                         }
-                return;
              }).catch(err => console.log(err));
-             alert("Going to BackEnd System to fetch KYC");
+
             };
 
    /** Displays the IOU transfer modal. */
