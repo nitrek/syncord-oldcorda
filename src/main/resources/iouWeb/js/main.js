@@ -10,7 +10,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
     const KYCApi = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc";
     // Retrieves the identity of this and other nodes.
     let peers = [];
-    $http.get(apiBaseURL + "msrc/maie").then((response) => demoApp.thisNode = response.data.me);
+    $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
 
 
