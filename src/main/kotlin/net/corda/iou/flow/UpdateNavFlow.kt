@@ -2,9 +2,7 @@ package net.corda.iou.flow
 
 import co.paralleluniverse.fibers.Suspendable
 import net.corda.core.contracts.Command
-import net.corda.core.contracts.StateAndRef
 import net.corda.core.contracts.TransactionType
-import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.flows.FlowLogic
 import net.corda.core.flows.InitiatedBy
 import net.corda.core.flows.InitiatingFlow
@@ -18,10 +16,7 @@ import net.corda.flows.FinalityFlow
 import net.corda.flows.SignTransactionFlow
 import net.corda.iou.contract.IOUContract
 import net.corda.iou.state.IOUState
-import net.corda.iou.state.IOUState_NAV
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
+import net.corda.iou.state.Wallet
 
 //
 
@@ -72,7 +67,7 @@ object UpdateNavFlow {
                 progressTracker.currentStep = BUILDING
                 val notary = navStates.state.notary
                 val builder = TransactionType.General.Builder(notary)
-                val settleCommand = Command(IOUContract.Commands.Settle(), listOf(counterparty.owningKey, me.owningKey))
+                val settleCommand = Command(IOUContract.Commands.Settle(),  me.owningKey)
                 builder.addCommand(settleCommand)
                 builder.addInputState(navStates)
                 
@@ -85,18 +80,95 @@ object UpdateNavFlow {
                 val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
                 val units: Float = updatednavData.transactionAmount / navValueParsed.get(index).toFloat();
                 val unitsState: IOUState = updatednavData.updateUnits(units)
-                val finalState: IOUState = unitsState.updateTransactionStatus("ALLOTED")
+/*                val finalState: IOUState = unitsState.updateTransactionStatus("ALLOTED")
                 //System.out.print(kycStatus.toString()+" hjjkh");
-                builder.addOutputState(finalState)
-            }
+                builder.addOutputState(finalState)*/
+                    val updateAmount:IOUState = unitsState.updateAmount(unitsState.transactionAmount.toFloat())
+                    val finalState:IOUState = updateAmount.updateTransactionStatus("SETTLED")
+
+
+                    //System.out.print(kycStatus.toString()+" hjjkh");
+                    builder.addOutputState(finalState)
+
+                    //to update the wallet for the particular investor
+
+                    val wallets = serviceHub.vaultService.linearHeadsOfType<Wallet>()
+                    for (i in wallets) {
+                        val wallet = wallets[i.key] ?: throw IllegalArgumentException("Could not map Wallet")
+                        val walletData = wallet.state.data
+                        val wCurrency = walletData.currency
+                        /*require(walletData.availableBalance > state.transactionAmount) { "Insufficient Balance in Wallet" }*/
+                        val currency = "GBP"
+                        if (currency == wCurrency) {
+
+                            val counterparty = wallet.state.data.cashCCP
+                            val notary1 = wallet.state.notary
+                            val builder1 = TransactionType.General.Builder(notary1)
+                            val me = serviceHub.myInfo.legalIdentity
+                            val settleCommand = Command(IOUContract.Commands.Settle(),me.owningKey)
+                            builder1.addCommand(settleCommand)
+                            builder1.addInputState(wallet)
+                            val finalState2: Wallet =  wallet.state.data.removeblockMoney(finalState.transactionAmount.toFloat());
+
+                            //System.out.print(kycStatus.toString()+" hjjkh");
+                            //
+                            builder1.addOutputState(finalState2)
+//                    // Step 8. Verify and sign the transaction.
+                            builder1.toWireTransaction().toLedgerTransaction(serviceHub).verify()
+                            val ptx1 = serviceHub.signInitialTransaction(builder1)
+//
+//                    // Step 9. Get counterparty signature.
+                            val stx1 = subFlow(CollectSignaturesFlow(ptx1))
+//                    //stxG = stx
+//                    // Step 10. Finalize the transaction.
+//
+                            subFlow(FinalityFlow(stx1)).single()
+//
+//                    return "done";
+                        }}
+                }
             else{
                  val updatednavData: IOUState = navData.updateNav(navValueParsed.get(index).toFloat())
 
                 val transactionamount = navData.units * navValueParsed.get(index).toFloat();
                 val xyz :IOUState = updatednavData.transactionamountupdate(transactionamount.toInt())
                     val yzx :IOUState = xyz.updateAmount(transactionamount);
-                val finalState:IOUState = yzx.updateTransactionStatus("Settled")
+                val finalState:IOUState = yzx.updateTransactionStatus("SETTLED")
                 builder.addOutputState(finalState)
+                    val wallets = serviceHub.vaultService.linearHeadsOfType<Wallet>()
+                    for (i in wallets) {
+                        val wallet = wallets[i.key] ?: throw IllegalArgumentException("Could not map Wallet")
+                        val walletData = wallet.state.data
+                        val wCurrency = walletData.currency
+                        /*require(walletData.availableBalance > state.transactionAmount) { "Insufficient Balance in Wallet" }*/
+                        val currency = "GBP"
+                        if (currency == wCurrency) {
+
+                            val counterparty = wallet.state.data.cashCCP
+                            val notary1 = wallet.state.notary
+                            val builder1 = TransactionType.General.Builder(notary1)
+                            val me = serviceHub.myInfo.legalIdentity
+                            val settleCommand = Command(IOUContract.Commands.Settle(),me.owningKey)
+                            builder1.addCommand(settleCommand)
+                            builder1.addInputState(wallet)
+                            val finalState2: Wallet =  wallet.state.data.addMoney(finalState.transactionAmount.toFloat());
+
+                            //System.out.print(kycStatus.toString()+" hjjkh");
+                            //
+                            builder1.addOutputState(finalState2)
+//                    // Step 8. Verify and sign the transaction.
+                            builder1.toWireTransaction().toLedgerTransaction(serviceHub).verify()
+                            val ptx1 = serviceHub.signInitialTransaction(builder1)
+//
+//                    // Step 9. Get counterparty signature.
+                            val stx1 = subFlow(CollectSignaturesFlow(ptx1))
+//                    //stxG = stx
+//                    // Step 10. Finalize the transaction.
+//
+                            subFlow(FinalityFlow(stx1)).single()
+//
+//                    return "done";
+                        }}
             }
 
                 

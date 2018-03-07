@@ -14,23 +14,21 @@ import net.corda.flows.CollectSignaturesFlow
 import net.corda.flows.FinalityFlow
 import net.corda.flows.SignTransactionFlow
 import net.corda.iou.contract.IOUContract
-import net.corda.iou.state.IOUState
-import net.corda.iou.state.IOUState_NAV
+import net.corda.iou.state.Wallet
 
 /**
  * This is the flow which handles issuance of new IOUs on the ledger.
  * The flow returns the [SignedTransaction] that was committed to the ledger.
  */
-object IOUIssueFlow_NAV {
+object IssueWalletFlow {
 
     @InitiatingFlow
     @StartableByRPC
 
-    //Class is defined as  class <class name> (<Variable you want to declare>):<Type if you want any specific flow>
-    class Initiator(val state: IOUState_NAV, val otherParty: Party) : FlowLogic<SignedTransaction>() {
+    class Initiator(val state: Wallet, val otherParty: Party) : FlowLogic<SignedTransaction>() {
 
 
-        //Rohan:-Object declaration inside a class i
+
         companion object {
             object BUILDING : ProgressTracker.Step("Building and verifying transaction.")
             object SIGNING : ProgressTracker.Step("signing transaction.")
@@ -88,7 +86,7 @@ object IOUIssueFlow_NAV {
     }
 
     @InitiatingFlow
-    @InitiatedBy(IOUIssueFlow_NAV.Initiator::class)
+    @InitiatedBy(IssueWalletFlow.Initiator::class)
     class Responder(val otherParty: Party) : FlowLogic<SignedTransaction>() {
         @Suspendable
         override fun call(): SignedTransaction {

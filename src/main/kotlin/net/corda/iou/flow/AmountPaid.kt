@@ -87,7 +87,7 @@ object AmountPaid {
             builder.addCommand(settleCommand)
             builder.addInputState(iouToSettle)
 
-            // Step 7. Only add an output IOU state of the IOU has not been fully settled
+            // Step 7. Only add an output IOU state of the IOU has not been fully SETTLED
 
             //
             //val a :IOUState = iouToSettle.state.data.updateTxansactionDate(transactiondate)
@@ -100,7 +100,7 @@ object AmountPaid {
             val RemainingTransactionAmount = TransactionAmount - NewAmount
             if (RemainingTransactionAmount <= 0.0f) {
 
-                finalState = votedIOU.updateTransactionStatus("Settled")
+                finalState = votedIOU.updateTransactionStatus("SETTLED")
             } else {
 
                 finalState = votedIOU.updateTransactionStatus("PartialSettled")

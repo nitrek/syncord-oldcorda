@@ -146,7 +146,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus == 'Settled'">
+                        <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus == 'SETTLED'">
                             <td class="vert-align">{{iou.lender}}</td>
                             <td class="vert-align">{{iou.borrower}}</td>
                             <td class="vert-align">{{iou.linearId.id}}</td>

@@ -70,14 +70,14 @@ class TotalPosition() : FlowLogic<String>() {
             //For HKIV01 fundID
             if (fundid == "HKIV01") {
 
-                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
 
                     // sumHKIV01.add(transactionamount)
                     sumHKIV01 = sumHKIV01 + transactionamount
 
                 } else {
                     if (transactiontype == "REDEMPTION") {
-                        if (transactionstatus == "Settled") {
+                        if (transactionstatus == "SETTLED") {
                             sumHKIV01 = sumHKIV01 - transactionamount
                         } else {
                             blockedHKIV01 = blockedHKIV01 + transactionamount
@@ -90,12 +90,12 @@ class TotalPosition() : FlowLogic<String>() {
             //For DBKS01 fundID
             if (fundid == "DBKS01") {
 
-                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                     // sumDBKS01.add(transactionamount)
                     sumDBKS01 = sumDBKS01 + transactionamount
                 } else {
                     if (transactiontype == "REDEMPTION") {
-                        if (transactionstatus == "Settled") {
+                        if (transactionstatus == "SETTLED") {
                             sumDBKS01 = sumDBKS01 - transactionamount
                         } else {
 
@@ -110,12 +110,12 @@ class TotalPosition() : FlowLogic<String>() {
 
             //For DBKS02 fundID
             if (fundid == "DBKS02") {
-                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                     // sumDBKS02.add(transactionamount)
                     sumDBKS02 = sumDBKS02 + transactionamount
                 } else {
                     if (transactiontype == "REDEMPTION") {
-                        if (transactionstatus == "Settled") {
+                        if (transactionstatus == "SETTLED") {
                             sumDBKS02 = sumDBKS02 - transactionamount
                         } else {
 
@@ -129,14 +129,14 @@ class TotalPosition() : FlowLogic<String>() {
             //For LUKT01 fundID
             if (fundid == "LUKT01") {
 
-                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                     // sumLUKT01.add(transactionamount)
                     sumLUKT01 = sumLUKT01 + transactionamount
 
                 } else {
                     if (transactiontype == "REDEMPTION") {
 
-                        if (transactionstatus == "Settled") {
+                        if (transactionstatus == "SETTLED") {
                             sumLUKT01 = sumLUKT01 - transactionamount
                         } else {
 

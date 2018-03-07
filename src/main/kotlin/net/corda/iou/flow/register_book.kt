@@ -164,7 +164,7 @@ class Register() : FlowLogic<String>() {
 
                 if (fundid == "HKIV01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
 
                         //sum of transaction amount
                         sumHKIV01iv1 = sumHKIV01iv1 + transactionamount
@@ -174,7 +174,7 @@ class Register() : FlowLogic<String>() {
 
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
 
                                 //substraction of transaction amount
                                 sumHKIV01iv1 = sumHKIV01iv1 - transactionamount
@@ -195,14 +195,14 @@ class Register() : FlowLogic<String>() {
                 //For DBKS01 fundID
                 if (fundid == "DBKS01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumDBKS01.add(transactionamount)
                         sumDBKS01iv1 = sumDBKS01iv1 + transactionamount
 
                         sumDBKS01unitsiv1 = sumDBKS01unitsiv1 +units
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumDBKS01iv1 = sumDBKS01iv1 - transactionamount
 
                                 sumDBKS01unitsiv1 = sumDBKS01unitsiv1 - units
@@ -219,7 +219,7 @@ class Register() : FlowLogic<String>() {
 
                 //For DBKS02 fundID
                 if (fundid == "DBKS02") {
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumDBKS02.add(transactionamount)
                         sumDBKS02iv1 = sumDBKS02iv1 + transactionamount
 
@@ -228,7 +228,7 @@ class Register() : FlowLogic<String>() {
 
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumDBKS02iv1 = sumDBKS02iv1 - transactionamount
 
                                 sumDBKS02unitsiv1 = sumDBKS02unitsiv1 - units
@@ -244,7 +244,7 @@ class Register() : FlowLogic<String>() {
                 //For LUKT01 fundID
                 if (fundid == "LUKT01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumLUKT01.add(transactionamount)
                         sumLUKT01iv1 = sumLUKT01iv1 + transactionamount
 
@@ -253,7 +253,7 @@ class Register() : FlowLogic<String>() {
                     } else {
                         if (transactiontype == "REDEMPTION") {
 
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumLUKT01iv1 = sumLUKT01iv1 - transactionamount
 
                                 sumLUKT01unitsiv1 = sumLUKT01unitsiv1- units
@@ -274,7 +274,7 @@ class Register() : FlowLogic<String>() {
 
                 if (fundid == "HKIV01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
 
                         // sumHKIV01.add(transactionamount)
                         sumHKIV01iv2 = sumHKIV01iv2 + transactionamount
@@ -283,7 +283,7 @@ class Register() : FlowLogic<String>() {
 
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumHKIV01iv2 = sumHKIV01iv2 - transactionamount
 
                                 sumHKIV01unitsiv2 -= units
@@ -298,7 +298,7 @@ class Register() : FlowLogic<String>() {
                 //For DBKS01 fundID
                 if (fundid == "DBKS01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumDBKS01.add(transactionamount)
                         sumDBKS01iv2 = sumDBKS01iv2 + transactionamount
 
@@ -306,7 +306,7 @@ class Register() : FlowLogic<String>() {
 
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumDBKS01iv2 = sumDBKS01iv2 - transactionamount
 
                                 sumDBKS01unitsiv2 -=units
@@ -323,14 +323,14 @@ class Register() : FlowLogic<String>() {
 
                 //For DBKS02 fundID
                 if (fundid == "DBKS02") {
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumDBKS02.add(transactionamount)
                         sumDBKS02iv2 = sumDBKS02iv2 + transactionamount
 
                         sumDBKS02unitsiv2 += units
                     } else {
                         if (transactiontype == "REDEMPTION") {
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumDBKS02iv2 = sumDBKS02iv2 - transactionamount
 
                                 sumDBKS02unitsiv2 -= units
@@ -346,7 +346,7 @@ class Register() : FlowLogic<String>() {
                 //For LUKT01 fundID
                 if (fundid == "LUKT01") {
 
-                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "Settled") {
+                    if (transactiontype == "SUBSCRIPTION" && transactionstatus == "SETTLED") {
                         // sumLUKT01.add(transactionamount)
                         sumLUKT01iv2 = sumLUKT01iv2 + transactionamount
 
@@ -357,7 +357,7 @@ class Register() : FlowLogic<String>() {
                     } else {
                         if (transactiontype == "REDEMPTION") {
 
-                            if (transactionstatus == "Settled") {
+                            if (transactionstatus == "SETTLED") {
                                 sumLUKT01iv2 = sumLUKT01iv2 - transactionamount
 
                                 sumLUKT01unitsiv2 -= sumLUKT01unitsiv2

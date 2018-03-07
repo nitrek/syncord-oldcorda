@@ -57,14 +57,26 @@ document.getElementById("txnid").innerHTML=todayDate;
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Smart Transfer Agent    :</span>
+            <span class="mdl-layout-title">Smart Transfer Agent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+
+
+            <div>
+                Wallet Balance = {{demoApp.Wallet.state.data.availableBalance}} GBPT
+                Blocked Balance = {{demoApp.Wallet.state.data.blockedBalance}} GBPT
+                <button>Add Money</button>
+            </div>
+
+
+
+            </span>
             <div class="mdl-layout-spacer">
 
-            </div>
+            </div><p>hello</p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                 <!--<label class="mdl-button mdl-js-button mdl-button--icon" for="search">-->
                    <!-- <i class="material-icons">search</i>-->
-                    <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
+
+                <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
                             class="glyphicon glyphicon-refresh"></span></button>
                 <!--</label>-->
                 <div class="mdl-textfield__expandable-holder">
@@ -413,7 +425,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                                         <td align="right" id="LUKT01Av">{{demoApp.holding.split(',')[11]}}</td>
                                         <td align="right">{{demoApp.holding.split(',')[3]}}</td>
                                         <td>GBP</td>
-                                        <td class="vert-align" id ="LUKT01NavValue"></td>
+                                        <td class="vert-align" align="right" id ="LUKT01NavValue"></td>
                                     </tr>
                                     <tr>
                                         Last Update on <span id="navUpdateTime"></span>
@@ -467,7 +479,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus!='Settled'">
+                                    <tr ng-repeat="iou in demoApp.ious"  ng-if="iou.txnStatus!='SETTLED'">
                                         <td class="vert-align">{{iou.transactiondate}}</td>
                                         <td class="vert-align">{{iou.linearId.id.split("-")[0]}}</td>
                                         <td class="vert-align">{{iou.txType}}</td>

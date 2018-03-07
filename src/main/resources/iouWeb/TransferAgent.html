@@ -586,7 +586,7 @@ document.getElementById("txnid").innerHTML=todayDate;
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="iou in demoApp.ious" ng-if="iou.txnStatus!='Settled'" >
+                        <tr ng-repeat="iou in demoApp.ious" ng-if="iou.txnStatus!='SETTLED'" >
                             <td class="vert-align">{{iou.transactiondate}}</td>
                             <td class="vert-align">{{iou.linearId.id.split("-")[0]}}</td>
                             <td class="vert-align">{{iou.txType}}</td>

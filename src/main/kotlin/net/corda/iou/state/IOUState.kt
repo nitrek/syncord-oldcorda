@@ -101,6 +101,8 @@ data class IOUState(
 
     fun updateUnits(navUnits: Float) = copy(units = navUnits)
 
+
+
     //fun updateTxansactionDate (transactiondate:LocalDateTime)=copy(transactiondate =transactiondate )
     /**
      * Helper method which creates a copy of the current state with a dummy paid amount. Useful for checking that two

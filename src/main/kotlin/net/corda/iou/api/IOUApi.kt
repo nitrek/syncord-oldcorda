@@ -14,6 +14,7 @@ import net.corda.core.serialization.makeNoWhitelistClassResolver
 import net.corda.iou.flow.*
 import net.corda.iou.state.IOUState
 import net.corda.iou.state.IOUState_NAV
+import net.corda.iou.state.Wallet
 import org.apache.commons.math.random.RandomData
 import org.bouncycastle.asn1.x500.X500Name
 import org.jetbrains.exposed.sql.Date
@@ -107,6 +108,45 @@ class IOUApi(val services: CordaRPCOps) {
     }
 
     @GET
+    @Path("getWallet")
+    @Produces(MediaType.APPLICATION_JSON)
+            // Filter by state type: IOU.
+    fun getWallet(): List<StateAndRef<ContractState>> {
+        return services.vaultAndUpdates().justSnapshot.filter { it.state.data is Wallet }
+    }
+
+    @GET
+    @Path("issueWallet")
+    fun issueWallet(
+            @QueryParam(value = "availableBalance") availableBalance: String
+    ): Response {
+
+        val tAgent1= "CN=TA,O=NodeA";
+        val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+        val ccy= "GBP" ;//Need to pull this based on fund ID
+        val investor1 = myLegalName;
+        val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+        val me = services.nodeIdentity().legalIdentity
+        val state = Wallet(tAgent,investor,availableBalance.toFloat(),0.0f,formatted,ccy)
+        val (status, message) = try {
+            val flowHandle = services.startTrackedFlowDynamic(IssueWalletFlow.Initiator::class.java, state, tAgent)
+            val result = flowHandle.use { it.returnValue.getOrThrow() }
+            // Return the response.
+            Response.Status.CREATED to "Wallet issues to  ${investor1} with balance ${availableBalance}"
+        } catch (e: Exception) {
+            // For the purposes of this demo app, we do not differentiate by exception type.
+            var message ="some error"
+            if(e.message!=null)
+                message = e.message.toString()
+            Response.Status.CREATED to message.substring(56)
+        }
+
+        return Response.status(status).entity(message).build()
+    }
+    @GET
     @Path("issue-iou")
     fun issueIOU(
                  @QueryParam(value = "fundId") fundId: String,
@@ -140,7 +180,7 @@ class IOUApi(val services: CordaRPCOps) {
         val me = services.nodeIdentity().legalIdentity
         val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent)
+            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent,ccy)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"

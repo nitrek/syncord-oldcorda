@@ -4,7 +4,7 @@
 angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', function($http, $location, $uibModal, $scope) {
     const demoApp = this;
 
-    //const apiBaseURL = "http://localhost:10019/api/iou/";
+    //const apiBaseURL = "http://localhost:10016/api/iou/";
     //const apiBaseURL = "http://52.221.244.252:10007/api/iou/";
     const apiBaseURL = "/api/iou/";
     const KYCApi = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc";
@@ -149,7 +149,7 @@ angular.module('demoAppModule', ['ui.bootstrap']).controller('DemoAppCtrl', func
 /*
         Need to remove this after this change*/
         $http.get(apiBaseURL + "nav_json").then((response) => demoApp.nav = response.data);
-
+        $http.get(apiBaseURL + "getWallet").then((response) => demoApp.Wallet = response.data[0]);
          $http.get(apiBaseURL + "navvalues").then((response) => demoApp.navValues = response.data[response.data.length-1].state.data.nav);
          
 //nav
