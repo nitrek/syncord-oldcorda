@@ -99,7 +99,7 @@ object UpdateNavFlow {
                         val wCurrency = walletData.currency
                         /*require(walletData.availableBalance > state.transactionAmount) { "Insufficient Balance in Wallet" }*/
                         val currency = "GBP"
-                        if (currency == wCurrency) {
+                        if (currency == wCurrency && walletData.investor == finalState.lender ) {
 
                             val counterparty = wallet.state.data.cashCCP
                             val notary1 = wallet.state.notary

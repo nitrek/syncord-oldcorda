@@ -41,9 +41,8 @@ data class IOUState(
                 val txnStatus: String,
                 val ccy: String,
                 val amountPaid: Float,
-                val lender: Party,
+                val lender: Party, //Investor
                 val transactiondate:String,
-                //Investor
                //val paid: Amount<Currency> = Amount(0, amount.token),
                override val linearId: UniqueIdentifier = UniqueIdentifier()): LinearState {
     /**

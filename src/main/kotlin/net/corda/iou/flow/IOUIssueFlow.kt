@@ -51,67 +51,67 @@ object IOUIssueFlow {
 
         @Suspendable
         override fun call(): SignedTransaction {
-            progressTracker.currentStep = BUILDING
-            // Step 1. Get a reference to the notary service on our network and our key pair.
+                progressTracker.currentStep = BUILDING
+                // Step 1. Get a reference to the notary service on our network and our key pair.
 
+                require(state.transactionAmount>500) { "Transaction Amount should be greater than 500." }
+                val wallets = serviceHub.vaultService.linearHeadsOfType<Wallet>()
+                for (i in wallets) {
+                     val wallet = wallets[i.key] ?: throw IllegalArgumentException("Could not map Wallet")
+                    val walletData = wallet.state.data
+                    val wCurrency = walletData.currency
+                    require(walletData.availableBalance > state.transactionAmount) { "Insufficient Balance in Wallet" }
+                    if (currency == wCurrency) {
 
-            val wallets = serviceHub.vaultService.linearHeadsOfType<Wallet>()
-            for (i in wallets) {
-                 val wallet = wallets[i.key] ?: throw IllegalArgumentException("Could not map Wallet")
-                val walletData = wallet.state.data
-                val wCurrency = walletData.currency
-                require(walletData.availableBalance > state.transactionAmount) { "Insufficient Balance in Wallet" }
-                if (currency == wCurrency) {
-
-                    val counterparty = wallet.state.data.cashCCP
-                   progressTracker.currentStep = BUILDING
-                   val notary1 = wallet.state.notary
-                   val builder1 = TransactionType.General.Builder(notary1)
-                    val me = serviceHub.myInfo.legalIdentity
-                   val settleCommand = Command(IOUContract.Commands.Settle(),me.owningKey)
-                   builder1.addCommand(settleCommand)
-                   builder1.addInputState(wallet)
-                   val finalState:Wallet =  wallet.state.data.blockMoneyAvl(state.transactionAmount.toFloat());
-                    val finalState2 =  finalState.blockMoneyBlock(state.transactionAmount.toFloat());
-                    //System.out.print(kycStatus.toString()+" hjjkh");
-                    //
-                    builder1.addOutputState(finalState2)
-//                    // Step 8. Verify and sign the transaction.
-                    builder1.toWireTransaction().toLedgerTransaction(serviceHub).verify()
+                        val counterparty = wallet.state.data.cashCCP
+                       progressTracker.currentStep = BUILDING
+                       val notary1 = wallet.state.notary
+                       val builder1 = TransactionType.General.Builder(notary1)
+                        val me = serviceHub.myInfo.legalIdentity
+                       val settleCommand = Command(IOUContract.Commands.Settle(),me.owningKey)
+                       builder1.addCommand(settleCommand)
+                       builder1.addInputState(wallet)
+                       val finalState:Wallet =  wallet.state.data.blockMoneyAvl(state.transactionAmount.toFloat());
+                        val finalState2 =  finalState.blockMoneyBlock(state.transactionAmount.toFloat());
+                        //System.out.print(kycStatus.toString()+" hjjkh");
+                        //
+                        builder1.addOutputState(finalState2)
+    //                    // Step 8. Verify and sign the transaction.
+                        builder1.toWireTransaction().toLedgerTransaction(serviceHub).verify()
+                        progressTracker.currentStep = SIGNING
+                        val ptx1 = serviceHub.signInitialTransaction(builder1)
+    //
+    //                    // Step 9. Get counterparty signature.
+                        progressTracker.currentStep = COLLECTING
+                        val stx1 = subFlow(CollectSignaturesFlow(ptx1, COLLECTING.childProgressTracker()))
+    //                    //stxG = stx
+    //                    // Step 10. Finalize the transaction.
+                        progressTracker.currentStep = FINALISING
+    //
+                        subFlow(FinalityFlow(stx1, FINALISING.childProgressTracker())).single()
+    //
+    //                    return "done";
+                    }}
+                    val notary2 = serviceHub.networkMapCache.notaryNodes.single().notaryIdentity
+                    // Step 2. Create a new issue command.
+                    // Remember that a command is a CommandData object and a list of CompositeKeys
+                    val issueCommand = Command(IOUContract.Commands.Issue(), state.participants.map { it.owningKey })
+                    // Step 3. Create a new TransactionBuilder object.
+                    val builder = TransactionType.General.Builder(notary2)
+                    // Step 4. Add the iou as an output state, as well as a command to the transaction builder.
+                    builder.withItems(state, issueCommand)
+                    // Step 5. Verify and sign it with our KeyPair.
+                    builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
                     progressTracker.currentStep = SIGNING
-                    val ptx1 = serviceHub.signInitialTransaction(builder1)
-//
-//                    // Step 9. Get counterparty signature.
+                    val ptx = serviceHub.signInitialTransaction(builder)
+
+                    // Step 6. Collect the other party's signature using the SignTransactionFlow.
                     progressTracker.currentStep = COLLECTING
-                    val stx1 = subFlow(CollectSignaturesFlow(ptx1, COLLECTING.childProgressTracker()))
-//                    //stxG = stx
-//                    // Step 10. Finalize the transaction.
+                    val stx = subFlow(CollectSignaturesFlow(ptx, COLLECTING.childProgressTracker()))
+
+                    // Step 7. Assuming no exceptions, we can now finalise the transaction.
                     progressTracker.currentStep = FINALISING
-//
-                    subFlow(FinalityFlow(stx1, FINALISING.childProgressTracker())).single()
-//
-//                    return "done";
-                }}
-                val notary2 = serviceHub.networkMapCache.notaryNodes.single().notaryIdentity
-                // Step 2. Create a new issue command.
-                // Remember that a command is a CommandData object and a list of CompositeKeys
-                val issueCommand = Command(IOUContract.Commands.Issue(), state.participants.map { it.owningKey })
-                // Step 3. Create a new TransactionBuilder object.
-                val builder = TransactionType.General.Builder(notary2)
-                // Step 4. Add the iou as an output state, as well as a command to the transaction builder.
-                builder.withItems(state, issueCommand)
-                // Step 5. Verify and sign it with our KeyPair.
-                builder.toWireTransaction().toLedgerTransaction(serviceHub).verify()
-                progressTracker.currentStep = SIGNING
-                val ptx = serviceHub.signInitialTransaction(builder)
-
-                // Step 6. Collect the other party's signature using the SignTransactionFlow.
-                progressTracker.currentStep = COLLECTING
-                val stx = subFlow(CollectSignaturesFlow(ptx, COLLECTING.childProgressTracker()))
-
-                // Step 7. Assuming no exceptions, we can now finalise the transaction.
-                progressTracker.currentStep = FINALISING
-                return subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
+                    return subFlow(FinalityFlow(stx, FINALISING.childProgressTracker())).single()
             }
         }
 

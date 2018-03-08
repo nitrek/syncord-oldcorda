@@ -57,12 +57,12 @@ document.getElementById("txnid").innerHTML=todayDate;
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-            <span class="mdl-layout-title">Smart Transfer Agent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+            <span class="mdl-layout-title">FundsNOW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 
 
             <div>
-                Wallet Balance = {{demoApp.Wallet.state.data.availableBalance}} GBPT
-                Blocked Balance = {{demoApp.Wallet.state.data.blockedBalance}} GBPT
+                Wallet Balance = GBPT {{demoApp.Wallet.state.data.availableBalance}}
+                Blocked Balance = GBPT {{demoApp.Wallet.state.data.blockedBalance}}
                 <button>Add Money</button>
             </div>
 
@@ -71,7 +71,7 @@ document.getElementById("txnid").innerHTML=todayDate;
             </span>
             <div class="mdl-layout-spacer">
 
-            </div><p>hello</p>
+            </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                 <!--<label class="mdl-button mdl-js-button mdl-button--icon" for="search">-->
                    <!-- <i class="material-icons">search</i>-->
@@ -210,7 +210,7 @@ document.getElementById("txnid").innerHTML=todayDate;
         <div class="modal-footer">
             <button ng-click="sellModal.cancel()" type="button" class="btn btn-default">Close</button>
             <!--<button ng-click="sellModal.cancel()" type="button" class="btn btn-default">Close</button>-->
-            <button ng-click="sellModal.create()" type="button" class="btn btn-primary">Sell Trade</button>
+            <button ng-click="sellModal.create()" type="button" class="btn btn-primary">Create Trade</button>
         </div>
     </form>
 </script>
