@@ -23,7 +23,7 @@ angular.module('demoAppModule').controller('CreateIOUModalCtrl', function($http,
             const fundId = createIOUModal.form.fundId;
             const kycStatus = "Yes";//createIOUModal.form.kycStatus;
             const txType = "SUBSCRIPTION";
-            const kycAPI = "http://ec2-52-221-244-252.ap-southeast-1.compute.amazonaws.com:9000/kyc"
+            const kycAPI = "http://ec2-13-228-245-19.ap-southeast-1.compute.amazonaws.com:9000/kyc"
             const transactionAmount = createIOUModal.form.amount;
             var randomNumberBetween0and19 = Math.floor(Math.random() * 3000);
             $uibModalInstance.close();
