@@ -98,7 +98,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         cordapps = []
     }
     node {
-        name "CN=TA,O=NodeA"
+        name "CN=HSBC,O=NodeA"
         advertisedServices = []
         p2pPort 10005
         rpcPort 10006
@@ -107,7 +107,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
     node {
-        name "CN=FM,O=NodeB"
+        name "CN=Observer,O=NodeB"
         advertisedServices = []
         p2pPort 10008
         rpcPort 10009
@@ -116,7 +116,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
     node {
-        name "CN=UH00001,O=NodeC"
+        name "CN=Citibank,O=NodeC"
         advertisedServices = []
         p2pPort 10011
         rpcPort 10012
@@ -126,7 +126,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
     }
 
     node {
-        name "CN=UH00002,O=NodeD"
+        name "CN=Barclays,O=NodeD"
         advertisedServices = []
         p2pPort 10014
         rpcPort 10015
@@ -135,7 +135,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['build']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": []]]
     }
     node {
-        name "CN=NAVSYSTEM,O=NodeE"
+        name "CN=Rbs,O=NodeE"
         advertisedServices = []
         p2pPort 10017
         rpcPort 10018

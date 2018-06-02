@@ -148,37 +148,28 @@ class IOUApi(val services: CordaRPCOps) {
     }
     @GET
     @Path("issue-iou")
-    fun issueIOU(
-                 @QueryParam(value = "fundId") fundId: String,
-                 @QueryParam(value = "txType") txType: String,
-                 @QueryParam(value = "txId") txId: Int,
-                 @QueryParam(value = "transactionAmount") transactionAmount: Int,
-                 @QueryParam(value = "kycValid") kycValid: String
-               ): Response {
-
-        val tAgent1= "CN=TA,O=NodeA";
-        val fManager1 = "CN=FM,O=NodeB";
-        val tAgent = services.partyFromName(tAgent1) ?: throw IllegalArgumentException("Unknown party name.")
-        val fManager = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
+    fun issueObligation(@QueryParam(value = "issueSize") issueSize: Int,
+                        @QueryParam(value = "party") party: String,
+                        @QueryParam(value = "issueName") issueName: String): Response {
+        val observer = "CN=Observer,O=NodeB";
+        val observerNode = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)
-        val txnId = 1009;
-        val investorId = "UH00001";
-        val nav=  0.0f;
-        val units= 0.0f;
-        var txStat= "PEND"
-        if(kycValid =="Yes"){
-            txStat ="APPROVED"
-        }
-        val ccy= "GBP" ;//Need to pull this based on fund ID
-        val amtPaid= 0.0f;
-
-        val investor1 = myLegalName;
-
-        val investor = services.partyFromX500Name(investor1) ?: throw IllegalArgumentException("Unknown party name.")
+        val issuestatus = "DRAFT"
+        val currency = "USD"
+        //val issueAmount = Amount(issueSize.toLong() * 100, Currency.getInstance(currency))
+        val coBanker = party;
+/*val issueSize: Int,
+                      val leadBanker: Party,
+                      val coBanker: Party,
+                      val observer: Party,
+                      val issueName:String,
+                      val status:String,
+                      val transactiondate:String, */
+        val coBankerNode = services.partyFromX500Name(coBanker) ?: throw IllegalArgumentException("Unknown party name.")
         val me = services.nodeIdentity().legalIdentity
-        val state = IOUState(fundId,txType,transactionAmount,tAgent,fManager,txnId,investorId,nav,units,kycValid,txStat,ccy,amtPaid,investor,formatted)
+        val state = Issue(me,coBankerNode,observerNode,issueName,issuestatus,formatted)
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent,ccy)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
