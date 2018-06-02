@@ -43,7 +43,7 @@ data class Issue(     val leadBanker: Party,
     }
 
     fun pay(amountToPay: Int) = copy(paid = paid + amountToPay)
-    fun withNewLender(newLender: AbstractParty) = copy(leadBanker = newLender)
+    fun withNewLender(newLender: Party) = copy(leadBanker = newLender)
 
 
     override fun toString(): String {
