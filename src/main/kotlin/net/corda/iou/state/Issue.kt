@@ -10,7 +10,7 @@ import net.corda.iou.contract.IOUContract
 import java.security.PublicKey
 import java.security.Timestamp
 import java.time.LocalDateTime
-import java.util.*
+import java.util.*  
 /**
  * The IOU State object, with the following properties:
  * - [amount] The amount owed by the [borrower] to the [lender]
