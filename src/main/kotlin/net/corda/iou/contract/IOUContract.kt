@@ -46,7 +46,7 @@ class IOUContract : Contract {
                 //"A newly issued IOU must have a positive amount." using (iou.amount > Amount(0, iou.amount.token))
                 "Both lender and borrower together only may sign IOU issue transaction." using
                         (command.signers.toSet() == iou.participants.map { it.owningKey }.toSet())
-                "Transaction Amount should be greater than 500." using (iou.transactionAmount >= 500)
+                //"Transaction Amount should be greater than 500." using (iou.transactionAmount >= 500)
             }
             is Commands.Transfer ->  {
 //                "An IOU transfer transaction should only consume one input state." using (tx.inputs.size == 1)

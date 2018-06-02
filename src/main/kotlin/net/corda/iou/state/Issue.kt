@@ -11,7 +11,6 @@ import java.security.PublicKey
 import java.security.Timestamp
 import java.time.LocalDateTime
 import java.util.*
-import net.corda.iou.contract.IOUContract
 /**
  * The IOU State object, with the following properties:
  * - [amount] The amount owed by the [borrower] to the [lender]
@@ -26,10 +25,10 @@ import net.corda.iou.contract.IOUContract
 
   /*  var tDate = new Date('December 07, 2017 23:15:30');
     var day = tDate.getDate();*/
-data class Issue(val issueSize: Int,
-                      val leadBanker: Party,
+data class Issue(     val leadBanker: Party,
                       val coBanker: Party,
                       val observer: Party,
+                      val issueSize: Int,
                       val issueName:String,
                       val status:String,
                       val transactiondate:String,

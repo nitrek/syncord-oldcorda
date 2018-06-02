@@ -127,16 +127,17 @@ class IOUApi(val services: CordaRPCOps) {
         val currency = "USD"
         //val issueAmount = Amount(issueSize.toLong() * 100, Currency.getInstance(currency))
         val coBanker = party;
-/*val issueSize: Int,
+/*
                       val leadBanker: Party,
                       val coBanker: Party,
                       val observer: Party,
+                      val issueSize: Int,
                       val issueName:String,
                       val status:String,
                       val transactiondate:String, */
-        val coBankerNode = services.partyFromX500Name(coBanker) ?: throw IllegalArgumentException("Unknown party name.")
+        val coBankerNode = services.partyFromName(coBanker) ?: throw IllegalArgumentException("Unknown party name.")
         val me = services.nodeIdentity().legalIdentity
-        val state = Issue(me,coBankerNode,observerNode,issueName,issuestatus,formatted)
+        val state = Issue(me,coBankerNode,observerNode,issueSize,issueName,issuestatus,formatted)
         val (status, message) = try {
             val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, coBankerNode)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
