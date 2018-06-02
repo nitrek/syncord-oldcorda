@@ -29,7 +29,7 @@ object IOUIssueFlow {
     @StartableByRPC
 
     //Rohan:-Class is defoned as  class <class name> (<Variable you want to declare>):<Type if you want any specific flow>
-    class Initiator(val state: Issue, val otherParty: Party,val currency: String) : FlowLogic<SignedTransaction>() {
+    class Initiator(val state: Issue, val otherParty: Party) : FlowLogic<SignedTransaction>() {
 
 
         //Rohan:-Object declaration inside a class i

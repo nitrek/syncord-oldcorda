@@ -6,13 +6,13 @@ import net.corda.core.contracts.*
 import net.corda.core.contracts.Requirements.using
 import net.corda.core.contracts.TransactionForContract.InOutGroup
 import net.corda.core.crypto.SecureHash
-import net.corda.iou.state.IOUState
+import net.corda.iou.state.Issue
 
 /**
- * The IOUContract can handle three transaction types involving [IOUState]s:
- * - Issuance. Issuing a new [IOUState] on the ledger, which is a bilateral agreement between two parties.
+ * The IOUContract can handle three transaction types involving [Issue]s:
+ * - Issuance. Issuing a new [Issue] on the ledger, which is a bilateral agreement between two parties.
  * - Transfer. Re-assigning the lender/beneficiary.
- * - Settle. Fully or partially settling the [IOUState] using the Corda [Cash] contract.
+ * - Settle. Fully or partially settling the [Issue] using the Corda [Cash] contract.
  */
 class IOUContract : Contract {
     /**
@@ -42,7 +42,7 @@ class IOUContract : Contract {
             is Commands.Issue -> requireThat {
                 "No inputs should be consumed when issuing an IOU." using (tx.inputs.isEmpty())
                 "Only one output state should be created when issuing an IOU." using (tx.outputs.size == 1)
-                val iou = tx.outputs.single() as IOUState
+                val iou = tx.outputs.single() as Issue
                 //"A newly issued IOU must have a positive amount." using (iou.amount > Amount(0, iou.amount.token))
                 "Both lender and borrower together only may sign IOU issue transaction." using
                         (command.signers.toSet() == iou.participants.map { it.owningKey }.toSet())
@@ -51,8 +51,8 @@ class IOUContract : Contract {
             is Commands.Transfer ->  {
 //                "An IOU transfer transaction should only consume one input state." using (tx.inputs.size == 1)
 //                "An IOU transfer transaction should only create one output state." using (tx.outputs.size == 1)
-//                val input = tx.inputs.single() as IOUState
-//                val output = tx.outputs.single() as IOUState
+//                val input = tx.inputs.single() as Issue
+//                val output = tx.outputs.single() as Issue
 //                "Only the lender property may change." using (input == output.withNewLender(input.lender))
 //                "The lender property must change in a transfer." using (input.lender != output.lender)
 //                "The borrower, old lender and new lender only must sign an IOU transfer transaction" using

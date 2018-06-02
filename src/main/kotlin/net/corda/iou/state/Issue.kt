@@ -11,7 +11,7 @@ import java.security.PublicKey
 import java.security.Timestamp
 import java.time.LocalDateTime
 import java.util.*
-
+import net.corda.iou.contract.IOUContract
 /**
  * The IOU State object, with the following properties:
  * - [amount] The amount owed by the [borrower] to the [lender]
@@ -36,15 +36,21 @@ data class Issue(val issueSize: Int,
                       val paid: Int = 0,
                       override val linearId: UniqueIdentifier = UniqueIdentifier()) : LinearState {
 
-    override val participants: List<AbstractParty> get() = listOf(lender, borrower,observer)
+    override val participants: List<AbstractParty> get() = listOf(leadBanker, coBanker,observer)
+ override fun isRelevant(ourKeys: Set<PublicKey>): Boolean {
+        return ourKeys.intersect(participants.flatMap {
+            it.owningKey.keys
+        }).isNotEmpty()
+    }
 
     fun pay(amountToPay: Int) = copy(paid = paid + amountToPay)
-    fun withNewLender(newLender: AbstractParty) = copy(lender = newLender)
-    fun withoutLender() = copy(lender = NullKeys.NULL_PARTY)
+    fun withNewLender(newLender: AbstractParty) = copy(leadBanker = newLender)
+    fun withoutLender() = copy(leadBanker = NullKeys.NULL_PARTY)
 
     override fun toString(): String {
         val lenderString = (lender as? Party)?.name?.organisation ?: lender.owningKey.toBase58String()
         val borrowerString = (borrower as? Party)?.name?.organisation ?: borrower.owningKey.toBase58String()
         return "Obligation($linearId): $borrowerString owes $lenderString $issueSize and has paid $paid so far."
     }
+      override val contract get() = IOUContract()
 }

@@ -13,7 +13,6 @@ import net.corda.core.random63BitValue
 import net.corda.core.serialization.makeNoWhitelistClassResolver
 import net.corda.iou.flow.*
 import net.corda.iou.state.Issue
-import net.corda.iou.state.Order_NAV
 import net.corda.iou.state.Wallet
 import org.apache.commons.math.random.RandomData
 import org.bouncycastle.asn1.x500.X500Name
@@ -139,7 +138,7 @@ class IOUApi(val services: CordaRPCOps) {
         val me = services.nodeIdentity().legalIdentity
         val state = Issue(me,coBankerNode,observerNode,issueName,issuestatus,formatted)
         val (status, message) = try {
-            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, tAgent,ccy)
+            val flowHandle = services.startTrackedFlowDynamic(IOUIssueFlow.Initiator::class.java, state, coBankerNode)
             val result = flowHandle.use { it.returnValue.getOrThrow() }
             // Return the response.
             Response.Status.CREATED to "Trade with id ${result.id} Created Successfully"
