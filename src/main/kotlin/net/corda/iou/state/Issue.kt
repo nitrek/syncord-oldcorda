@@ -44,12 +44,10 @@ data class Issue(     val leadBanker: Party,
 
     fun pay(amountToPay: Int) = copy(paid = paid + amountToPay)
     fun withNewLender(newLender: AbstractParty) = copy(leadBanker = newLender)
-    fun withoutLender() = copy(leadBanker = NullKeys.NULL_PARTY)
+
 
     override fun toString(): String {
-        val lenderString = (lender as? Party)?.name?.organisation ?: lender.owningKey.toBase58String()
-        val borrowerString = (borrower as? Party)?.name?.organisation ?: borrower.owningKey.toBase58String()
-        return "Obligation($linearId): $borrowerString owes $lenderString $issueSize and has paid $paid so far."
+        return "Issue Created"
     }
       override val contract get() = IOUContract()
 }
