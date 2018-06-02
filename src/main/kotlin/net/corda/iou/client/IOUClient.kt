@@ -4,7 +4,7 @@ import com.google.common.net.HostAndPort
 import net.corda.client.rpc.CordaRPCClient
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.utilities.loggerFor
-import net.corda.iou.state.IOUState
+import net.corda.iou.state.Issue
 import org.slf4j.Logger
 import rx.Observable
 
@@ -36,7 +36,7 @@ private class IOUClient {
         // Log the existing TemplateStates and listen for new ones.
         futureTransactions.startWith(transactions).toBlocking().subscribe { transaction ->
             transaction.tx.outputs.forEach { output ->
-                val state = output.data as IOUState
+                val state = output.data as Issue
                 logger.info(state.toString())
             }
         }

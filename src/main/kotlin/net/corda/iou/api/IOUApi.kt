@@ -12,7 +12,7 @@ import net.corda.core.messaging.CordaRPCOps
 import net.corda.core.random63BitValue
 import net.corda.core.serialization.makeNoWhitelistClassResolver
 import net.corda.iou.flow.*
-import net.corda.iou.state.Order
+import net.corda.iou.state.Issue
 import net.corda.iou.state.Order_NAV
 import net.corda.iou.state.Wallet
 import org.apache.commons.math.random.RandomData
@@ -73,7 +73,7 @@ class IOUApi(val services: CordaRPCOps) {
     @Produces(MediaType.APPLICATION_JSON)
     // Filter by state type: IOU.
     fun getIOUs(): List<StateAndRef<ContractState>> {
-        return services.vaultAndUpdates().justSnapshot.filter { it.state.data is Order }
+        return services.vaultAndUpdates().justSnapshot.filter { it.state.data is Issue }
     }
     @GET
     @Path("getWallet")
@@ -120,7 +120,7 @@ class IOUApi(val services: CordaRPCOps) {
                         @QueryParam(value = "party") party: String,
                         @QueryParam(value = "issueName") issueName: String): Response {
         val observer = "CN=Observer,O=NodeB";
-        val observerNode = services.partyFromName(fManager1) ?: throw IllegalArgumentException("Unknown party name.")
+        val observerNode = services.partyFromName(observer) ?: throw IllegalArgumentException("Unknown party name.")
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)

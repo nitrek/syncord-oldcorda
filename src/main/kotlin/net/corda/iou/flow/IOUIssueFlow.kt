@@ -15,7 +15,7 @@ import net.corda.flows.CollectSignaturesFlow
 import net.corda.flows.FinalityFlow
 import net.corda.flows.SignTransactionFlow
 import net.corda.iou.contract.IOUContract
-import net.corda.iou.state.IOUState
+import net.corda.iou.state.Issue
 import net.corda.iou.state.Wallet
 import java.util.*
 
@@ -29,7 +29,7 @@ object IOUIssueFlow {
     @StartableByRPC
 
     //Rohan:-Class is defoned as  class <class name> (<Variable you want to declare>):<Type if you want any specific flow>
-    class Initiator(val state: IOUState, val otherParty: Party,val currency: String) : FlowLogic<SignedTransaction>() {
+    class Initiator(val state: Issue, val otherParty: Party,val currency: String) : FlowLogic<SignedTransaction>() {
 
 
         //Rohan:-Object declaration inside a class i
